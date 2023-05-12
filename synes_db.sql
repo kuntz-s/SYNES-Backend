@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  jeu. 11 mai 2023 à 20:43
+-- Généré le :  ven. 12 mai 2023 à 23:17
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  5.6.38
 
@@ -29,10 +29,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `annonce` (
-  `titre` varchar(50) NOT NULL,
+  `titre` varchar(250) NOT NULL,
   `contenu` varchar(500) NOT NULL,
   `typeAnnonce` varchar(50) NOT NULL,
-  `id` int(20) NOT NULL
+  `id` int(20) NOT NULL,
+  `posteLe` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -42,15 +43,15 @@ CREATE TABLE `annonce` (
 --
 
 CREATE TABLE `membre` (
-  `Matricule` varchar(20) NOT NULL,
-  `Nom` varchar(50) NOT NULL,
-  `Prenom` varchar(50) NOT NULL,
-  `Email` varchar(50) NOT NULL,
-  `Photo` varchar(100) NOT NULL,
-  `MotDePasse` varchar(50) NOT NULL,
-  `Role` varchar(50) NOT NULL,
+  `matricule` varchar(20) NOT NULL,
+  `nom` varchar(50) NOT NULL,
+  `prenom` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `photo` varchar(100) DEFAULT NULL,
+  `motDePasse` varchar(50) NOT NULL,
+  `role` varchar(50) NOT NULL,
   `id` int(20) NOT NULL,
-  `univercitéId` int(20) NOT NULL
+  `idUnivercite` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -60,11 +61,11 @@ CREATE TABLE `membre` (
 --
 
 CREATE TABLE `notification` (
-  `emetteur` varchar(20) NOT NULL,
-  `recepteur` varchar(20) NOT NULL,
+  `envoyePar` varchar(20) NOT NULL,
   `typeMessage` varchar(50) NOT NULL,
   `envoyéLe` date NOT NULL,
-  `id` int(20) NOT NULL
+  `id` int(20) NOT NULL,
+  `contenu` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -75,8 +76,9 @@ CREATE TABLE `notification` (
 
 CREATE TABLE `organe` (
   `id` int(20) NOT NULL,
-  `fontAlloué` int(50) NOT NULL,
-  `description` varchar(100) NOT NULL
+  `fondAlloue` int(50) DEFAULT NULL,
+  `description` varchar(100) NOT NULL,
+  `nom` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -86,7 +88,7 @@ CREATE TABLE `organe` (
 --
 
 CREATE TABLE `permissions` (
-  `nom` varchar(20) NOT NULL,
+  `nom` varchar(50) NOT NULL,
   `description` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -100,7 +102,7 @@ CREATE TABLE `piecesjointes` (
   `nom` varchar(50) NOT NULL,
   `urlFichier` varchar(50) NOT NULL,
   `id` int(20) NOT NULL,
-  `annoneId` int(20) NOT NULL
+  `idAnnonce` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -110,7 +112,7 @@ CREATE TABLE `piecesjointes` (
 --
 
 CREATE TABLE `role` (
-  `nom` varchar(20) NOT NULL,
+  `nom` varchar(50) NOT NULL,
   `description` varchar(100) NOT NULL,
   `permission` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -118,15 +120,14 @@ CREATE TABLE `role` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `sectionsynes`
+-- Structure de la table `sectionetablissement`
 --
 
-CREATE TABLE `sectionsynes` (
-  `id` int(20) NOT NULL,
-  `font` int(50) NOT NULL,
-  `univercitéId` int(20) NOT NULL,
-  `description` varchar(100) NOT NULL,
-  `nom` varchar(20) NOT NULL
+CREATE TABLE `sectionetablissement` (
+  `idOrgane` int(20) NOT NULL,
+  `fondSection` int(50) DEFAULT NULL,
+  `idUniversite` int(20) NOT NULL,
+  `nomSection` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -137,8 +138,9 @@ CREATE TABLE `sectionsynes` (
 
 CREATE TABLE `soldebancaire` (
   `solde` int(20) NOT NULL,
-  `dernDateModif` date NOT NULL,
-  `id` int(20) NOT NULL
+  `modifieLe` date NOT NULL,
+  `id` int(20) NOT NULL,
+  `idTransaction` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -148,12 +150,11 @@ CREATE TABLE `soldebancaire` (
 --
 
 CREATE TABLE `transaction` (
-  `concerné` varchar(20) NOT NULL,
+  `effectuePar` int(20) NOT NULL,
   `montant` int(11) NOT NULL,
   `type` varchar(50) NOT NULL,
   `raison` varchar(100) NOT NULL,
-  `id` int(20) NOT NULL,
-  `soldeBancaireID` int(20) NOT NULL
+  `id` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -163,9 +164,9 @@ CREATE TABLE `transaction` (
 --
 
 CREATE TABLE `université` (
-  `Nom` varchar(100) NOT NULL,
-  `Localisation` varchar(100) NOT NULL,
-  `Logo` varchar(100) NOT NULL,
+  `nom` varchar(100) NOT NULL,
+  `localisation` varchar(100) NOT NULL,
+  `logo` varchar(100) DEFAULT NULL,
   `id` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -184,8 +185,8 @@ ALTER TABLE `annonce`
 --
 ALTER TABLE `membre`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `univercitéId` (`univercitéId`),
-  ADD KEY `Role` (`Role`);
+  ADD KEY `univercitéId` (`idUnivercite`),
+  ADD KEY `Role` (`role`);
 
 --
 -- Index pour la table `notification`
@@ -210,7 +211,7 @@ ALTER TABLE `permissions`
 --
 ALTER TABLE `piecesjointes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `annoneId` (`annoneId`);
+  ADD KEY `annoneId` (`idAnnonce`);
 
 --
 -- Index pour la table `role`
@@ -220,24 +221,24 @@ ALTER TABLE `role`
   ADD KEY `permission` (`permission`);
 
 --
--- Index pour la table `sectionsynes`
+-- Index pour la table `sectionetablissement`
 --
-ALTER TABLE `sectionsynes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `univercitéId` (`univercitéId`);
+ALTER TABLE `sectionetablissement`
+  ADD PRIMARY KEY (`idOrgane`),
+  ADD KEY `univercitéId` (`idUniversite`);
 
 --
 -- Index pour la table `soldebancaire`
 --
 ALTER TABLE `soldebancaire`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idTransaction` (`idTransaction`);
 
 --
 -- Index pour la table `transaction`
 --
 ALTER TABLE `transaction`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `soldeBancaireID` (`soldeBancaireID`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `université`
@@ -280,10 +281,10 @@ ALTER TABLE `piecesjointes`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `sectionsynes`
+-- AUTO_INCREMENT pour la table `sectionetablissement`
 --
-ALTER TABLE `sectionsynes`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `sectionetablissement`
+  MODIFY `idOrgane` int(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `soldebancaire`
@@ -311,14 +312,14 @@ ALTER TABLE `université`
 -- Contraintes pour la table `membre`
 --
 ALTER TABLE `membre`
-  ADD CONSTRAINT `c` FOREIGN KEY (`univercitéId`) REFERENCES `université` (`id`),
+  ADD CONSTRAINT `c` FOREIGN KEY (`idUnivercite`) REFERENCES `université` (`id`),
   ADD CONSTRAINT `fk_role` FOREIGN KEY (`Role`) REFERENCES `role` (`nom`);
 
 --
 -- Contraintes pour la table `piecesjointes`
 --
 ALTER TABLE `piecesjointes`
-  ADD CONSTRAINT `cléEtrangere` FOREIGN KEY (`annoneId`) REFERENCES `annonce` (`id`);
+  ADD CONSTRAINT `cléEtrangere` FOREIGN KEY (`idAnnonce`) REFERENCES `annonce` (`id`);
 
 --
 -- Contraintes pour la table `role`
@@ -327,10 +328,10 @@ ALTER TABLE `role`
   ADD CONSTRAINT `fk_permission` FOREIGN KEY (`permission`) REFERENCES `permissions` (`nom`);
 
 --
--- Contraintes pour la table `transaction`
+-- Contraintes pour la table `soldebancaire`
 --
-ALTER TABLE `transaction`
-  ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`soldeBancaireID`) REFERENCES `soldebancaire` (`id`);
+ALTER TABLE `soldebancaire`
+  ADD CONSTRAINT `fk_transaction` FOREIGN KEY (`idTransaction`) REFERENCES `transaction` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
