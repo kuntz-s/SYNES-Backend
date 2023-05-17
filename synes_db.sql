@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mer. 17 mai 2023 à 13:21
+-- Généré le :  mer. 17 mai 2023 à 14:07
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  5.6.38
 
@@ -43,8 +43,9 @@ CREATE TABLE `annonce` (
 --
 
 CREATE TABLE `avoirpermission` (
-  `idRole` int(20) NOT NULL,
-  `idPermission` int(20) NOT NULL
+  `idRole` varchar(50) NOT NULL,
+  `idPermission` int(20) NOT NULL,
+  `id` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -101,7 +102,8 @@ CREATE TABLE `organe` (
 
 CREATE TABLE `permissions` (
   `nom` varchar(50) NOT NULL,
-  `description` varchar(100) NOT NULL
+  `description` varchar(100) NOT NULL,
+  `id` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -126,7 +128,8 @@ CREATE TABLE `piecesjointes` (
 CREATE TABLE `recevoirnotification` (
   `idNotification` int(20) NOT NULL,
   `idMembre` int(20) NOT NULL,
-  `circonscription` varchar(100) NOT NULL
+  `circonscription` varchar(100) NOT NULL,
+  `id` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -137,7 +140,8 @@ CREATE TABLE `recevoirnotification` (
 
 CREATE TABLE `role` (
   `nom` varchar(50) NOT NULL,
-  `description` varchar(100) NOT NULL
+  `description` varchar(100) NOT NULL,
+  `id` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -192,6 +196,14 @@ ALTER TABLE `annonce`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `avoirpermission`
+--
+ALTER TABLE `avoirpermission`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_permission` (`idPermission`),
+  ADD KEY `rrole` (`idRole`);
+
+--
 -- Index pour la table `membre`
 --
 ALTER TABLE `membre`
@@ -215,7 +227,7 @@ ALTER TABLE `organe`
 -- Index pour la table `permissions`
 --
 ALTER TABLE `permissions`
-  ADD PRIMARY KEY (`nom`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `piecesjointes`
@@ -229,13 +241,15 @@ ALTER TABLE `piecesjointes`
 --
 ALTER TABLE `recevoirnotification`
   ADD PRIMARY KEY (`idNotification`,`idMembre`),
+  ADD UNIQUE KEY `unique` (`id`),
   ADD KEY `fk_idNot` (`idMembre`);
 
 --
 -- Index pour la table `role`
 --
 ALTER TABLE `role`
-  ADD PRIMARY KEY (`nom`);
+  ADD PRIMARY KEY (`nom`),
+  ADD UNIQUE KEY `unique` (`id`);
 
 --
 -- Index pour la table `soldebancaire`
@@ -268,6 +282,12 @@ ALTER TABLE `annonce`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `avoirpermission`
+--
+ALTER TABLE `avoirpermission`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `membre`
 --
 ALTER TABLE `membre`
@@ -286,10 +306,28 @@ ALTER TABLE `organe`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT pour la table `piecesjointes`
 --
 ALTER TABLE `piecesjointes`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `recevoirnotification`
+--
+ALTER TABLE `recevoirnotification`
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `role`
+--
+ALTER TABLE `role`
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `soldebancaire`
@@ -312,6 +350,13 @@ ALTER TABLE `université`
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `avoirpermission`
+--
+ALTER TABLE `avoirpermission`
+  ADD CONSTRAINT `fk_permission` FOREIGN KEY (`idPermission`) REFERENCES `permissions` (`id`),
+  ADD CONSTRAINT `rrole` FOREIGN KEY (`idRole`) REFERENCES `role` (`nom`);
 
 --
 -- Contraintes pour la table `membre`
