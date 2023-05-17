@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  ven. 12 mai 2023 à 23:17
+-- Généré le :  mer. 17 mai 2023 à 13:21
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  5.6.38
 
@@ -39,6 +39,17 @@ CREATE TABLE `annonce` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `avoirpermission`
+--
+
+CREATE TABLE `avoirpermission` (
+  `idRole` int(20) NOT NULL,
+  `idPermission` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `membre`
 --
 
@@ -51,7 +62,8 @@ CREATE TABLE `membre` (
   `motDePasse` varchar(50) NOT NULL,
   `role` varchar(50) NOT NULL,
   `id` int(20) NOT NULL,
-  `idUnivercite` int(20) NOT NULL
+  `idUnivercite` int(20) NOT NULL,
+  `dateCreation` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -63,7 +75,7 @@ CREATE TABLE `membre` (
 CREATE TABLE `notification` (
   `envoyePar` varchar(20) NOT NULL,
   `typeMessage` varchar(50) NOT NULL,
-  `envoyéLe` date NOT NULL,
+  `envoyéLe` datetime NOT NULL,
   `id` int(20) NOT NULL,
   `contenu` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -108,26 +120,24 @@ CREATE TABLE `piecesjointes` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `role`
+-- Structure de la table `recevoirnotification`
 --
 
-CREATE TABLE `role` (
-  `nom` varchar(50) NOT NULL,
-  `description` varchar(100) NOT NULL,
-  `permission` varchar(20) NOT NULL
+CREATE TABLE `recevoirnotification` (
+  `idNotification` int(20) NOT NULL,
+  `idMembre` int(20) NOT NULL,
+  `circonscription` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `sectionetablissement`
+-- Structure de la table `role`
 --
 
-CREATE TABLE `sectionetablissement` (
-  `idOrgane` int(20) NOT NULL,
-  `fondSection` int(50) DEFAULT NULL,
-  `idUniversite` int(20) NOT NULL,
-  `nomSection` varchar(50) NOT NULL
+CREATE TABLE `role` (
+  `nom` varchar(50) NOT NULL,
+  `description` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -167,7 +177,8 @@ CREATE TABLE `université` (
   `nom` varchar(100) NOT NULL,
   `localisation` varchar(100) NOT NULL,
   `logo` varchar(100) DEFAULT NULL,
-  `id` int(20) NOT NULL
+  `id` int(20) NOT NULL,
+  `idSection` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -214,18 +225,17 @@ ALTER TABLE `piecesjointes`
   ADD KEY `annoneId` (`idAnnonce`);
 
 --
+-- Index pour la table `recevoirnotification`
+--
+ALTER TABLE `recevoirnotification`
+  ADD PRIMARY KEY (`idNotification`,`idMembre`),
+  ADD KEY `fk_idNot` (`idMembre`);
+
+--
 -- Index pour la table `role`
 --
 ALTER TABLE `role`
-  ADD PRIMARY KEY (`nom`),
-  ADD KEY `permission` (`permission`);
-
---
--- Index pour la table `sectionetablissement`
---
-ALTER TABLE `sectionetablissement`
-  ADD PRIMARY KEY (`idOrgane`),
-  ADD KEY `univercitéId` (`idUniversite`);
+  ADD PRIMARY KEY (`nom`);
 
 --
 -- Index pour la table `soldebancaire`
@@ -244,7 +254,8 @@ ALTER TABLE `transaction`
 -- Index pour la table `université`
 --
 ALTER TABLE `université`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_idsection` (`idSection`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -279,12 +290,6 @@ ALTER TABLE `organe`
 --
 ALTER TABLE `piecesjointes`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `sectionetablissement`
---
-ALTER TABLE `sectionetablissement`
-  MODIFY `idOrgane` int(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `soldebancaire`
@@ -322,16 +327,23 @@ ALTER TABLE `piecesjointes`
   ADD CONSTRAINT `cléEtrangere` FOREIGN KEY (`idAnnonce`) REFERENCES `annonce` (`id`);
 
 --
--- Contraintes pour la table `role`
+-- Contraintes pour la table `recevoirnotification`
 --
-ALTER TABLE `role`
-  ADD CONSTRAINT `fk_permission` FOREIGN KEY (`permission`) REFERENCES `permissions` (`nom`);
+ALTER TABLE `recevoirnotification`
+  ADD CONSTRAINT `fk_idNot` FOREIGN KEY (`idMembre`) REFERENCES `membre` (`id`),
+  ADD CONSTRAINT `fk_idnotification` FOREIGN KEY (`idNotification`) REFERENCES `notification` (`id`);
 
 --
 -- Contraintes pour la table `soldebancaire`
 --
 ALTER TABLE `soldebancaire`
   ADD CONSTRAINT `fk_transaction` FOREIGN KEY (`idTransaction`) REFERENCES `transaction` (`id`);
+
+--
+-- Contraintes pour la table `université`
+--
+ALTER TABLE `université`
+  ADD CONSTRAINT `fk_idsection` FOREIGN KEY (`idSection`) REFERENCES `organe` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
