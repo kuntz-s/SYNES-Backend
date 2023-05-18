@@ -1,10 +1,10 @@
 package com.synes.controler;
 
 import com.synes.util.BaseDeDonnee;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.synes.util.Membre;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 public class AuthentificatonControler {
@@ -25,4 +25,20 @@ public class AuthentificatonControler {
         }
         return text;
     }
+
+    @GetMapping(value = "/{matricule}+{nom}+{prenom}+{email}+{photo}+{motdepasse}+{role}+{iduniversite}")
+    public Membre addMember(@PathVariable("matricule") String matricule, @PathVariable("nom") String nom,@PathVariable("prenom") String prenom, @PathVariable("email") String email,@PathVariable("photo") String photo, @PathVariable("motdepasse") String motdepasse,@PathVariable("role") String role, @PathVariable("iduniversite") int iduniversite){
+        Membre newMembre = new Membre(matricule,nom,prenom,email,photo,motdepasse,role,iduniversite);
+        Membre result;
+
+        int val = bd.Add_Membre(newMembre);
+        if (val == 0){
+            result = new Membre();
+        }else {
+            result = newMembre;
+        }
+
+        return result;
+    }
+
 }

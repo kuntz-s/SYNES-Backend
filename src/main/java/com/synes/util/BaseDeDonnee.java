@@ -12,10 +12,10 @@ public class BaseDeDonnee {
 
 
 
-    public int Add_Membre(String matricule ,String noms ,String prenoms,String email ,String photo ,String motDePasse,String role,int idUniversite){
+    public int Add_Membre(Membre newMembre){
 
         int rep=0,cnt=0;
-        cnt=verif_double(email );
+        cnt=verif_double(newMembre.email );
 
        /* SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy;HH:mm:ss");
         Calendar calendar = Calendar.getInstance();*/
@@ -29,14 +29,14 @@ public class BaseDeDonnee {
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3307/synes_db", "root", "");
                 PreparedStatement pst=con.prepareStatement(query);
 
-                pst.setString(1,matricule);
-                pst.setString(2,noms);
-                pst.setObject(3,prenoms);
-                pst.setObject(4,email);
-                pst.setString(5,photo);
-                pst.setString(6,motDePasse);
-                pst.setObject(7,role);
-                pst.setObject(8,idUniversite);
+                pst.setString(1,newMembre.matricule);
+                pst.setString(2,newMembre.nom);
+                pst.setString(3,newMembre.prenom);
+                pst.setString(4,newMembre.email);
+                pst.setString(5,newMembre.photo);
+                pst.setString(6,newMembre.motdepasse);
+                pst.setString(7,newMembre.role);
+                pst.setInt(8,newMembre.iduniversite);
                 pst.setObject(9,date);
 
                 pst.executeUpdate();
