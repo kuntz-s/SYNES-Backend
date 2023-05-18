@@ -13,7 +13,7 @@ public class AuthentificatonControler {
     BaseDeDonnee bd = new BaseDeDonnee();
    // String email,pws;
 
-   /* @GetMapping(value = "login/{email}+{pws}")
+    @GetMapping(value = "login/{email}+{pws}")
     public String welcome(@PathVariable("email") String email, @PathVariable("pws") String pws){
         //pws = "mdptamojulien";
        // email= "tamojulien@gmail.com";
@@ -25,9 +25,9 @@ public class AuthentificatonControler {
             text = "welcome in SYNES platform";
         }
         return text;
-    }*/
+    }
 
-    @GetMapping(value = "/{matricule}+{nom}+{prenom}+{email}+{photo}+{motdepasse}+{role}+{iduniversite}")
+    @GetMapping(value = "/addMember/{matricule}+{nom}+{prenom}+{email}+{photo}+{motdepasse}+{role}+{iduniversite}")
     public Membre addMember(@PathVariable("matricule") String matricule, @PathVariable("nom") String nom,@PathVariable("prenom") String prenom, @PathVariable("email") String email,@PathVariable("photo") String photo, @PathVariable("motdepasse") String motdepasse,@PathVariable("role") String role, @PathVariable("iduniversite") int iduniversite){
         Membre newMembre = new Membre(matricule,nom,prenom,email,photo,motdepasse,role,iduniversite);
         Membre result;
