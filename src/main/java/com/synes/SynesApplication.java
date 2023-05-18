@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SynesBackendApplication {
+public class SynesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SynesBackendApplication.class, args);
+		SpringApplication.run(SynesApplication.class, args);
 	}
 
 }
