@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mer. 17 mai 2023 à 14:07
+-- Généré le :  ven. 19 mai 2023 à 23:15
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  5.6.38
 
@@ -63,9 +63,16 @@ CREATE TABLE `membre` (
   `motDePasse` varchar(50) NOT NULL,
   `role` varchar(50) NOT NULL,
   `id` int(20) NOT NULL,
-  `idUnivercite` int(20) NOT NULL,
+  `idUniversite` int(20) NOT NULL,
   `dateCreation` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `membre`
+--
+
+INSERT INTO `membre` (`matricule`, `nom`, `prenom`, `email`, `photo`, `motDePasse`, `role`, `id`, `idUniversite`, `dateCreation`) VALUES
+('123456', 'tamo tamo', 'julien', 'tamojulien@gmail.com', '', 'mdptamojulien', 'secretaireSectionEtablissement', 1, 1, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -94,6 +101,13 @@ CREATE TABLE `organe` (
   `nom` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `organe`
+--
+
+INSERT INTO `organe` (`id`, `fondAlloue`, `description`, `nom`) VALUES
+(1, 0, 'section etablissement uy1', 'sectionUY1');
+
 -- --------------------------------------------------------
 
 --
@@ -105,6 +119,13 @@ CREATE TABLE `permissions` (
   `description` varchar(100) NOT NULL,
   `id` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `permissions`
+--
+
+INSERT INTO `permissions` (`nom`, `description`, `id`) VALUES
+('ajouteMembreSectionEtablissement', 'ajoute les membre de la section etablissement a laquelle il appartient', 1);
 
 -- --------------------------------------------------------
 
@@ -144,6 +165,13 @@ CREATE TABLE `role` (
   `id` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `role`
+--
+
+INSERT INTO `role` (`nom`, `description`, `id`) VALUES
+('secretaireSectionEtablissement', 'gere les membre de la section etablissement', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -174,16 +202,23 @@ CREATE TABLE `transaction` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `université`
+-- Structure de la table `universite`
 --
 
-CREATE TABLE `université` (
+CREATE TABLE `universite` (
   `nom` varchar(100) NOT NULL,
   `localisation` varchar(100) NOT NULL,
   `logo` varchar(100) DEFAULT NULL,
   `id` int(20) NOT NULL,
   `idSection` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `universite`
+--
+
+INSERT INTO `universite` (`nom`, `localisation`, `logo`, `id`, `idSection`) VALUES
+('universite de yaounde 1', 'yaounde', '', 1, 1);
 
 --
 -- Index pour les tables déchargées
@@ -208,7 +243,7 @@ ALTER TABLE `avoirpermission`
 --
 ALTER TABLE `membre`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `univercitéId` (`idUnivercite`),
+  ADD KEY `univercitéId` (`idUniversite`),
   ADD KEY `Role` (`role`);
 
 --
@@ -265,9 +300,9 @@ ALTER TABLE `transaction`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `université`
+-- Index pour la table `universite`
 --
-ALTER TABLE `université`
+ALTER TABLE `universite`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_idsection` (`idSection`);
 
@@ -291,7 +326,7 @@ ALTER TABLE `avoirpermission`
 -- AUTO_INCREMENT pour la table `membre`
 --
 ALTER TABLE `membre`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `notification`
@@ -303,13 +338,13 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT pour la table `organe`
 --
 ALTER TABLE `organe`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `piecesjointes`
@@ -327,7 +362,7 @@ ALTER TABLE `recevoirnotification`
 -- AUTO_INCREMENT pour la table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `soldebancaire`
@@ -342,10 +377,10 @@ ALTER TABLE `transaction`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `université`
+-- AUTO_INCREMENT pour la table `universite`
 --
-ALTER TABLE `université`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `universite`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Contraintes pour les tables déchargées
@@ -362,7 +397,7 @@ ALTER TABLE `avoirpermission`
 -- Contraintes pour la table `membre`
 --
 ALTER TABLE `membre`
-  ADD CONSTRAINT `c` FOREIGN KEY (`idUnivercite`) REFERENCES `université` (`id`),
+  ADD CONSTRAINT `c` FOREIGN KEY (`idUniversite`) REFERENCES `universite` (`id`),
   ADD CONSTRAINT `fk_role` FOREIGN KEY (`Role`) REFERENCES `role` (`nom`);
 
 --
@@ -385,9 +420,9 @@ ALTER TABLE `soldebancaire`
   ADD CONSTRAINT `fk_transaction` FOREIGN KEY (`idTransaction`) REFERENCES `transaction` (`id`);
 
 --
--- Contraintes pour la table `université`
+-- Contraintes pour la table `universite`
 --
-ALTER TABLE `université`
+ALTER TABLE `universite`
   ADD CONSTRAINT `fk_idsection` FOREIGN KEY (`idSection`) REFERENCES `organe` (`id`);
 COMMIT;
 
