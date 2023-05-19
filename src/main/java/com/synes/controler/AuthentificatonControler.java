@@ -42,4 +42,10 @@ public class AuthentificatonControler {
         return result;
     }
 
+    @GetMapping(value = "/login")
+    public String home(){
+        return "welcome to the SYNES web site";
+    }
+
+
 }

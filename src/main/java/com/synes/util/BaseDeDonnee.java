@@ -122,6 +122,7 @@ public class BaseDeDonnee {
         catch (Exception exc){
             System.out.println(exc+"  error connect");
         }
+        System.out.println("  Member well connect");
 
         if(pws.equals(passWord)){
             return 1;
@@ -131,7 +132,39 @@ public class BaseDeDonnee {
 
     }
 
+    public MemberConn verif_email(String email ){
 
+        String passWord="",mail="";
+        MemberConn memberConn = null;
+
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `motDePasse`,`email` FROM `membre` WHERE `email`='"+email+"'");
+
+
+
+            while(rs.next()){
+                passWord=rs.getString("motDePasse");
+                mail=rs.getString("email");
+                System.out.println(passWord+" "+mail);
+            }
+            memberConn = new MemberConn(mail,passWord);
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect");
+        }
+        System.out.println("  MemberConn well connect");
+
+        return memberConn;
+
+    }
 
 
 }

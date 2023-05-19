@@ -1,5 +1,24 @@
 package com.synes.util;
 
+/*
+{
+        "matricule":"1z1z1z",
+        "nom":"toto",
+        "prenom":"liu",
+        "email":"tot.liuàei.com",
+        "photo":"",
+        "motdepasse":"12345",
+        "role":"secretaireSectionEtablissement",
+        "iduniversite":1
+        }
+
+
+        {
+    "username":"tamojulien@gmail.com",
+    "password":"mdptamojulien"
+}
+        */
+
 public class Membre {
 
     String matricule;
