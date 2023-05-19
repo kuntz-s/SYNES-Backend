@@ -2,10 +2,7 @@ package com.synes.controler;
 
 import com.synes.config.JwtTokenUtil;
 import com.synes.service.JwtUserDetailsService;
-import com.synes.util.BaseDeDonnee;
-import com.synes.util.JwtRequest;
-import com.synes.util.JwtResponse;
-import com.synes.util.Membre;
+import com.synes.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,7 +32,7 @@ public class JwtAuthenticationController {
 	private JwtUserDetailsService userDetailsService;
 
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+	public UseConnectInfo createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -46,8 +43,14 @@ public class JwtAuthenticationController {
 		String token = jwtTokenUtil.generateToken(userDetails);
 
 		System.out.println("ce token est pour le user : "+jwtTokenUtil.getUsernameFromToken(token));
+		Membre leMembre = bd.searchUser(jwtTokenUtil.getUsernameFromToken(token));
+		System.out.println(leMembre);
+		String nomUniv = bd.getUniversityById(leMembre.getIduniversite());
+		System.out.println(nomUniv);
 
-		return ResponseEntity.ok(new JwtResponse(token));
+		UseConnectInfo useConnectInfo = new UseConnectInfo(token,leMembre,nomUniv);
+
+		return useConnectInfo;
 	}
 
 

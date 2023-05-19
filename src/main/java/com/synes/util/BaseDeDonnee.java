@@ -166,6 +166,76 @@ public class BaseDeDonnee {
 
     }
 
+    public Membre searchUser(String email ){
+
+        String passWord="",mail="";
+        Membre membre = new Membre();
+
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `membre` WHERE `email`='"+email+"'");
+
+
+
+            while(rs.next()){
+                membre.setMatricule(rs.getString("matricule"));
+                membre.setNom(rs.getString("nom"));
+                membre.setPrenom(rs.getString("prenom"));
+                membre.setEmail(rs.getString("email"));
+                membre.setPhoto(rs.getString("photo"));
+                membre.setMotdepasse(rs.getString("motDePasse"));
+                membre.setRole(rs.getString("role"));
+                membre.setIduniversite(rs.getInt("idUniversite"));
+
+
+                System.out.println(membre);
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect");
+        }
+        System.out.println("  MemberConn well connect");
+
+        return membre;
+
+    }
+
+    public String getUniversityById(int id ){
+
+        String nom="";
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `universite` WHERE `id`='"+id+"'");
+
+
+
+            while(rs.next()){
+                nom=rs.getString("nom");
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect");
+        }
+        System.out.println("  get univ name");
+
+        return nom;
+
+    }
+
 
 }
 
