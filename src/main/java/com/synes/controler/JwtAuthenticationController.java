@@ -36,19 +36,16 @@ public class JwtAuthenticationController {
 
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-//pws = "mdptamojulien";
-		// email= "tamojulien@gmail.com";
+
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-		//authenticate("tamojulien@gmail.com", "mdptamojulien");
+
 
 		final UserDetails userDetails = userDetailsService
 				.loadUserByUsername(authenticationRequest.getUsername());
-		/*Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken("tamojulien@gmail.com", "mdptamojulien"));
-		SecurityContextHolder.getContext().setAuthentication(authentication);*/
-		//String token = jwtTokenUtil.generateToken(authentication);
+
 		String token = jwtTokenUtil.generateToken(userDetails);
 
+		System.out.println("ce token est pour le user : "+jwtTokenUtil.getUsernameFromToken(token));
 
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
@@ -66,17 +63,7 @@ public class JwtAuthenticationController {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
 	}
 
-	/*private void authenticate(String username, String password) throws Exception {
-		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-		} catch (DisabledException e) {
-			System.out.println("CREDENTIAL ERROR");
-			throw new Exception("USER_DISABLED", e);
-		} catch (BadCredentialsException e) {
-			System.out.println("UTENTE DISABILITATO");
-			throw new Exception("INVALID_CREDENTIALS", e);
-		}
-	}*/
+
 	private void authenticate(String username, String password)
 	{
 		Objects.requireNonNull(username);
