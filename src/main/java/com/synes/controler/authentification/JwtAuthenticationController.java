@@ -2,10 +2,11 @@ package com.synes.controler.authentification;
 
 import com.synes.config.authentification.JwtTokenUtil;
 import com.synes.service.authentification.JwtUserDetailsService;
-import com.synes.util.baseDeDonnee.BaseDeDonnee;
-import com.synes.util.authentification.JwtRequest;
+import com.synes.util.ApiError;
 import com.synes.util.Membre;
 import com.synes.util.UseConnectInfo;
+import com.synes.util.authentification.JwtRequest;
+import com.synes.util.baseDeDonnee.BaseDeDonnee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,7 +38,7 @@ public class JwtAuthenticationController {
 	private JwtUserDetailsService userDetailsService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
-	public UseConnectInfo createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+	public Object createAuthenticationToken(@RequestBody JwtRequest authenticationRequest, HttpServletResponse response) throws Exception {
 
 		UseConnectInfo useConnectInfo = null;
 
@@ -63,10 +65,15 @@ public class JwtAuthenticationController {
 
 			useConnectInfo = new UseConnectInfo(token,leMembre,nomRole,listPermis,nomUniv);
 
+			return useConnectInfo;
+		}else {
+			response.setStatus(404);
+			//throw new Error("user not found");
+			return new ApiError(404,"even the mail adress or the password is wrong","user not found");
 		}
 
 
-		return useConnectInfo;
+
 	}
 
 
@@ -74,8 +81,29 @@ public class JwtAuthenticationController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Integer> saveUser(@RequestBody Membre user) throws Exception {
+
+		if (user.getMatricule().equals("")){
+
+		}else if (user.getNom().equals("")){
+
+		}else if (user.getPrenom().equals("")){
+
+		}else if (user.getEmail().equals("")){
+
+		}else if (user.getMotdepasse().equals("")){
+
+		}else if (user.getRole().equals("")){
+
+		}else if (Objects.equals(user.getIduniversite(), "")){
+
+		}
+
 		return ResponseEntity.ok(bd.Add_Membre(user));
 	}
+
+
+
+
 
 	@ExceptionHandler({ AuthenticationException.class })
 	public ResponseEntity<String> handleAuthenticationException(AuthenticationException e)
