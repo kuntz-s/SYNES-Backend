@@ -1,21 +1,14 @@
 package com.synes.util;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class ApiError {
     private int status;
-    private List<String> messages;
+    private String messages;
     private String errors;
 
-    public ApiError(int status, List<String> messages, String errors) {
+
+    public ApiError(int status, String messages, String errors) {
         this.status = status;
         this.messages = messages;
-        this.errors = errors;
-    }
-    public ApiError(int status, String message, String errors) {
-        this.status = status;
-        messages = Arrays.asList(message);
         this.errors = errors;
     }
 
@@ -27,11 +20,11 @@ public class ApiError {
         this.status = status;
     }
 
-    public List<String> getMessages() {
+    public String getMessages() {
         return messages;
     }
 
-    public void setMessages(List<String> messages) {
+    public void setMessages(String messages) {
         this.messages = messages;
     }
 
