@@ -1,4 +1,4 @@
-package com.synes.config;
+package com.synes.config.authentification;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

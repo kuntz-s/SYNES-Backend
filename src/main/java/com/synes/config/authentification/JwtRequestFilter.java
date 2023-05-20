@@ -1,6 +1,6 @@
-package com.synes.config;
+package com.synes.config.authentification;
 
-import com.synes.service.JwtUserDetailsService;
+import com.synes.service.authentification.JwtUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

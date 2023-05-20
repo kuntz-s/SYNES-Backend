@@ -14,8 +14,8 @@ package com.synes.util;
 
 
         {
-    "username":"tamojulien@gmail.com",
-    "password":"mdptamojulien"
+    "email":"nzouetengmicaelle@gmail.com",
+    "password":"MoiMica4"
 }
         */
 

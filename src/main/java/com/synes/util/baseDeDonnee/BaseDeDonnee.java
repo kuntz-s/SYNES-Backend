@@ -1,21 +1,28 @@
-package com.synes.util;
+package com.synes.util.baseDeDonnee;
+
+import com.synes.util.MemberConn;
+import com.synes.util.Membre;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class BaseDeDonnee {
 
-
-
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
     public int Add_Membre(Membre newMembre){
 
+
         int rep=0,cnt=0;
-        cnt=verif_double(newMembre.email );
+        cnt=verif_double(newMembre.getEmail());
 
        /* SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy;HH:mm:ss");
         Calendar calendar = Calendar.getInstance();*/
+
+        String encryptPws = passwordEncoder.encode(newMembre.getMotdepasse());
 
 
         LocalDateTime date = LocalDateTime.now();
@@ -26,14 +33,14 @@ public class BaseDeDonnee {
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
                 PreparedStatement pst=con.prepareStatement(query);
 
-                pst.setString(1,newMembre.matricule);
-                pst.setString(2,newMembre.nom);
-                pst.setString(3,newMembre.prenom);
-                pst.setString(4,newMembre.email);
-                pst.setString(5,newMembre.photo);
-                pst.setString(6,newMembre.motdepasse);
-                pst.setString(7,newMembre.role);
-                pst.setInt(8,newMembre.iduniversite);
+                pst.setString(1, newMembre.getMatricule());
+                pst.setString(2, newMembre.getNom());
+                pst.setString(3, newMembre.getPrenom());
+                pst.setString(4, newMembre.getEmail());
+                pst.setString(5, newMembre.getPhoto());
+                pst.setString(6,encryptPws);
+                pst.setString(7, newMembre.getRole());
+                pst.setInt(8, newMembre.getIduniversite());
                 pst.setObject(9,date);
 
                 pst.executeUpdate();
@@ -98,7 +105,7 @@ public class BaseDeDonnee {
 
     public int verif_Membre(String email ,String pws ){
 
-        String passWord="",mail="";
+        String mail="",encryptedPws="";
 
 
         try{
@@ -113,20 +120,21 @@ public class BaseDeDonnee {
 
 
             while(rs.next()){
-                passWord=rs.getString("motDePasse");
+                encryptedPws=rs.getString("motDePasse");
                 mail=rs.getString("email");
-                System.out.println(passWord+" "+mail);
+                System.out.println(pws+" = "+encryptedPws+" "+mail);
             }
 
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
         }
-        System.out.println("  Member well connect");
 
-        if(pws.equals(passWord)){
+        if(passwordEncoder.matches(pws,encryptedPws)){
+            System.out.println("  Member well connect");
             return 1;
         }else{
+            System.out.println(mail+" :fff: "+pws+" != "+encryptedPws+" :even the mail adress or the password is wrong");
             return 0;
         }
 
@@ -233,6 +241,108 @@ public class BaseDeDonnee {
         System.out.println("  get univ name");
 
         return nom;
+
+    }
+
+    public int getIdRole(String role ){
+
+        int id = 0;
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `id` FROM `role` WHERE `nom`='"+role+"'");
+
+
+
+            while(rs.next()){
+                id=rs.getInt("id");
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect");
+        }
+        System.out.println("  get role name");
+
+        return id;
+
+    }
+
+    public String getPermissionById(int id ){
+
+        String nom="";
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `permission` WHERE `id`='"+id+"'");
+
+
+
+            while(rs.next()){
+                nom=rs.getString("nom");
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect");
+        }
+        System.out.println("  get permission name");
+
+        return nom;
+
+    }
+
+    public List<String> getPermission(int idRole ){
+
+        System.out.println("  get list start");
+        String nom="";
+        int id=0;
+        int i=1;
+        List<String> listPermissions = null;
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `idPermission` FROM `avoirpermission` WHERE `idRole`='"+idRole+"'");
+
+
+
+            while(rs.next()){
+                id = rs.getInt("idPermission");
+
+                System.out.println("permission id: "+id);
+                nom = getPermissionById(id);
+
+                listPermissions.add(nom);
+
+
+                System.out.println("permission n: "+i+" = "+nom);
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect");
+        }
+        System.out.println("  list well getted");
+
+        return listPermissions;
 
     }
 

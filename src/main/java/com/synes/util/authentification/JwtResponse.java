@@ -1,4 +1,4 @@
-package com.synes.util;
+package com.synes.util.authentification;
 
 import java.io.Serializable;
 

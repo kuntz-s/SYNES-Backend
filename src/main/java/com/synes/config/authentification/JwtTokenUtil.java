@@ -1,4 +1,4 @@
-package com.synes.config;
+package com.synes.config.authentification;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

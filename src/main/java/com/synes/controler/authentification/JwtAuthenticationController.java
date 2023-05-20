@@ -1,8 +1,11 @@
-package com.synes.controler;
+package com.synes.controler.authentification;
 
-import com.synes.config.JwtTokenUtil;
-import com.synes.service.JwtUserDetailsService;
-import com.synes.util.*;
+import com.synes.config.authentification.JwtTokenUtil;
+import com.synes.service.authentification.JwtUserDetailsService;
+import com.synes.util.baseDeDonnee.BaseDeDonnee;
+import com.synes.util.authentification.JwtRequest;
+import com.synes.util.Membre;
+import com.synes.util.UseConnectInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +18,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -31,30 +35,43 @@ public class JwtAuthenticationController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
-	@RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
 	public UseConnectInfo createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+		UseConnectInfo useConnectInfo = null;
+
+		int val = bd.verif_Membre(authenticationRequest.getEmail(), authenticationRequest.getPassword());
+		if (val == 1){
+
+			authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
 
 
-		final UserDetails userDetails = userDetailsService
-				.loadUserByUsername(authenticationRequest.getUsername());
+			final UserDetails userDetails = userDetailsService
+					.loadUserByUsername(authenticationRequest.getEmail());
 
-		String token = jwtTokenUtil.generateToken(userDetails);
+			String token = jwtTokenUtil.generateToken(userDetails);
 
-		System.out.println("ce token est pour le user : "+jwtTokenUtil.getUsernameFromToken(token));
-		Membre leMembre = bd.searchUser(jwtTokenUtil.getUsernameFromToken(token));
-		System.out.println(leMembre);
-		String nomUniv = bd.getUniversityById(leMembre.getIduniversite());
-		System.out.println(nomUniv);
+			System.out.println("ce token est pour le user : "+jwtTokenUtil.getUsernameFromToken(token));
+			Membre leMembre = bd.searchUser(jwtTokenUtil.getUsernameFromToken(token));
+			System.out.println(leMembre);
+			String nomUniv = bd.getUniversityById(leMembre.getIduniversite());
+			System.out.println(nomUniv);
+			String nomRole = leMembre.getRole();
+			System.out.println(nomRole);
+			List<String> listPermis = bd.getPermission(bd.getIdRole(nomRole));
+			System.out.println(listPermis);
 
-		UseConnectInfo useConnectInfo = new UseConnectInfo(token,leMembre,nomUniv);
+			useConnectInfo = new UseConnectInfo(token,leMembre,nomRole,listPermis,nomUniv);
+
+		}
+
 
 		return useConnectInfo;
 	}
 
 
-	
+
+
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Integer> saveUser(@RequestBody Membre user) throws Exception {
 		return ResponseEntity.ok(bd.Add_Membre(user));
@@ -88,3 +105,6 @@ public class JwtAuthenticationController {
 		}
 	}
 }
+
+
+

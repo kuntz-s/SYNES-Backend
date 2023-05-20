@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  ven. 19 mai 2023 à 23:15
+-- Généré le :  sam. 20 mai 2023 à 20:57
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  5.6.38
 
@@ -60,7 +60,7 @@ CREATE TABLE `membre` (
   `prenom` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `photo` varchar(100) DEFAULT NULL,
-  `motDePasse` varchar(50) NOT NULL,
+  `motDePasse` varchar(500) NOT NULL,
   `role` varchar(50) NOT NULL,
   `id` int(20) NOT NULL,
   `idUniversite` int(20) NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE `membre` (
 --
 
 INSERT INTO `membre` (`matricule`, `nom`, `prenom`, `email`, `photo`, `motDePasse`, `role`, `id`, `idUniversite`, `dateCreation`) VALUES
-('123456', 'tamo tamo', 'julien', 'tamojulien@gmail.com', '', 'mdptamojulien', 'secretaireSectionEtablissement', 1, 1, '0000-00-00 00:00:00');
+('19m2193', 'nzoueteng tchuente', 'micaelle grace', 'nzouetengmicaelle@gmail.com', '', '$2a$10$a7Q7O/ku4bLmggiP.59MhOAL4cwpBIdEfDdBQIV5uh8fzzwImpjWi', 'secretaireSectionEtablissement', 5, 1, '2023-05-20 19:33:06');
 
 -- --------------------------------------------------------
 
@@ -326,7 +326,7 @@ ALTER TABLE `avoirpermission`
 -- AUTO_INCREMENT pour la table `membre`
 --
 ALTER TABLE `membre`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `notification`
