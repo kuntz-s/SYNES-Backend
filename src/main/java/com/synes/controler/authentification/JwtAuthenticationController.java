@@ -58,12 +58,12 @@ public class JwtAuthenticationController {
 			System.out.println(leMembre);
 			String nomUniv = bd.getUniversityById(leMembre.getIduniversite());
 			System.out.println(nomUniv);
-			String nomRole = leMembre.getRole();
-			System.out.println(nomRole);
-			List<String> listPermis = bd.getPermission(bd.getIdRole(nomRole));
+			int idRole = leMembre.getIdRole();
+			System.out.println(idRole);
+			List<String> listPermis = bd.getPermission(leMembre.getIdRole());
 			System.out.println(listPermis);
 
-			useConnectInfo = new UseConnectInfo(token,leMembre,nomRole,listPermis,nomUniv);
+			useConnectInfo = new UseConnectInfo(token,leMembre, bd.getRoleById(leMembre.getIdRole()),listPermis,nomUniv);
 
 			return useConnectInfo;
 		}else {
@@ -92,9 +92,11 @@ public class JwtAuthenticationController {
 
 		}else if (user.getMotdepasse().equals("")){
 
-		}else if (user.getRole().equals("")){
+		}else if (Objects.equals(user.getIdRole(), "")){
 
 		}else if (Objects.equals(user.getIduniversite(), "")){
+
+		}else if (Objects.equals(user.getDateInscription(), "")){
 
 		}
 

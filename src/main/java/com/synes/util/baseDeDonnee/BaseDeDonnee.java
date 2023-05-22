@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BaseDeDonnee {
@@ -29,7 +30,7 @@ public class BaseDeDonnee {
 
         if(cnt==0){
             try{
-                String query="INSERT INTO `membre`(`matricule`, `nom`, `prenom`, `email`, `photo`, `motDePasse`, `role`, `idUniversite`, `dateCreation`) VALUES  (?,?,?,?,?,?,?,?,?)";
+                String query="INSERT INTO `membre`(`matricule`, `nom`, `prenom`, `email`, `photo`, `motDePasse`, `idRole`, `idUniversite`, `dateCreation`, `dateInscription`) VALUES  (?,?,?,?,?,?,?,?,?,?)";
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
                 PreparedStatement pst=con.prepareStatement(query);
 
@@ -39,9 +40,10 @@ public class BaseDeDonnee {
                 pst.setString(4, newMembre.getEmail());
                 pst.setString(5, newMembre.getPhoto());
                 pst.setString(6,encryptPws);
-                pst.setString(7, newMembre.getRole());
+                pst.setInt(7, newMembre.getIdRole());
                 pst.setInt(8, newMembre.getIduniversite());
                 pst.setObject(9,date);
+                pst.setObject(10,newMembre.getDateInscription());
 
                 pst.executeUpdate();
 
@@ -198,8 +200,9 @@ public class BaseDeDonnee {
                 membre.setEmail(rs.getString("email"));
                 membre.setPhoto(rs.getString("photo"));
                 membre.setMotdepasse(rs.getString("motDePasse"));
-                membre.setRole(rs.getString("role"));
+                membre.setIdRole(rs.getInt("idRole"));
                 membre.setIduniversite(rs.getInt("idUniversite"));
+                membre.setDateInscription(rs.getDate("dateInscription"));
 
 
                 System.out.println(membre);
@@ -244,34 +247,6 @@ public class BaseDeDonnee {
 
     }
 
-    public int getIdRole(String role ){
-
-        int id = 0;
-
-        try{
-
-
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
-
-            Statement stmt = con.createStatement();
-
-            ResultSet rs = stmt.executeQuery("SELECT `id` FROM `role` WHERE `nom`='"+role+"'");
-
-
-
-            while(rs.next()){
-                id=rs.getInt("id");
-            }
-
-        }
-        catch (Exception exc){
-            System.out.println(exc+"  error connect");
-        }
-        System.out.println("  get role name");
-
-        return id;
-
-    }
 
     public String getPermissionById(int id ){
 
@@ -284,7 +259,7 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `permission` WHERE `id`='"+id+"'");
+            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `permissions` WHERE `id`='"+id+"'");
 
 
 
@@ -302,13 +277,42 @@ public class BaseDeDonnee {
 
     }
 
+    public String getRoleById(int id ){
+
+        String nom="";
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `role` WHERE `id`='"+id+"'");
+
+
+
+            while(rs.next()){
+                nom=rs.getString("nom");
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect");
+        }
+        System.out.println("  get role name");
+
+        return nom;
+
+    }
+
     public List<String> getPermission(int idRole ){
 
         System.out.println("  get list start");
         String nom="";
         int id=0;
         int i=1;
-        List<String> listPermissions = null;
+        List<String> listPermissions = new ArrayList<>();
 
 
         try{
@@ -338,7 +342,7 @@ public class BaseDeDonnee {
 
         }
         catch (Exception exc){
-            System.out.println(exc+"  error connect");
+            System.out.println(exc+"  error connect pemission");
         }
         System.out.println("  list well getted");
 

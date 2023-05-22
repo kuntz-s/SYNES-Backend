@@ -17,7 +17,7 @@ public class UseConnectInfo {
         this.token = token;
         this.membre = membre;
         this.nomRole = nomRole;
-        //this.listPermission = listPermission;
+        this.listPermission = listPermission;
         this.nomUniversite = nomUniversite;
     }
 

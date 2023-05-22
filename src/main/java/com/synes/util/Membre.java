@@ -8,16 +8,19 @@ package com.synes.util;
         "email":"tot.liuàei.com",
         "photo":"",
         "motdepasse":"12345",
-        "role":"secretaireSectionEtablissement",
-        "iduniversite":1
+        "idRole":1,
+        "iduniversite":1,
+        "dateInscription":"2023-05-22 14:19:35"
         }
 
 
         {
     "email":"nzouetengmicaelle@gmail.com",
-    "password":"MoiMica4"
+    "password":"Micaelle4"
 }
         */
+
+import java.util.Date;
 
 public class Membre {
 
@@ -27,22 +30,24 @@ public class Membre {
     String email;
     String photo;
     String motdepasse;
-    String role;
+    int idRole;
     int iduniversite;
+    Date dateInscription;
 
     public Membre() {
 
     }
 
-    public Membre(String matricule, String nom, String prenom, String email, String photo, String motdepasse, String role, int iduniversite) {
+    public Membre(String matricule, String nom, String prenom, String email, String photo, String motdepasse, int idRole, int iduniversite, Date dateInscription) {
         this.matricule = matricule;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.photo = photo;
         this.motdepasse = motdepasse;
-        this.role = role;
+        this.idRole = idRole;
         this.iduniversite = iduniversite;
+        this.dateInscription = dateInscription;
     }
 
     public String getMatricule() {
@@ -93,12 +98,12 @@ public class Membre {
         this.motdepasse = motdepasse;
     }
 
-    public String getRole() {
-        return role;
+    public int getIdRole() {
+        return idRole;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setIdRole(int idRole) {
+        this.idRole = idRole;
     }
 
     public int getIduniversite() {
@@ -107,5 +112,13 @@ public class Membre {
 
     public void setIduniversite(int iduniversite) {
         this.iduniversite = iduniversite;
+    }
+
+    public Date getDateInscription() {
+        return dateInscription;
+    }
+
+    public void setDateInscription(Date dateInscription) {
+        this.dateInscription = dateInscription;
     }
 }
