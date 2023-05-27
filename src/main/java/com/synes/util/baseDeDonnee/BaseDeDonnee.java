@@ -350,6 +350,612 @@ public class BaseDeDonnee {
 
     }
 
+    public List<String> getUniversitys(){
+        System.out.println("  get univertys start");
+        String nom="";
+        int i=1;
+        List<String> listUniv = new ArrayList<>();
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `universite` ");
+
+
+
+            while(rs.next()){
+                 nom = rs.getString("nom");
+
+                System.out.println("nom univ: "+nom);
+
+                listUniv.add(nom);
+
+
+                System.out.println("univ n: "+i+" = "+nom);
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listUniv");
+        }
+        System.out.println("  list well getted");
+
+        return listUniv;
+
+    }
+
+    public List<String> getOrganes(){
+        System.out.println("  get organes start");
+        String nom="";
+        int i=1;
+        List<String> listOrganes = new ArrayList<>();
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `organe` ");
+
+
+
+            while(rs.next()){
+                nom = rs.getString("nom");
+
+                System.out.println("nom organe: "+nom);
+
+                listOrganes.add(nom);
+
+
+                System.out.println("organe n: "+i+" = "+nom);
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listOrganes");
+        }
+        System.out.println("  list well getted");
+
+        return listOrganes;
+    }
+
+    public List<String> getRoles(){
+        System.out.println("  get roles start");
+        String nom="";
+        int i=1;
+        List<String> listRoles = new ArrayList<>();
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `role` ");
+
+
+
+            while(rs.next()){
+                nom = rs.getString("nom");
+
+                System.out.println("nom univ: "+nom);
+
+                listRoles.add(nom);
+
+
+                System.out.println("role n: "+i+" = "+nom);
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listRole");
+        }
+        System.out.println("  list well getted");
+
+        return listRoles;
+    }
+
+    public List<String> getRolesByOrganes(int idOrgane){
+        System.out.println("  get role/id start");
+        String nom="";
+        int i=1;
+        List<String> listRole = new ArrayList<>();
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `role` WHERE `idOrgane`='"+idOrgane+"'");
+
+
+
+            while(rs.next()){
+                nom = rs.getString("nom");
+
+                System.out.println("nom role: "+nom);
+
+                listRole.add(nom);
+
+
+                System.out.println("role n: "+i+" = "+nom);
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listrole/id");
+        }
+        System.out.println("  list well getted");
+
+        return listRole;
+    }
+
+    public List<String> getMembres(){
+        System.out.println("  get membres start");
+        String nom="";
+        int i=1;
+        List<String> listMembres = new ArrayList<>();
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `membre` ");
+
+
+
+            while(rs.next()){
+                nom = rs.getString("nom");
+
+                System.out.println("nom role: "+nom);
+
+                listMembres.add(nom);
+
+
+                System.out.println("membre n: "+i+" = "+nom);
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listMembres");
+        }
+        System.out.println("  list well getted");
+
+        return listMembres;
+    }
+
+    public List<String> getMembresByOrganes(int idOrgane,int organeUtilisateur){
+      if (idOrgane==organeUtilisateur){
+          System.out.println("  get membre/organe start");
+          String nom="";
+          int i=1;
+          List<String> listMembre = new ArrayList<>();
+
+
+          try{
+
+              System.out.println(i);
+
+              Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+              Statement stmt = con.createStatement();
+
+              ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `membre` WHERE `idOrgane`='"+idOrgane+"'");
+
+
+
+              while(rs.next()){
+                  nom = rs.getString("nom");
+
+                  System.out.println("nom membre: "+nom);
+
+                  listMembre.add(nom);
+
+
+                  System.out.println("membre n: "+i+" = "+nom);
+                  i++;
+              }
+
+          }
+          catch (Exception exc){
+              System.out.println(exc+"  error connect membre/organe");
+          }
+          System.out.println("  list well getted");
+
+          return listMembre;
+      }else {
+          List list = new ArrayList();
+          list.add("vous n'avez pas acces a cet organe");
+          return list;
+      }
+    }
+
+    public int createUniversity(String nom,String local,String logo){
+
+        int rep=0,cnt=0;
+        cnt=verif_double_univ(nom);
+
+
+        if(cnt==0){
+            try{
+                String query="INSERT INTO `universite`(`nom`, `localisation`, `logo`) VALUES  (?,?,?)";
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+                PreparedStatement pst=con.prepareStatement(query);
+
+                pst.setString(1, nom);
+                pst.setString(2, local);
+                pst.setString(3, logo);
+
+                pst.executeUpdate();
+
+
+                System.out.println("register successfully");
+                rep=1;
+
+            }
+            catch (Exception exc){
+                System.out.println(exc);
+            }
+
+            if(rep==1){
+
+                creatUniversityOrgane(nom);
+                creatUniversityRole(nom);
+
+                return 1;
+            }else{
+                return 0;
+            }
+        }else{
+            System.out.println("this university alrady exist");
+
+            return 0;
+        }
+
+    }
+
+    public int verif_double_univ(String nom ){
+
+        int h=0;
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `universite` WHERE `nom`='"+nom+"'");
+
+
+
+            while(rs.next()){
+                h=h+1;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(h==0){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
+
+    public int creatUniversityOrgane(String nom){
+
+        int rep=0;
+
+        int fondA = 0;
+        String nomOr = "section"+nom;
+        String description = nomOr+" Organe du syndicat propre a l'université de "+nom;
+        int univId = getUniversityId(nom);
+
+
+
+            try{
+                String query="INSERT INTO `organe`(`fondAlloue`, `description`, `nom`, `idUniversite`)  VALUES  (?,?,?,?)";
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+                PreparedStatement pst=con.prepareStatement(query);
+
+                pst.setInt(1, fondA);
+                pst.setString(2, description);
+                pst.setString(3, nomOr);
+                pst.setInt(4, univId);
+
+                pst.executeUpdate();
+
+
+                System.out.println("register successfully");
+                rep=1;
+
+            }
+            catch (Exception exc){
+                System.out.println(exc);
+            }
+
+            if(rep==1){
+                return 1;
+            }else{
+                return 0;
+            }
+
+    }
+
+    public int creatUniversityRole(String nom){
+
+        int rep=0;
+
+        String nomRo = "membre"+nom;
+        String description = "Membre du syndicat appartenant a l'université de "+nom;
+        int organeId = getOrganeId(nom);
+
+
+
+            try{
+                String query="INSERT INTO `role`(`nom`, `description`, `idOrgane`) VALUES  (?,?,?)";
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+                PreparedStatement pst=con.prepareStatement(query);
+
+                pst.setString(1, nomRo);
+                pst.setString(2, description);
+                pst.setInt(3, organeId);
+
+                pst.executeUpdate();
+
+
+                System.out.println("register successfully");
+                rep=1;
+
+            }
+            catch (Exception exc){
+                System.out.println(exc);
+            }
+
+            if(rep==1){
+                return 1;
+            }else{
+                return 0;
+            }
+
+    }
+    int getUniversityId(String nom){
+        System.out.println("  get univ id start");
+        int id=0;
+
+        try{
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `id` FROM `universite`  WHERE `nom`='"+nom+"'");
+
+
+
+            while(rs.next()){
+                id = rs.getInt("id");
+
+                System.out.println("id univ: "+id);
+
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect id univ");
+        }
+        System.out.println("  id well getted");
+
+        return id;
+    }
+
+    int getOrganeId(String nom){
+        System.out.println("  get organe id start");
+        int id=0;
+
+        try{
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `id` FROM `organe`  WHERE `nom`='"+nom+"'");
+
+
+
+            while(rs.next()){
+                id = rs.getInt("id");
+
+                System.out.println("id organe: "+id);
+
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect id organe");
+        }
+        System.out.println("  id well getted");
+
+        return id;
+    }
+
+
+    public int createOrgane(String nom, String description, int fondAlloue){
+        int rep=0,cnt=0;
+        cnt=verif_double_organe(nom);
+
+
+
+        if(cnt==0){
+            try{
+                String query="INSERT INTO `organe`(`fondAlloue`, `description`, `nom`)  VALUES  (?,?,?)";
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+                PreparedStatement pst=con.prepareStatement(query);
+
+                pst.setInt(1, fondAlloue);
+                pst.setString(2, description);
+                pst.setString(3, nom);
+
+                pst.executeUpdate();
+
+
+                System.out.println("register successfully");
+                rep=1;
+
+            }
+            catch (Exception exc){
+                System.out.println(exc);
+            }
+
+            if(rep==1){
+                return 1;
+            }else{
+                return 0;
+            }
+        }else{
+            System.out.println("this university alrady exist");
+
+            return 0;
+        }
+
+
+    }
+
+    public int createRole(String nom, String description, String nomOrgane){
+        int rep=0,cnt=0;
+        cnt=verif_double_role(nom);
+
+        int idOr = getOrganeId(nomOrgane);
+
+
+        if(cnt==0){
+            try{
+                String query="INSERT INTO `role`(`nom`, `description`, `idOrgane`) VALUES  (?,?,?)";
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+                PreparedStatement pst=con.prepareStatement(query);
+
+                pst.setString(1, nom);
+                pst.setString(2, description);
+                pst.setInt(3, idOr);
+
+                pst.executeUpdate();
+
+
+                System.out.println("register successfully");
+                rep=1;
+
+            }
+            catch (Exception exc){
+                System.out.println(exc);
+            }
+
+            if(rep==1){
+                return 1;
+            }else{
+                return 0;
+            }
+        }else{
+            System.out.println("this university alrady exist");
+
+            return 0;
+        }
+
+    }
+
+    public int verif_double_organe(String nom ){
+
+        int h=0;
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `organe` WHERE `nom`='"+nom+"'");
+
+
+
+            while(rs.next()){
+                h=h+1;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(h==0){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
+
+    public int verif_double_role(String nom ){
+
+        int h=0;
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `role` WHERE `nom`='"+nom+"'");
+
+
+
+            while(rs.next()){
+                h=h+1;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(h==0){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
 
 }
 
