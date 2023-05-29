@@ -1,4 +1,4 @@
-package com.synes.util;
+package com.synes.util.gestionUtilisateur;
 
 /*
 {
@@ -7,7 +7,6 @@ package com.synes.util;
         "prenom":"liu",
         "email":"tot.liuàei.com",
         "photo":"",
-        "motdepasse":"12345",
         "iduniversite":1,
         "dateInscription":"2023-05-22 14:19:35"
         }
@@ -62,6 +61,16 @@ public class Membre {
         this.email = email;
         this.photo = photo;
         this.motdepasse = motdepasse;
+        this.iduniversite = iduniversite;
+        this.idRole = idRole;
+        this.dateInscription = dateInscription;
+    }
+    public Membre(String matricule, String nom, String prenom, String email, String photo,int idRole, int iduniversite, Date dateInscription) {
+        this.matricule = matricule;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.photo = photo;
         this.iduniversite = iduniversite;
         this.idRole = idRole;
         this.dateInscription = dateInscription;

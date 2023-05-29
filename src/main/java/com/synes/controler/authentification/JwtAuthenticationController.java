@@ -2,9 +2,10 @@ package com.synes.controler.authentification;
 
 import com.synes.config.authentification.JwtTokenUtil;
 import com.synes.service.authentification.JwtUserDetailsService;
+import com.synes.service.gestionUtilisateur.EmailService;
 import com.synes.util.ApiError;
-import com.synes.util.Membre;
-import com.synes.util.UseConnectInfo;
+import com.synes.util.gestionUtilisateur.Membre;
+import com.synes.util.gestionUtilisateur.UseConnectInfo;
 import com.synes.util.authentification.JwtRequest;
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,11 @@ import java.util.Objects;
 @RestController
 @CrossOrigin
 public class JwtAuthenticationController {
+
+
+	@Autowired
+	private EmailService emailService;
+
 
 	BaseDeDonnee bd = new BaseDeDonnee();
 	@Autowired
@@ -82,27 +88,21 @@ public class JwtAuthenticationController {
 
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Integer> saveUser(@RequestBody Membre user) throws Exception {
+	public Object saveUser(@RequestBody Membre user) throws Exception {
 
-		if (user.getMatricule().equals("")){
+		if (bd.Add_Membre(user)==1) {
 
-		}else if (user.getNom().equals("")){
+			String motDePasse = user.getMatricule() + "_SYNES_" + user.getNom();
 
-		}else if (user.getPrenom().equals("")){
-
-		}else if (user.getEmail().equals("")){
-
-		}else if (user.getMotdepasse().equals("")){
-
-		}else if (Objects.equals(user.getIdRole(), "")){
-
-		}else if (Objects.equals(user.getIduniversite(), "")){
-
-		}else if (Objects.equals(user.getDateInscription(), "")){
-
+			this.emailService.sendMessage(
+					user.getEmail(),
+					"NOTIFICATION D'AJOUT AU SYTEME EN LIGNE DU SYNES",
+					"Monsieur/Madame " + user.getNom() + " " + user.getPrenom() + ",\n Bienvenu dans la plateforme SYNES,\n votre compte viens d'être créé et \n vos informations de connexion sont:  \n email: " + user.getEmail() + " \n password: " + motDePasse+" \n\n Vous pouvez modifier votre mot de passe\n dans la section profil une fois connecté"
+			);
+			return 1;
+		}else {
+			return 0;
 		}
-
-		return ResponseEntity.ok(bd.Add_Membre(user));
 	}
 
 

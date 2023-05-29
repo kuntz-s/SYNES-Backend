@@ -11,4 +11,5 @@ public class SynesApplication {
 		SpringApplication.run(SynesApplication.class, args);
 	}
 
+
 }

@@ -1,8 +1,8 @@
 package com.synes.util.baseDeDonnee;
 
-import com.synes.util.MemberConn;
-import com.synes.util.Membre;
-import com.synes.util.UseConnectInfo;
+import com.synes.util.gestionUtilisateur.MemberConn;
+import com.synes.util.gestionUtilisateur.Membre;
+import com.synes.util.gestionUtilisateur.UseConnectInfo;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.*;
@@ -13,8 +13,6 @@ import java.util.List;
 public class BaseDeDonnee {
 
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-
 
 
     //pour le login
@@ -945,8 +943,9 @@ public class BaseDeDonnee {
 
        /* SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy;HH:mm:ss");
         Calendar calendar = Calendar.getInstance();*/
+        String motDePasse = newMembre.getMatricule()+"_SYNES_"+newMembre.getNom();
 
-        String encryptPws = passwordEncoder.encode(newMembre.getMotdepasse());
+        String encryptPws = passwordEncoder.encode(motDePasse);
 
 
         LocalDateTime date = LocalDateTime.now();
@@ -980,6 +979,7 @@ public class BaseDeDonnee {
             }
 
             if(rep==1){
+
                 return 1;
             }else{
                 return 0;
@@ -991,7 +991,7 @@ public class BaseDeDonnee {
         }
 
 
-    } ///gerer l'envoie d'email
+    }
     public int verif_double(String login ){
 
         int h=0;

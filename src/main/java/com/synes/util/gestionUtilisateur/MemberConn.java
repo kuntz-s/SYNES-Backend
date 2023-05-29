@@ -1,4 +1,4 @@
-package com.synes.util;
+package com.synes.util.gestionUtilisateur;
 
 public class MemberConn {
 

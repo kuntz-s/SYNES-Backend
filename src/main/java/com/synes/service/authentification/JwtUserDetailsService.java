@@ -2,7 +2,7 @@ package com.synes.service.authentification;
 
 
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
-import com.synes.util.MemberConn;
+import com.synes.util.gestionUtilisateur.MemberConn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

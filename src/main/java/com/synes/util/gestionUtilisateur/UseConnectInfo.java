@@ -1,4 +1,6 @@
-package com.synes.util;
+package com.synes.util.gestionUtilisateur;
+
+import com.synes.util.gestionUtilisateur.Membre;
 
 import java.util.List;
 
@@ -67,5 +69,8 @@ public class UseConnectInfo {
 
     public void setMembreId(int idMembre) {
         this.idMembre =idMembre;
+    }
+    public int getMembreId() {
+        return idMembre;
     }
 }

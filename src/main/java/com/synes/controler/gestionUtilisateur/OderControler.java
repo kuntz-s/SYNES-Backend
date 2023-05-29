@@ -1,6 +1,6 @@
-package com.synes.controler;
+package com.synes.controler.gestionUtilisateur;
 
-import com.synes.util.Membre;
+import com.synes.util.gestionUtilisateur.Membre;
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -120,9 +120,9 @@ public class OderControler {
 
     //5 liste des membres d'un organe
     @RequestMapping(value = "/listeMembres/{id}", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object listeMembresOrgane(@PathVariable("id") int idOrgane){
+    public Object listeMembresOrgane(@RequestHeader("token") String token, @PathVariable("id") int idOrgane){
 
-        return bd.getMemberOrgane(idOrgane);
+        return bd.getMembresByOrganes(idOrgane,bd.getMemberOrgane(bd.getCurrentUser(token).getMembreId()));
     }
 
     //6 creation université
