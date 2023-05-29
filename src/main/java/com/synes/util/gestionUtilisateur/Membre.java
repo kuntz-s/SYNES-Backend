@@ -8,6 +8,7 @@ package com.synes.util.gestionUtilisateur;
         "email":"tot.liuàei.com",
         "photo":"",
         "iduniversite":1,
+        "idRole":1,
         "dateInscription":"2023-05-22T14:19:35"
         }
 
