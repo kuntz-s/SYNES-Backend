@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  Dim 28 mai 2023 à 04:15
+-- Généré le :  lun. 29 mai 2023 à 02:30
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  5.6.38
 
@@ -99,6 +99,28 @@ CREATE TABLE `membre` (
 
 INSERT INTO `membre` (`matricule`, `nom`, `prenom`, `email`, `photo`, `motDePasse`, `idRole`, `id`, `idUniversite`, `dateCreation`, `dateInscription`) VALUES
 ('12x034euy1', 'tchuente', 'micaelle', 'nzouetengmicaelle@gmail.com', NULL, '$2a$10$/xuv7CJ4/7rCVJUYXU0YGe7br0gAsKiqNSsy20/DULDAgStpEXTHa', 1, 1, 1, '2023-05-22 14:19:35', '2010-10-10 10:10:10');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `membreconnected`
+--
+
+CREATE TABLE `membreconnected` (
+  `idMembre` int(20) NOT NULL,
+  `id` int(20) NOT NULL,
+  `nomRole` varchar(100) NOT NULL,
+  `nomUniversite` varchar(100) NOT NULL,
+  `token` varchar(500) NOT NULL,
+  `permissions` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `membreconnected`
+--
+
+INSERT INTO `membreconnected` (`idMembre`, `id`, `nomRole`, `nomUniversite`, `token`, `permissions`) VALUES
+(1, 1, 'Secretaire Congres', 'universite de yaounde 1', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuem91ZXRlbmdtaWNhZWxsZUBnbWFpbC5jb20iLCJleHAiOjE2ODUzMzE2NDgsImlhdCI6MTY4NTMxMzY0OH0.oG4EsgYnwg8alQl39PvYphVpEfGlTMcUcrB_YRDywsb9oxaNGqzoTZv85QF2iKZU51AEIkorAB1b9h2JbyHWfQ', ';Gestion Syndicat;Création membre;Attributtion role systeme');
 
 -- --------------------------------------------------------
 
@@ -285,6 +307,13 @@ ALTER TABLE `membre`
   ADD KEY `idRole` (`idRole`);
 
 --
+-- Index pour la table `membreconnected`
+--
+ALTER TABLE `membreconnected`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `memb` (`idMembre`);
+
+--
 -- Index pour la table `notification`
 --
 ALTER TABLE `notification`
@@ -375,6 +404,12 @@ ALTER TABLE `membre`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT pour la table `membreconnected`
+--
+ALTER TABLE `membreconnected`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
@@ -384,7 +419,7 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT pour la table `organe`
 --
 ALTER TABLE `organe`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `permissions`
@@ -408,7 +443,7 @@ ALTER TABLE `recevoirnotification`
 -- AUTO_INCREMENT pour la table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT pour la table `soldebancaire`
@@ -426,7 +461,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT pour la table `universite`
 --
 ALTER TABLE `universite`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Contraintes pour les tables déchargées
@@ -457,6 +492,12 @@ ALTER TABLE `evenement`
 ALTER TABLE `membre`
   ADD CONSTRAINT `c` FOREIGN KEY (`idUniversite`) REFERENCES `universite` (`id`),
   ADD CONSTRAINT `fk_role` FOREIGN KEY (`idRole`) REFERENCES `role` (`id`);
+
+--
+-- Contraintes pour la table `membreconnected`
+--
+ALTER TABLE `membreconnected`
+  ADD CONSTRAINT `memb` FOREIGN KEY (`idMembre`) REFERENCES `membre` (`id`);
 
 --
 -- Contraintes pour la table `organe`
