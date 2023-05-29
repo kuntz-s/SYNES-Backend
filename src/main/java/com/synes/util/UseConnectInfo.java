@@ -9,8 +9,12 @@ public class UseConnectInfo {
     String nomRole;
     List<String> listPermission;
     String nomUniversite;
+    private int idMembre;
+
 
     public UseConnectInfo(String token, Membre leMembre, String nomRole, String nomUniv) {
+    }
+    public UseConnectInfo() {
     }
 
     public UseConnectInfo(String token, Membre membre, String nomRole, List<String> listPermission, String nomUniversite) {
@@ -59,5 +63,9 @@ public class UseConnectInfo {
 
     public void setNomUniversite(String nomUniversite) {
         this.nomUniversite = nomUniversite;
+    }
+
+    public void setMembreId(int idMembre) {
+        this.idMembre =idMembre;
     }
 }

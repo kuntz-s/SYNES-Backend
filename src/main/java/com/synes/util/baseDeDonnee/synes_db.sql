@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  lun. 22 mai 2023 à 14:53
+-- Généré le :  Dim 28 mai 2023 à 04:15
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  5.6.38
 
@@ -33,7 +33,8 @@ CREATE TABLE `annonce` (
   `contenu` varchar(500) NOT NULL,
   `typeAnnonce` varchar(50) NOT NULL,
   `id` int(20) NOT NULL,
-  `posteLe` datetime NOT NULL
+  `posteLe` datetime NOT NULL,
+  `idMembre` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -60,6 +61,21 @@ INSERT INTO `avoirpermission` (`idRole`, `idPermission`, `id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `evenement`
+--
+
+CREATE TABLE `evenement` (
+  `id` int(20) NOT NULL,
+  `nom` varchar(100) NOT NULL,
+  `dateDebut` datetime NOT NULL,
+  `dateFin` datetime NOT NULL,
+  `description` varchar(500) NOT NULL,
+  `idMembre` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `membre`
 --
 
@@ -82,7 +98,7 @@ CREATE TABLE `membre` (
 --
 
 INSERT INTO `membre` (`matricule`, `nom`, `prenom`, `email`, `photo`, `motDePasse`, `idRole`, `id`, `idUniversite`, `dateCreation`, `dateInscription`) VALUES
-('12x034euy1', 'tchuente', 'micaelle', 'nzouetengmicaelle@gmail.com', NULL, 'Micaelle4', 1, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+('12x034euy1', 'tchuente', 'micaelle', 'nzouetengmicaelle@gmail.com', NULL, '$2a$10$/xuv7CJ4/7rCVJUYXU0YGe7br0gAsKiqNSsy20/DULDAgStpEXTHa', 1, 1, 1, '2023-05-22 14:19:35', '2010-10-10 10:10:10');
 
 -- --------------------------------------------------------
 
@@ -91,7 +107,6 @@ INSERT INTO `membre` (`matricule`, `nom`, `prenom`, `email`, `photo`, `motDePass
 --
 
 CREATE TABLE `notification` (
-  `envoyePar` varchar(20) NOT NULL,
   `typeMessage` varchar(50) NOT NULL,
   `envoyéLe` datetime NOT NULL,
   `id` int(20) NOT NULL,
@@ -207,11 +222,12 @@ CREATE TABLE `soldebancaire` (
 --
 
 CREATE TABLE `transaction` (
-  `effectuePar` int(20) NOT NULL,
   `montant` int(11) NOT NULL,
   `type` varchar(50) NOT NULL,
   `raison` varchar(100) NOT NULL,
-  `id` int(20) NOT NULL
+  `id` int(20) NOT NULL,
+  `idMembre` int(20) NOT NULL,
+  `idEvenement` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -242,7 +258,8 @@ INSERT INTO `universite` (`nom`, `localisation`, `logo`, `id`) VALUES
 -- Index pour la table `annonce`
 --
 ALTER TABLE `annonce`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fkmembre` (`idMembre`);
 
 --
 -- Index pour la table `avoirpermission`
@@ -251,6 +268,13 @@ ALTER TABLE `avoirpermission`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_permission` (`idPermission`),
   ADD KEY `rrole` (`idRole`);
+
+--
+-- Index pour la table `evenement`
+--
+ALTER TABLE `evenement`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fkmm` (`idMembre`);
 
 --
 -- Index pour la table `membre`
@@ -312,7 +336,9 @@ ALTER TABLE `soldebancaire`
 -- Index pour la table `transaction`
 --
 ALTER TABLE `transaction`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idmem` (`idMembre`),
+  ADD KEY `fkeven` (`idEvenement`);
 
 --
 -- Index pour la table `universite`
@@ -334,13 +360,19 @@ ALTER TABLE `annonce`
 -- AUTO_INCREMENT pour la table `avoirpermission`
 --
 ALTER TABLE `avoirpermission`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT pour la table `evenement`
+--
+ALTER TABLE `evenement`
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `membre`
 --
 ALTER TABLE `membre`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `notification`
@@ -352,7 +384,7 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT pour la table `organe`
 --
 ALTER TABLE `organe`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `permissions`
@@ -376,7 +408,7 @@ ALTER TABLE `recevoirnotification`
 -- AUTO_INCREMENT pour la table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `soldebancaire`
@@ -401,11 +433,23 @@ ALTER TABLE `universite`
 --
 
 --
+-- Contraintes pour la table `annonce`
+--
+ALTER TABLE `annonce`
+  ADD CONSTRAINT `fkmembre` FOREIGN KEY (`idMembre`) REFERENCES `membre` (`id`);
+
+--
 -- Contraintes pour la table `avoirpermission`
 --
 ALTER TABLE `avoirpermission`
   ADD CONSTRAINT `fk_permission` FOREIGN KEY (`idPermission`) REFERENCES `permissions` (`id`),
   ADD CONSTRAINT `rrole` FOREIGN KEY (`idRole`) REFERENCES `role` (`id`);
+
+--
+-- Contraintes pour la table `evenement`
+--
+ALTER TABLE `evenement`
+  ADD CONSTRAINT `fkmm` FOREIGN KEY (`idMembre`) REFERENCES `membre` (`id`);
 
 --
 -- Contraintes pour la table `membre`
@@ -444,6 +488,13 @@ ALTER TABLE `role`
 --
 ALTER TABLE `soldebancaire`
   ADD CONSTRAINT `fk_transaction` FOREIGN KEY (`idTransaction`) REFERENCES `transaction` (`id`);
+
+--
+-- Contraintes pour la table `transaction`
+--
+ALTER TABLE `transaction`
+  ADD CONSTRAINT `fkeven` FOREIGN KEY (`idEvenement`) REFERENCES `evenement` (`id`),
+  ADD CONSTRAINT `idmem` FOREIGN KEY (`idMembre`) REFERENCES `membre` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

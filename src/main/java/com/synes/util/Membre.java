@@ -8,7 +8,6 @@ package com.synes.util;
         "email":"tot.liuàei.com",
         "photo":"",
         "motdepasse":"12345",
-        "idRole":1,
         "iduniversite":1,
         "dateInscription":"2023-05-22 14:19:35"
         }
@@ -20,9 +19,13 @@ package com.synes.util;
 }
         */
 
+import com.synes.util.baseDeDonnee.BaseDeDonnee;
+
 import java.util.Date;
 
 public class Membre {
+
+    BaseDeDonnee baseDeDonnee = new BaseDeDonnee();
 
     String matricule;
     String nom;
@@ -30,23 +33,37 @@ public class Membre {
     String email;
     String photo;
     String motdepasse;
-    int idRole;
     int iduniversite;
+    int idRole = baseDeDonnee.getRoleIdByUnivId(iduniversite);
+
     Date dateInscription;
+
+
 
     public Membre() {
 
     }
 
-    public Membre(String matricule, String nom, String prenom, String email, String photo, String motdepasse, int idRole, int iduniversite, Date dateInscription) {
+    public Membre(String matricule, String nom, String prenom, String email, String photo, String motdepasse, int iduniversite, Date dateInscription) {
         this.matricule = matricule;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.photo = photo;
         this.motdepasse = motdepasse;
-        this.idRole = idRole;
         this.iduniversite = iduniversite;
+        this.idRole = baseDeDonnee.getRoleIdByUnivId(iduniversite);
+        this.dateInscription = dateInscription;
+    }
+    public Membre(String matricule, String nom, String prenom, String email, String photo, String motdepasse,int idRole, int iduniversite, Date dateInscription) {
+        this.matricule = matricule;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.photo = photo;
+        this.motdepasse = motdepasse;
+        this.iduniversite = iduniversite;
+        this.idRole = idRole;
         this.dateInscription = dateInscription;
     }
 
@@ -102,6 +119,9 @@ public class Membre {
         return idRole;
     }
 
+    public void setIdRole() {
+        this.idRole = baseDeDonnee.getRoleIdByUnivId(iduniversite);
+    }
     public void setIdRole(int idRole) {
         this.idRole = idRole;
     }
