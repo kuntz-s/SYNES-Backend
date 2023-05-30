@@ -24,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Objects;
 
+//@CrossOrigin()
 @RestController
-@CrossOrigin
 public class JwtAuthenticationController {
 
 

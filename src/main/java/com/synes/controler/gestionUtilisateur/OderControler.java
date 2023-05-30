@@ -1,7 +1,7 @@
 package com.synes.controler.gestionUtilisateur;
 
-import com.synes.util.gestionUtilisateur.Membre;
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
+import com.synes.util.gestionUtilisateur.Membre;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,19 +20,7 @@ class univ{
         this.logo = logo;
     }
 }
-class upduniv{
-    int id;
-    String nom;
-    String localisation;
-    String logo;
 
-    public upduniv(int id, String nom, String localisation, String logo) {
-        this.id = id;
-        this.nom = nom;
-        this.localisation = localisation;
-        this.logo = logo;
-    }
-}
 class organe{
     String nom;
     String description;

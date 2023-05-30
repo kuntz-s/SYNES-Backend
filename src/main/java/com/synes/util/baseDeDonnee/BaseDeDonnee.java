@@ -1,5 +1,6 @@
 package com.synes.util.baseDeDonnee;
 
+import com.synes.controler.gestionUtilisateur.upduniv;
 import com.synes.util.gestionUtilisateur.MemberConn;
 import com.synes.util.gestionUtilisateur.Membre;
 import com.synes.util.gestionUtilisateur.UseConnectInfo;
@@ -321,12 +322,13 @@ public class BaseDeDonnee {
     }
 
     //1
-    public List<String> getUniversitys(){
+    public upduniv getUniversitys(){
         System.out.println("  get univertys start");
         String nom="";
         int i=1;
         List<String> listUniv = new ArrayList<>();
 
+        upduniv upduniv = new upduniv();
 
         try{
 
@@ -336,14 +338,17 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `universite` ");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `universite` ");
 
 
 
             while(rs.next()){
-                 nom = rs.getString("nom");
+                upduniv.setId(rs.getInt("id"));
+                upduniv.setNom(rs.getString("nom"));
+                upduniv.setLocalisation(rs.getString("localisation"));
+                upduniv.setLogo(rs.getString("logo"));
 
-                System.out.println("nom univ: "+nom);
+                System.out.println("nom univ: "+upduniv.getNom());
 
                 listUniv.add(nom);
 
@@ -358,7 +363,7 @@ public class BaseDeDonnee {
         }
         System.out.println("  list well getted");
 
-        return listUniv;
+        return upduniv;
 
     }
 
