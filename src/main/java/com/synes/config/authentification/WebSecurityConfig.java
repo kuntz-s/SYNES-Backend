@@ -73,6 +73,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/giveRoleSystem").permitAll()
 				.antMatchers("/givePremission").permitAll()
 				.antMatchers("/updateMembre").permitAll()
+				.antMatchers("/updateUniversite").permitAll()
+				.antMatchers("/updateRole").permitAll()
+				.antMatchers("/updateOrgane").permitAll()
 				// all other requests need to be authenticated
 				.anyRequest().authenticated().and().
 				// make sure we use stateless session; session won't be used to

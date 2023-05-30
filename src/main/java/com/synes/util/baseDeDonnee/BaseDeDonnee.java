@@ -1321,6 +1321,7 @@ public class BaseDeDonnee {
             pst.setInt(6,membre.getIdRole());
             pst.setInt(7, membre.getIduniversite());
             pst.setObject(8,membre.getDateInscription());
+            pst.setInt(9,id);
 
             pst.executeUpdate();
 
@@ -1340,6 +1341,109 @@ public class BaseDeDonnee {
         }
 
     }
+
+    //14
+    public int updateUniversite(int id, String nom, String localisation, String logo){
+        int rep=0;
+
+
+        try{
+            String query="UPDATE `universite` SET `nom`=?,`localisation`=?,`logo`=? WHERE `id` = ? ";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setString(1, nom);
+            pst.setString(2, localisation);
+            pst.setString(3, logo);
+            pst.setInt(4,id);
+
+            pst.executeUpdate();
+
+
+            System.out.println("university successfully updated");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 1;
+        }else {
+            return 0;
+        }
+
+    }
+
+    //15
+    public int updateRole(int id, String nom, String description, int idOrgane){
+        int rep=0;
+
+
+        try{
+            String query="UPDATE `role` SET `nom`=?,`description`=?,`idOrgane`=? WHERE `id` = ? ";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setString(1, nom);
+            pst.setString(2, description);
+            pst.setInt(3, idOrgane);
+            pst.setInt(4,id);
+
+            pst.executeUpdate();
+
+
+            System.out.println("role successfully updated");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 1;
+        }else {
+            return 0;
+        }
+
+    }
+
+    //16
+    public int updateOrgane(int id, String nom, String description,int fond, int idUniv){
+        int rep=0;
+
+        try{
+            String query="UPDATE `organe` SET `fondAlloue`=?,`description`=?,`nom`=?,`idUniversite`=? WHERE `id` = ? ";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setInt(1, fond);
+            pst.setString(2, description);
+            pst.setString(3, nom);
+            pst.setInt(4, idUniv);
+            pst.setInt(5, id);
+
+            pst.executeUpdate();
+
+
+            System.out.println("organe successfully updated");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 1;
+        }else {
+            return 0;
+        }
+
+    }
+
 
 
     public int verif_permission(int idRole, int idPermission){

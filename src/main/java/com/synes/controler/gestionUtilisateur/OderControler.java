@@ -20,6 +20,19 @@ class univ{
         this.logo = logo;
     }
 }
+class upduniv{
+    int id;
+    String nom;
+    String localisation;
+    String logo;
+
+    public upduniv(int id, String nom, String localisation, String logo) {
+        this.id = id;
+        this.nom = nom;
+        this.localisation = localisation;
+        this.logo = logo;
+    }
+}
 class organe{
     String nom;
     String description;
@@ -31,6 +44,21 @@ class organe{
         this.fondAlloue = fondAlloue;
     }
 }
+class updorgane{
+    int id;
+    String nom;
+    String description;
+    int fondAlloue;
+    int idUniv;
+
+    public updorgane(int id, String nom, String description, int fondAlloue, int idUniv) {
+        this.id = id;
+        this.nom = nom;
+        this.description = description;
+        this.fondAlloue = fondAlloue;
+        this.idUniv = idUniv;
+    }
+}
 class role{
     String nom;
     String description;
@@ -40,6 +68,19 @@ class role{
         this.nom = nom;
         this.description = description;
         this.nomOrgane = nomOrgane;
+    }
+}
+class updrole{
+    int id;
+    String nom;
+    String description;
+    int idOrgane;
+
+    public updrole(int id, String nom, String description, int idOrgane) {
+        this.id = id;
+        this.nom = nom;
+        this.description = description;
+        this.idOrgane = idOrgane;
     }
 }
 class roleToMembre{
@@ -77,11 +118,6 @@ public class OderControler {
 
     BaseDeDonnee bd = new BaseDeDonnee();
 
-
-    @GetMapping(value = "/login")
-    public String home(){
-        return "welcome to the SYNES web site";
-    }
 
     //1 liste université
     @RequestMapping(value = "/listeUniversite", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
@@ -219,6 +255,45 @@ public class OderControler {
             return "vous n'avez pas le droit d'effectuer cette operation";
         }*/
         return bd.updateMembre(updateMember.id,updateMember.membre);
+
+    }
+
+    //14 mise a jour iinfo université
+    @RequestMapping(value = "/updateUniversite", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object updatUniv(@RequestHeader("token") String token,@RequestBody upduniv univ, HttpServletResponse response) {
+
+
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
+            return bd.updateUniversite(univ.id,univ.nom,univ.localisation,univ.logo);
+        }else {
+            return "vous n'avez pas le droit d'effectuer cette operation";
+        }
+
+    }
+
+    //15 mise a jour info role
+    @RequestMapping(value = "/updateRole", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object updatRole(@RequestHeader("token") String token,@RequestBody updrole updrole , HttpServletResponse response) {
+
+
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
+            return bd.updateRole(updrole.id,updrole.nom,updrole.description,updrole.idOrgane);
+        }else {
+            return "vous n'avez pas le droit d'effectuer cette operation";
+        }
+
+    }
+
+    //16 mise a jour info organe
+    @RequestMapping(value = "/updateOrgane", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object updatOrgane(@RequestHeader("token") String token,@RequestBody updorgane updorgane, HttpServletResponse response) {
+
+
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
+            return bd.updateOrgane(updorgane.id,updorgane.nom,updorgane.description,updorgane.fondAlloue,updorgane.idUniv);
+        }else {
+            return "vous n'avez pas le droit d'effectuer cette operation";
+        }
 
     }
 
