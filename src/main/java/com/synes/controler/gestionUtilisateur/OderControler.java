@@ -1,7 +1,7 @@
 package com.synes.controler.gestionUtilisateur;
 
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
-import com.synes.util.gestionUtilisateur.Membre;
+import com.synes.util.gestionUtilisateur.*;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,21 +32,7 @@ class organe{
         this.fondAlloue = fondAlloue;
     }
 }
-class updorgane{
-    int id;
-    String nom;
-    String description;
-    int fondAlloue;
-    int idUniv;
 
-    public updorgane(int id, String nom, String description, int fondAlloue, int idUniv) {
-        this.id = id;
-        this.nom = nom;
-        this.description = description;
-        this.fondAlloue = fondAlloue;
-        this.idUniv = idUniv;
-    }
-}
 class role{
     String nom;
     String description;
@@ -58,19 +44,7 @@ class role{
         this.nomOrgane = nomOrgane;
     }
 }
-class updrole{
-    int id;
-    String nom;
-    String description;
-    int idOrgane;
 
-    public updrole(int id, String nom, String description, int idOrgane) {
-        this.id = id;
-        this.nom = nom;
-        this.description = description;
-        this.idOrgane = idOrgane;
-    }
-}
 class roleToMembre{
     int idRole;
     int idMembre;
@@ -89,15 +63,6 @@ class permis{
         this.nom = nom;
         this.description = description;
         this.idOrgane = idOrgane;
-    }
-}
-class updateMember{
-    int id;
-    Membre membre;
-
-    public updateMember(int id, Membre membre) {
-        this.id = id;
-        this.membre = membre;
     }
 }
 
@@ -234,7 +199,7 @@ public class OderControler {
 
     //12.2 mise a jour info membres
     @RequestMapping(value = "/updateMembre", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object updatMember(@RequestHeader("token") String token,@RequestBody updateMember updateMember, HttpServletResponse response) {
+    public Object updatMember(@RequestHeader("token") String token, @RequestBody updateMember updateMember, HttpServletResponse response) {
 
 
       /*  if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
@@ -242,17 +207,17 @@ public class OderControler {
         }else {
             return "vous n'avez pas le droit d'effectuer cette operation";
         }*/
-        return bd.updateMembre(updateMember.id,updateMember.membre);
+        return bd.updateMembre(updateMember.getId(),updateMember.getMembre());
 
     }
 
     //14 mise a jour iinfo université
     @RequestMapping(value = "/updateUniversite", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object updatUniv(@RequestHeader("token") String token,@RequestBody upduniv univ, HttpServletResponse response) {
+    public Object updatUniv(@RequestHeader("token") String token, @RequestBody upduniv univ, HttpServletResponse response) {
 
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
-            return bd.updateUniversite(univ.id,univ.nom,univ.localisation,univ.logo);
+            return bd.updateUniversite(univ.getId(),univ.getNom(),univ.getLocalisation(),univ.getLogo());
         }else {
             return "vous n'avez pas le droit d'effectuer cette operation";
         }
@@ -261,11 +226,11 @@ public class OderControler {
 
     //15 mise a jour info role
     @RequestMapping(value = "/updateRole", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object updatRole(@RequestHeader("token") String token,@RequestBody updrole updrole , HttpServletResponse response) {
+    public Object updatRole(@RequestHeader("token") String token, @RequestBody updrole updrole , HttpServletResponse response) {
 
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
-            return bd.updateRole(updrole.id,updrole.nom,updrole.description,updrole.idOrgane);
+            return bd.updateRole(updrole.getId(),updrole.getNom(),updrole.getDescription(),updrole.getIdOrgane());
         }else {
             return "vous n'avez pas le droit d'effectuer cette operation";
         }
@@ -274,11 +239,11 @@ public class OderControler {
 
     //16 mise a jour info organe
     @RequestMapping(value = "/updateOrgane", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object updatOrgane(@RequestHeader("token") String token,@RequestBody updorgane updorgane, HttpServletResponse response) {
+    public Object updatOrgane(@RequestHeader("token") String token, @RequestBody updorgane updorgane, HttpServletResponse response) {
 
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
-            return bd.updateOrgane(updorgane.id,updorgane.nom,updorgane.description,updorgane.fondAlloue,updorgane.idUniv);
+            return bd.updateOrgane(updorgane.getId(),updorgane.getNom(),updorgane.getDescription(),updorgane.getFondAlloue(),updorgane.getIdUniv());
         }else {
             return "vous n'avez pas le droit d'effectuer cette operation";
         }

@@ -1,4 +1,4 @@
-package com.synes.controler.gestionUtilisateur;
+package com.synes.util.gestionUtilisateur;
 
 public class upduniv {
     int id;
