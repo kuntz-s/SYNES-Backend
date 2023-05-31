@@ -319,13 +319,13 @@ public class BaseDeDonnee {
     }
 
     //1
-    public upduniv getUniversitys(){
+    public List<upduniv> getUniversitys(){
         System.out.println("  get univertys start");
         String nom="";
         int i=1;
-        List<String> listUniv = new ArrayList<>();
+        List<upduniv> listUniv = new ArrayList<>();
 
-        upduniv upduniv = new upduniv();
+
 
         try{
 
@@ -340,6 +340,8 @@ public class BaseDeDonnee {
 
 
             while(rs.next()){
+                upduniv upduniv = new upduniv();
+
                 upduniv.setId(rs.getInt("id"));
                 upduniv.setNom(rs.getString("nom"));
                 upduniv.setLocalisation(rs.getString("localisation"));
@@ -347,7 +349,7 @@ public class BaseDeDonnee {
 
                 System.out.println("nom univ: "+upduniv.getNom());
 
-                listUniv.add(nom);
+                listUniv.add(upduniv);
 
 
                 System.out.println("univ n: "+i+" = "+nom);
@@ -360,7 +362,7 @@ public class BaseDeDonnee {
         }
         System.out.println("  list well getted");
 
-        return upduniv;
+        return listUniv;
 
     }
 
