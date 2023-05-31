@@ -73,7 +73,7 @@ public class OderControler {
 
 
     //1 liste université
-    @RequestMapping(value = "/listeUniversite", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/listeUniversite", method = RequestMethod.GET,consumes= MediaType.APPLICATION_JSON_VALUE)
     public Object listeUniversite(){
 
         return bd.getUniversitys();
@@ -109,17 +109,17 @@ public class OderControler {
 
     //5 liste des membres d'un organe
     @RequestMapping(value = "/listeMembres/{id}", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object listeMembresOrgane(@RequestHeader("token") String token, @PathVariable("id") int idOrgane){
+    public Object listeMembresOrgane(@RequestHeader("authorization") String token, @PathVariable("id") int idOrgane){
 
-        return bd.getMembresByOrganes(idOrgane,bd.getMemberOrgane(bd.getCurrentUser(token).getMembreId()));
+        return bd.getMembresByOrganes(idOrgane,bd.getMemberOrgane(bd.getCurrentUser(token.substring(7)).getMembreId()));
     }
 
     //6 creation université
     @RequestMapping(value = "/createUniv", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object creerUniv(@RequestHeader("token") String token, @RequestBody() univ newUniv, HttpServletResponse response) {
-        System.out.println(newUniv.nom+" mmmmm "+ newUniv.localisation+" mmmmm "+ newUniv.logo);
+    public Object creerUniv(@RequestHeader("authorization") String token, @RequestBody() univ newUniv, HttpServletResponse response) {
+        System.out.println(newUniv.nom+" mmmmm "+ newUniv.localisation+" mmmmm "+ newUniv.logo );
 
-        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
             return bd.createUniversity(newUniv.nom, newUniv.localisation, newUniv.logo);
         }else {
             return "vous n'avez pas le droit d'effectuer cette operation";
@@ -128,9 +128,9 @@ public class OderControler {
 
     //7 creation organe
     @RequestMapping(value = "/createOrgane", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object creerOrgane(@RequestHeader("token") String token,@RequestBody organe organe, HttpServletResponse response){
+    public Object creerOrgane(@RequestHeader("authorization") String token,@RequestBody organe organe, HttpServletResponse response){
 
-        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
             return bd.createOrgane(organe.nom,organe.description,organe.fondAlloue);
         }else {
             return "vous n'avez pas le droit d'effectuer cette operation";
@@ -139,10 +139,10 @@ public class OderControler {
 
     //8 creation role
     @RequestMapping(value = "/createRole", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object creerRole(@RequestHeader("token") String token,@RequestBody role role, HttpServletResponse response){
+    public Object creerRole(@RequestHeader("authorization") String token,@RequestBody role role, HttpServletResponse response){
 
 
-        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
             return bd.createRole(role.nom,role.description,role.nomOrgane);
         }else {
             return "vous n'avez pas le droit d'effectuer cette operation";
@@ -153,11 +153,11 @@ public class OderControler {
 
     //10 attribution role a un membre d'un organe
     @RequestMapping(value = "/giveRoleOrgane", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object attribuRoleOrgane(@RequestHeader("token") String token,@RequestBody roleToMembre roleToMembre, HttpServletResponse response) {
+    public Object attribuRoleOrgane(@RequestHeader("authorization") String token,@RequestBody roleToMembre roleToMembre, HttpServletResponse response) {
 
-        int idOrgane = bd.getOrganeId(bd.getCurrentUser(token).getNomRole());
+        int idOrgane = bd.getOrganeId(bd.getCurrentUser(token.substring(7)).getNomRole());
 
-        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
             return bd.giveRoleByOrgane(idOrgane, roleToMembre.idRole, roleToMembre.idMembre);
         }else {
             return "vous n'avez pas le droit d'effectuer cette operation";
@@ -167,10 +167,10 @@ public class OderControler {
 
     //11 attribution role a un membre du systeme
     @RequestMapping(value = "/giveRoleSystem", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object attribuRoleSystem(@RequestHeader("token") String token,@RequestBody roleToMembre roleToMembre, HttpServletResponse response) {
+    public Object attribuRoleSystem(@RequestHeader("authorization") String token,@RequestBody roleToMembre roleToMembre, HttpServletResponse response) {
 
 
-        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Attribution role système")) == 0) {
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role système")) == 0) {
             return bd.giveRole(roleToMembre.idRole,roleToMembre.idMembre);
         }else {
             return "vous n'avez pas le droit d'effectuer cette operation";
@@ -180,11 +180,11 @@ public class OderControler {
 
     //12.1 attribution permissions
     @RequestMapping(value = "/givePremission", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object attribuPermis(@RequestHeader("token") String token, @RequestBody List<permis> permis, HttpServletResponse response) {
+    public Object attribuPermis(@RequestHeader("authorization") String token, @RequestBody List<permis> permis, HttpServletResponse response) {
 
         List list = new ArrayList();
 
-        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Gestion syndicat")) == 0) {
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion syndicat")) == 0) {
 
             for (int i=0; i<permis.size(); i++){
                 list.add(bd.givePermission(permis.get(i).nom,permis.get(i).description,permis.get(i).idOrgane));
@@ -199,10 +199,10 @@ public class OderControler {
 
     //12.2 mise a jour info membres
     @RequestMapping(value = "/updateMembre", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object updatMember(@RequestHeader("token") String token, @RequestBody updateMember updateMember, HttpServletResponse response) {
+    public Object updatMember(@RequestHeader("authorization") String token, @RequestBody updateMember updateMember, HttpServletResponse response) {
 
 
-      /*  if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
+      /*  if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
             return bd.updateMembre(updateMember.id,updateMember.membre);
         }else {
             return "vous n'avez pas le droit d'effectuer cette operation";
@@ -213,10 +213,10 @@ public class OderControler {
 
     //14 mise a jour iinfo université
     @RequestMapping(value = "/updateUniversite", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object updatUniv(@RequestHeader("token") String token, @RequestBody upduniv univ, HttpServletResponse response) {
+    public Object updatUniv(@RequestHeader("authorization") String token, @RequestBody upduniv univ, HttpServletResponse response) {
 
 
-        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
             return bd.updateUniversite(univ.getId(),univ.getNom(),univ.getLocalisation(),univ.getLogo());
         }else {
             return "vous n'avez pas le droit d'effectuer cette operation";
@@ -226,10 +226,10 @@ public class OderControler {
 
     //15 mise a jour info role
     @RequestMapping(value = "/updateRole", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object updatRole(@RequestHeader("token") String token, @RequestBody updrole updrole , HttpServletResponse response) {
+    public Object updatRole(@RequestHeader("authorization") String token, @RequestBody updrole updrole , HttpServletResponse response) {
 
 
-        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
             return bd.updateRole(updrole.getId(),updrole.getNom(),updrole.getDescription(),updrole.getIdOrgane());
         }else {
             return "vous n'avez pas le droit d'effectuer cette operation";
@@ -239,10 +239,10 @@ public class OderControler {
 
     //16 mise a jour info organe
     @RequestMapping(value = "/updateOrgane", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object updatOrgane(@RequestHeader("token") String token, @RequestBody updorgane updorgane, HttpServletResponse response) {
+    public Object updatOrgane(@RequestHeader("authorization") String token, @RequestBody updorgane updorgane, HttpServletResponse response) {
 
 
-        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
             return bd.updateOrgane(updorgane.getId(),updorgane.getNom(),updorgane.getDescription(),updorgane.getFondAlloue(),updorgane.getIdUniv());
         }else {
             return "vous n'avez pas le droit d'effectuer cette operation";
