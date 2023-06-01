@@ -1,13 +1,13 @@
 package com.synes.util.gestionUtilisateur;
 
-public class upduniv {
+public class Universite {
     int id;
     String nom;
     String localisation;
     String logo;
 
-    public upduniv() {}
-    public upduniv(int id, String nom, String localisation, String logo) {
+    public Universite() {}
+    public Universite(int id, String nom, String localisation, String logo) {
         this.id = id;
         this.nom = nom;
         this.localisation = localisation;

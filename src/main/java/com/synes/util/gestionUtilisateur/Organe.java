@@ -1,21 +1,21 @@
 package com.synes.util.gestionUtilisateur;
 
-public class updorgane {
+public class Organe {
     int id;
     String nom;
     String description;
     int fondAlloue;
-    upduniv upduniv;
+    Universite universite;
 
-    public updorgane() {
+    public Organe() {
     }
 
-    public updorgane(int id, String nom, String description, int fondAlloue, com.synes.util.gestionUtilisateur.upduniv upduniv) {
+    public Organe(int id, String nom, String description, int fondAlloue, Universite Universite) {
         this.id = id;
         this.nom = nom;
         this.description = description;
         this.fondAlloue = fondAlloue;
-        this.upduniv = upduniv;
+        this.universite = Universite;
     }
 
     public int getId() {
@@ -50,11 +50,11 @@ public class updorgane {
         this.fondAlloue = fondAlloue;
     }
 
-    public upduniv getUpduniv() {
-        return upduniv;
+    public Universite getUniversite() {
+        return universite;
     }
 
-    public void setUpduniv(upduniv upduniv) {
-        this.upduniv = upduniv;
+    public void setUniversite(Universite universite) {
+        this.universite = universite;
     }
 }

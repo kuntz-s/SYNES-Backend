@@ -102,13 +102,13 @@ public class BaseDeDonnee {
 
             while(rs.next()){
                 membre.setMatricule(rs.getString("matricule"));
-                membre.setNom(rs.getString("nom"));
+                membre.setNoms(rs.getString("nom"));
                 membre.setPrenom(rs.getString("prenom"));
                 membre.setEmail(rs.getString("email"));
                 membre.setPhoto(rs.getString("photo"));
                 membre.setMotdepasse(rs.getString("motDePasse"));
-                membre.setUpduniv(getUniversityById(rs.getInt("idUniversite")));
-                membre.setUpdrole(getRoleById(rs.getInt("idRole")));
+                membre.setUniversite(getUniversityById(rs.getInt("idUniversite")));
+                membre.setRole(getRoleById(rs.getInt("idRole")));
                 membre.setDateInscription(rs.getDate("dateInscription"));
 
 
@@ -124,9 +124,9 @@ public class BaseDeDonnee {
         return membre;
 
     }
-    public upduniv getUniversityById(int id ){
+    public Universite getUniversityById(int id ){
 
-        upduniv upduniv = new upduniv();
+        Universite Universite = new Universite();
 
         try{
 
@@ -140,10 +140,10 @@ public class BaseDeDonnee {
 
 
             while(rs.next()){
-                upduniv.setId(rs.getInt("id"));
-                upduniv.setNom(rs.getString("nom"));
-                upduniv.setLocalisation(rs.getString("localisation"));
-                upduniv.setLogo(rs.getString("logo"));
+                Universite.setId(rs.getInt("id"));
+                Universite.setNom(rs.getString("nom"));
+                Universite.setLocalisation(rs.getString("localisation"));
+                Universite.setLogo(rs.getString("logo"));
             }
 
         }
@@ -152,12 +152,12 @@ public class BaseDeDonnee {
         }
         System.out.println("  get univ name");
 
-        return upduniv;
+        return Universite;
 
     }
-    public updrole getRoleById(int id ){
+    public Role getRoleById(int id ){
 
-        updrole updrole = new updrole();
+        Role Role = new Role();
 
         try{
 
@@ -171,10 +171,10 @@ public class BaseDeDonnee {
 
 
             while(rs.next()){
-                updrole.setId(rs.getInt("id"));
-                updrole.setNom(rs.getString("nom"));
-                updrole.setDescription(rs.getString("description"));
-                updrole.setUpdorgane(getOrganeById(rs.getInt("idOrgane")));
+                Role.setId(rs.getInt("id"));
+                Role.setNom(rs.getString("nom"));
+                Role.setDescription(rs.getString("description"));
+                Role.setOrgane(getOrganeById(rs.getInt("idOrgane")));
             }
 
         }
@@ -183,7 +183,7 @@ public class BaseDeDonnee {
         }
         System.out.println("  get role name");
 
-        return updrole;
+        return Role;
 
     }
     public List<String> getPermission(int idRole ){
@@ -211,7 +211,7 @@ public class BaseDeDonnee {
                 id = rs.getInt("idPermission");
 
                 System.out.println("permission id: "+id);
-                nom = getPermissionById(id);
+                nom = getPermissionById(id).getNom();
 
                 listPermissions.add(nom);
 
@@ -229,9 +229,10 @@ public class BaseDeDonnee {
         return listPermissions;
 
     }
-    public String getPermissionById(int id ){
+    public Permission getPermissionById(int id ){
 
-        String nom="";
+
+        Permission permission = new Permission();
 
         try{
 
@@ -240,12 +241,15 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `permissions` WHERE `id`='"+id+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `permissions` WHERE `id`='"+id+"'");
 
 
 
             while(rs.next()){
-                nom=rs.getString("nom");
+
+                permission.setId(rs.getInt("id"));
+                permission.setNom(rs.getString("nom"));
+                permission.setDescription(rs.getString("description"));
             }
 
         }
@@ -254,7 +258,7 @@ public class BaseDeDonnee {
         }
         System.out.println("  get permission name");
 
-        return nom;
+        return permission;
 
     }
 
@@ -325,11 +329,11 @@ public class BaseDeDonnee {
     }
 
     //1
-    public List<upduniv> getUniversitys(){
+    public List<Universite> getUniversitys(){
         System.out.println("  get univertys start");
         String nom="";
         int i=1;
-        List<upduniv> listUniv = new ArrayList<>();
+        List<Universite> listUniv = new ArrayList<>();
 
 
 
@@ -346,16 +350,16 @@ public class BaseDeDonnee {
 
 
             while(rs.next()){
-                upduniv upduniv = new upduniv();
+                Universite Universite = new Universite();
 
-                upduniv.setId(rs.getInt("id"));
-                upduniv.setNom(rs.getString("nom"));
-                upduniv.setLocalisation(rs.getString("localisation"));
-                upduniv.setLogo(rs.getString("logo"));
+                Universite.setId(rs.getInt("id"));
+                Universite.setNom(rs.getString("nom"));
+                Universite.setLocalisation(rs.getString("localisation"));
+                Universite.setLogo(rs.getString("logo"));
 
-                System.out.println("nom univ: "+upduniv.getNom());
+                System.out.println("nom univ: "+ Universite.getNom());
 
-                listUniv.add(upduniv);
+                listUniv.add(Universite);
 
 
                 System.out.println("univ n: "+i+" = "+nom);
@@ -373,10 +377,10 @@ public class BaseDeDonnee {
     }
 
     //2
-    public List<updorgane> getOrganes(){
+    public List<Organe> getOrganes(){
         System.out.println("  get organes start");
         int i=1;
-        List<updorgane> listOrganes = new ArrayList<>();
+        List<Organe> listOrganes = new ArrayList<>();
 
 
         try{
@@ -394,21 +398,21 @@ public class BaseDeDonnee {
             while(rs.next()){
 
 
-                updorgane updorgane = new updorgane();
+                Organe Organe = new Organe();
 
-                updorgane.setId(rs.getInt("id"));
-                updorgane.setNom(rs.getString("nom"));
-                updorgane.setDescription(rs.getString("description"));
-                updorgane.setFondAlloue(rs.getInt("fondAlloue"));
-                updorgane.setUpduniv(getUniversityById(rs.getInt("idUniversite")));
-
-
-                System.out.println("nom organe: "+updorgane.getNom());
-
-                listOrganes.add(updorgane);
+                Organe.setId(rs.getInt("id"));
+                Organe.setNom(rs.getString("nom"));
+                Organe.setDescription(rs.getString("description"));
+                Organe.setFondAlloue(rs.getInt("fondAlloue"));
+                Organe.setUniversite(getUniversityById(rs.getInt("idUniversite")));
 
 
-                System.out.println("organe n: "+i+" = "+updorgane.getNom());
+                System.out.println("nom organe: "+ Organe.getNom());
+
+                listOrganes.add(Organe);
+
+
+                System.out.println("organe n: "+i+" = "+ Organe.getNom());
                 i++;
             }
 
@@ -422,10 +426,10 @@ public class BaseDeDonnee {
     }
 
     //3.1
-    public List<updrole> getRoles(){
+    public List<Role> getRoles(){
         System.out.println("  get roles start");
         int i=1;
-        List<updrole> listRoles = new ArrayList<>();
+        List<Role> listRoles = new ArrayList<>();
 
 
         try{
@@ -443,19 +447,19 @@ public class BaseDeDonnee {
             while(rs.next()){
 
 
-                updrole updrole = new updrole();
+                Role Role = new Role();
 
-                updrole.setId(rs.getInt("id"));
-                updrole.setNom(rs.getString("nom"));
-                updrole.setDescription(rs.getString("description"));
-                updrole.setUpdorgane(getOrganeById(rs.getInt("idOrgane")));
+                Role.setId(rs.getInt("id"));
+                Role.setNom(rs.getString("nom"));
+                Role.setDescription(rs.getString("description"));
+                Role.setOrgane(getOrganeById(rs.getInt("idOrgane")));
 
-                System.out.println("nom univ: "+updrole.getNom());
+                System.out.println("nom univ: "+ Role.getNom());
 
-                listRoles.add(updrole);
+                listRoles.add(Role);
 
 
-                System.out.println("role n: "+i+" = "+updrole.getNom());
+                System.out.println("role n: "+i+" = "+ Role.getNom());
                 i++;
             }
 
@@ -469,10 +473,10 @@ public class BaseDeDonnee {
     }
 
     //3.2
-    public List<updrole> getRolesByOrganes(int idOrgane){
+    public List<Role> getRolesByOrganes(int idOrgane){
         System.out.println("  get role/id start");
         int i=1;
-        List<updrole> listRole = new ArrayList<>();
+        List<Role> listRole = new ArrayList<>();
 
 
 
@@ -490,19 +494,19 @@ public class BaseDeDonnee {
 
             while(rs.next()){
 
-                updrole updrole = new updrole();
+                Role Role = new Role();
 
-                updrole.setId(rs.getInt("id"));
-                updrole.setNom(rs.getString("nom"));
-                updrole.setDescription(rs.getString("description"));
-                updrole.setUpdorgane(getOrganeById(rs.getInt("idOrgane")));
+                Role.setId(rs.getInt("id"));
+                Role.setNom(rs.getString("nom"));
+                Role.setDescription(rs.getString("description"));
+                Role.setOrgane(getOrganeById(rs.getInt("idOrgane")));
 
-                System.out.println("nom role: "+updrole.getNom());
+                System.out.println("nom role: "+ Role.getNom());
 
-                listRole.add(updrole);
+                listRole.add(Role);
 
 
-                System.out.println("role n: "+i+" = "+updrole.getNom());
+                System.out.println("role n: "+i+" = "+ Role.getNom());
                 i++;
             }
 
@@ -540,25 +544,25 @@ public class BaseDeDonnee {
                 Membre membre = new Membre();
 
                 membre.setMatricule(rs.getString("matricule"));
-                membre.setNom(rs.getString("nom"));
+                membre.setNoms(rs.getString("nom"));
                 membre.setPrenom(rs.getString("prenom"));
                 membre.setEmail(rs.getString("email"));
                 membre.setPhoto(rs.getString("photo"));
                 membre.setMotdepasse(rs.getString("motDePasse"));
-                membre.setUpduniv(getUniversityById(rs.getInt("idUniversite")));
-                membre.setUpdrole(getRoleById(rs.getInt("idRole")));
+                membre.setUniversite(getUniversityById(rs.getInt("idUniversite")));
+                membre.setRole(getRoleById(rs.getInt("idRole")));
                 membre.setDateInscription(rs.getDate("dateInscription"));
 
                 updateMember.setId(rs.getInt("id"));
                 updateMember.setMembre(membre);
 
 
-                System.out.println("nom membre: "+updateMember.getMembre().getNom());
+                System.out.println("nom membre: "+updateMember.getMembre().getNoms());
 
                 listMembres.add(updateMember);
 
 
-                System.out.println("membre n: "+i+" = "+updateMember.getMembre().getNom());
+                System.out.println("membre n: "+i+" = "+updateMember.getMembre().getNoms());
                 i++;
             }
 
@@ -597,13 +601,13 @@ public class BaseDeDonnee {
                   Membre membre = new Membre();
 
                   membre.setMatricule(rs.getString("matricule"));
-                  membre.setNom(rs.getString("nom"));
+                  membre.setNoms(rs.getString("nom"));
                   membre.setPrenom(rs.getString("prenom"));
                   membre.setEmail(rs.getString("email"));
                   membre.setPhoto(rs.getString("photo"));
                   membre.setMotdepasse(rs.getString("motDePasse"));
-                  membre.setUpduniv(getUniversityById(rs.getInt("idUniversite")));
-                  membre.setUpdrole(getRoleById(rs.getInt("idRole")));
+                  membre.setUniversite(getUniversityById(rs.getInt("idUniversite")));
+                  membre.setRole(getRoleById(rs.getInt("idRole")));
                   membre.setDateInscription(rs.getDate("dateInscription"));
 
                   updateMember.setId(rs.getInt("id"));
@@ -611,12 +615,12 @@ public class BaseDeDonnee {
 
 
 
-                  System.out.println("nom membre: "+updateMember.getMembre().getNom());
+                  System.out.println("nom membre: "+updateMember.getMembre().getNoms());
 
                   listMembre.add(updateMember);
 
 
-                  System.out.println("membre n: "+i+" = "+updateMember.getMembre().getNom());
+                  System.out.println("membre n: "+i+" = "+updateMember.getMembre().getNoms());
                   i++;
               }
 
@@ -923,11 +927,9 @@ public class BaseDeDonnee {
     }
 
     //8
-    public int createRole(String nom, String description, String nomOrgane){
+    public int createRole(String nom, String description, int idOrgane){
         int rep=0,cnt=0;
         cnt=verif_double_role(nom);
-
-        int idOr = getOrganeId(nomOrgane);
 
 
         if(cnt==0){
@@ -938,7 +940,7 @@ public class BaseDeDonnee {
 
                 pst.setString(1, nom);
                 pst.setString(2, description);
-                pst.setInt(3, idOr);
+                pst.setInt(3, idOrgane);
 
                 pst.executeUpdate();
 
@@ -1004,7 +1006,7 @@ public class BaseDeDonnee {
 
        /* SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy;HH:mm:ss");
         Calendar calendar = Calendar.getInstance();*/
-        String motDePasse = newMembre.getMatricule()+"_SYNES_"+newMembre.getNom();
+        String motDePasse = newMembre.getMatricule()+"_SYNES_"+newMembre.getNoms();
 
         String encryptPws = passwordEncoder.encode(motDePasse);
 
@@ -1018,13 +1020,13 @@ public class BaseDeDonnee {
                 PreparedStatement pst=con.prepareStatement(query);
 
                 pst.setString(1, newMembre.getMatricule());
-                pst.setString(2, newMembre.getNom());
+                pst.setString(2, newMembre.getNoms());
                 pst.setString(3, newMembre.getPrenom());
                 pst.setString(4, newMembre.getEmail());
                 pst.setString(5, newMembre.getPhoto());
                 pst.setString(6,encryptPws);
-                pst.setInt(7, newMembre.getUpdrole().getId());
-                pst.setInt(8, newMembre.getUpduniv().getId());
+                pst.setInt(7, newMembre.getRole().getId());
+                pst.setInt(8, newMembre.getUniversite().getId());
                 pst.setObject(9,date);
                 pst.setObject(10,newMembre.getDateInscription());
 
@@ -1374,13 +1376,13 @@ public class BaseDeDonnee {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
             PreparedStatement pst=con.prepareStatement(query);
 
-            pst.setString(1, membre.getNom());
+            pst.setString(1, membre.getNoms());
             pst.setString(2, membre.getPrenom());
             pst.setString(3, membre.getEmail());
             pst.setString(4, membre.getPhoto());
             pst.setString(5, encryptPws);
-            pst.setInt(6,membre.getUpdrole().getId());
-            pst.setInt(7, membre.getUpduniv().getId());
+            pst.setInt(6,membre.getRole().getId());
+            pst.setInt(7, membre.getUniversite().getId());
             pst.setObject(8,membre.getDateInscription());
             pst.setInt(9,id);
 
@@ -1747,10 +1749,10 @@ public class BaseDeDonnee {
 
 
 
-    public updorgane getOrganeById(int id){
+    public Organe getOrganeById(int id){
         System.out.println("  get organes start");
 
-        updorgane updorgane = new updorgane();
+        Organe Organe = new Organe();
 
 
         try{
@@ -1767,11 +1769,11 @@ public class BaseDeDonnee {
             while(rs.next()){
 
 
-                updorgane.setId(rs.getInt("id"));
-                updorgane.setNom(rs.getString("nom"));
-                updorgane.setDescription(rs.getString("description"));
-                updorgane.setFondAlloue(rs.getInt("fondAlloue"));
-                updorgane.setUpduniv(getUniversityById(rs.getInt("idUniversite")));
+                Organe.setId(rs.getInt("id"));
+                Organe.setNom(rs.getString("nom"));
+                Organe.setDescription(rs.getString("description"));
+                Organe.setFondAlloue(rs.getInt("fondAlloue"));
+                Organe.setUniversite(getUniversityById(rs.getInt("idUniversite")));
 
             }
 
@@ -1781,8 +1783,106 @@ public class BaseDeDonnee {
         }
         System.out.println("  list well getted");
 
-        return updorgane;
+        return Organe;
     }
+
+
+
+
+
+
+    public List<Permission> getPermissions(){
+        System.out.println("  get roles start");
+        int i=1;
+        List<Permission> listPermissions = new ArrayList<>();
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `avoirpermission` ");
+
+
+
+            while(rs.next()){
+
+                Permission permission = new Permission();
+
+                int idPermis = rs.getInt("idPermission");
+                int idRole = rs.getInt("idRole");
+
+                permission.setId(getPermissionById(idPermis).getId());
+                permission.setNom(getPermissionById(idPermis).getNom());
+                permission.setDescription(getPermissionById(idPermis).getDescription());
+                permission.setRole(getRoleById(idRole));
+
+                System.out.println("nom permission: "+permission.getNom());
+
+                listPermissions.add(permission);
+
+
+                System.out.println("permission n: "+i+" = "+permission.getNom());
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listPermissions");
+        }
+        System.out.println("  list well getted");
+
+        return listPermissions;
+    }
+
+    public List<Permission> getPermissionsByRoles(int idRole) {
+            System.out.println("  get roles start");
+            int i=1;
+            List<Permission> listPermissions = new ArrayList<>();
+
+
+            try{
+
+                System.out.println(i);
+
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+                Statement stmt = con.createStatement();
+
+                ResultSet rs = stmt.executeQuery("SELECT * FROM `avoirpermission` WHERE `idRole`='"+idRole+"'");
+
+
+
+                while(rs.next()){
+
+
+                    int idPermis = rs.getInt("idPermission");
+                    int iddRole = rs.getInt("idRole");
+
+                    Permission permission = getPermissionById(idPermis);
+                    permission.setRole(getRoleById(iddRole));
+
+                    System.out.println("nom permission: "+permission.getNom());
+
+                    listPermissions.add(permission);
+
+
+                    System.out.println("permission n: "+i+" = "+permission.getNom());
+                    i++;
+                }
+
+            }
+            catch (Exception exc){
+                System.out.println(exc+"  error connect listPermissions");
+            }
+            System.out.println("  list well getted");
+
+            return listPermissions;
+        }
 
 }
 

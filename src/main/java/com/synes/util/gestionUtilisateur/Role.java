@@ -1,19 +1,19 @@
 package com.synes.util.gestionUtilisateur;
 
-public class updrole {
+public class Role {
     int id;
     String nom;
     String description;
-    updorgane updorgane;
+    Organe organe;
 
-    public updrole() {
+    public Role() {
     }
 
-    public updrole(int id, String nom, String description, com.synes.util.gestionUtilisateur.updorgane updorgane) {
+    public Role(int id, String nom, String description, Organe Organe) {
         this.id = id;
         this.nom = nom;
         this.description = description;
-        this.updorgane = updorgane;
+        this.organe = Organe;
     }
 
     public int getId() {
@@ -40,11 +40,11 @@ public class updrole {
         this.description = description;
     }
 
-    public updorgane getUpdorgane() {
-        return updorgane;
+    public Organe getOrgane() {
+        return organe;
     }
 
-    public void setUpdorgane(updorgane updorgane) {
-        this.updorgane = updorgane;
+    public void setOrgane(Organe organe) {
+        this.organe = organe;
     }
 }

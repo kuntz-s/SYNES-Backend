@@ -9,13 +9,13 @@ public class Membre {
     BaseDeDonnee baseDeDonnee = new BaseDeDonnee();
 
     String matricule;
-    String nom;
+    String noms;
     String prenom;
     String email;
     String photo;
     String motdepasse;
-    upduniv upduniv;
-    updrole updrole;
+    Universite universite;
+    Role role;
 
     Date dateInscription;
 
@@ -25,36 +25,36 @@ public class Membre {
 
     }
 
-    public Membre(String matricule, String nom, String prenom, String email, String photo, String motdepasse, upduniv upduniv, Date dateInscription) {
+    public Membre(String matricule, String noms, String prenom, String email, String photo, String motdepasse, Universite Universite, Date dateInscription) {
         this.matricule = matricule;
-        this.nom = nom;
+        this.noms = noms;
         this.prenom = prenom;
         this.email = email;
         this.photo = photo;
         this.motdepasse = motdepasse;
-        this.upduniv = upduniv;
+        this.universite = Universite;
         //this.idRole = baseDeDonnee.getRoleIdByUnivId(iduniversite);
         this.dateInscription = dateInscription;
     }
-    public Membre(String matricule, String nom, String prenom, String email, String photo, String motdepasse,updrole updrole, upduniv upduniv, Date dateInscription) {
+    public Membre(String matricule, String noms, String prenom, String email, String photo, String motdepasse, Role Role, Universite Universite, Date dateInscription) {
         this.matricule = matricule;
-        this.nom = nom;
+        this.noms = noms;
         this.prenom = prenom;
         this.email = email;
         this.photo = photo;
         this.motdepasse = motdepasse;
-        this.upduniv = upduniv;
-        this.updrole = updrole;
+        this.universite = Universite;
+        this.role = Role;
         this.dateInscription = dateInscription;
     }
-    public Membre(String matricule, String nom, String prenom, String email, String photo,updrole updrole, upduniv upduniv, Date dateInscription) {
+    public Membre(String matricule, String noms, String prenom, String email, String photo, Role Role, Universite Universite, Date dateInscription) {
         this.matricule = matricule;
-        this.nom = nom;
+        this.noms = noms;
         this.prenom = prenom;
         this.email = email;
         this.photo = photo;
-        this.upduniv = upduniv;
-        this.updrole = updrole;
+        this.universite = Universite;
+        this.role = Role;
         this.dateInscription = dateInscription;
     }
 
@@ -64,14 +64,6 @@ public class Membre {
 
     public void setMatricule(String matricule) {
         this.matricule = matricule;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
     }
 
     public String getPrenom() {
@@ -106,20 +98,28 @@ public class Membre {
         this.motdepasse = motdepasse;
     }
 
-    public com.synes.util.gestionUtilisateur.upduniv getUpduniv() {
-        return upduniv;
+    public String getNoms() {
+        return noms;
     }
 
-    public void setUpduniv(com.synes.util.gestionUtilisateur.upduniv upduniv) {
-        this.upduniv = upduniv;
+    public void setNoms(String noms) {
+        this.noms = noms;
     }
 
-    public com.synes.util.gestionUtilisateur.updrole getUpdrole() {
-        return updrole;
+    public Universite getUniversite() {
+        return universite;
     }
 
-    public void setUpdrole(com.synes.util.gestionUtilisateur.updrole updrole) {
-        this.updrole = updrole;
+    public void setUniversite(Universite universite) {
+        this.universite = universite;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Date getDateInscription() {

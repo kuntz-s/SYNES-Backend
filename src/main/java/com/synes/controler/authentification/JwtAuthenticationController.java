@@ -64,14 +64,14 @@ public class JwtAuthenticationController {
 			System.out.println("ce token est pour le user : "+jwtTokenUtil.getUsernameFromToken(token));
 			Membre leMembre = bd.searchUser(jwtTokenUtil.getUsernameFromToken(token));
 			System.out.println("membre"+leMembre);
-			String nomUniv = bd.getUniversityById(leMembre.getUpduniv().getId()).getNom();
+			String nomUniv = bd.getUniversityById(leMembre.getUniversite().getId()).getNom();
 			System.out.println("nomuniv"+nomUniv);
-			int idRole = leMembre.getUpdrole().getId();
+			int idRole = leMembre.getRole().getId();
 			System.out.println("id rol"+idRole);
-			List<String> listPermis = bd.getPermission(leMembre.getUpdrole().getId());
+			List<String> listPermis = bd.getPermission(leMembre.getRole().getId());
 			System.out.println("list permis"+listPermis);
 
-			useConnectInfo = new UseConnectInfo(token,leMembre, bd.getRoleById(leMembre.getUpdrole().getId()).getNom(),listPermis,nomUniv);
+			useConnectInfo = new UseConnectInfo(token,leMembre, bd.getRoleById(leMembre.getRole().getId()).getNom(),listPermis,nomUniv);
 			int truc = bd.AddConnectedMembre(useConnectInfo);
 			System.out.println("addconn"+truc);
 

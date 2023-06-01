@@ -37,12 +37,12 @@ class organe{
 class role{
     String nom;
     String description;
-    String nomOrgane;
+    int idOrgane;
 
-    public role(String nom, String description, String nomOrgane) {
+    public role(String nom, String description, int idOrgane) {
         this.nom = nom;
         this.description = description;
-        this.nomOrgane = nomOrgane;
+        this.idOrgane = idOrgane;
     }
 }
 
@@ -101,6 +101,20 @@ public class OderControler {
         return bd.getRolesByOrganes(idOrgane);
     }
 
+    // liste permissions
+    @RequestMapping(value = "/listePermissions", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object listePermis(){
+
+        return bd.getPermissions();
+    }
+
+    // liste permissions d'un roles
+    @RequestMapping(value = "/listePermissionsRole/{id}", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object listePermisRole(@PathVariable("id") int idRole){
+
+        return bd.getPermissionsByRoles(idRole);
+    }
+
     //4 liste des membres
     @RequestMapping(value = "/listeMembres", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
     public Object listeMembres(){
@@ -148,7 +162,7 @@ public class OderControler {
 
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
-            return bd.createRole(role.nom,role.description,role.nomOrgane);
+            return bd.createRole(role.nom,role.description,role.idOrgane);
         }else {
             response.setStatus(401);
             //throw new Error("user not found");
@@ -226,7 +240,7 @@ public class OderControler {
 
     //14 mise a jour iinfo université
     @RequestMapping(value = "/updateUniversite", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object updatUniv(@RequestHeader("authorization") String token, @RequestBody upduniv univ, HttpServletResponse response) {
+    public Object updatUniv(@RequestHeader("authorization") String token, @RequestBody Universite univ, HttpServletResponse response) {
 
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
@@ -241,11 +255,11 @@ public class OderControler {
 
     //15 mise a jour info role
     @RequestMapping(value = "/updateRole", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object updatRole(@RequestHeader("authorization") String token, @RequestBody updrole updrole , HttpServletResponse response) {
+    public Object updatRole(@RequestHeader("authorization") String token, @RequestBody Role Role, HttpServletResponse response) {
 
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
-            return bd.updateRole(updrole.getId(),updrole.getNom(),updrole.getDescription(),updrole.getUpdorgane().getId());
+            return bd.updateRole(Role.getId(), Role.getNom(), Role.getDescription(), Role.getOrgane().getId());
         }else {
             response.setStatus(401);
             //throw new Error("user not found");
@@ -256,11 +270,11 @@ public class OderControler {
 
     //16 mise a jour info organe
     @RequestMapping(value = "/updateOrgane", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object updatOrgane(@RequestHeader("authorization") String token, @RequestBody updorgane updorgane, HttpServletResponse response) {
+    public Object updatOrgane(@RequestHeader("authorization") String token, @RequestBody Organe Organe, HttpServletResponse response) {
 
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
-            return bd.updateOrgane(updorgane.getId(),updorgane.getNom(),updorgane.getDescription(),updorgane.getFondAlloue(),updorgane.getUpduniv().getId());
+            return bd.updateOrgane(Organe.getId(), Organe.getNom(), Organe.getDescription(), Organe.getFondAlloue(), Organe.getUniversite().getId());
         }else {
             response.setStatus(401);
             //throw new Error("user not found");
