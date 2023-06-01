@@ -4,16 +4,16 @@ public class updrole {
     int id;
     String nom;
     String description;
-    int idOrgane;
+    updorgane updorgane;
 
     public updrole() {
     }
 
-    public updrole(int id, String nom, String description, int idOrgane) {
+    public updrole(int id, String nom, String description, com.synes.util.gestionUtilisateur.updorgane updorgane) {
         this.id = id;
         this.nom = nom;
         this.description = description;
-        this.idOrgane = idOrgane;
+        this.updorgane = updorgane;
     }
 
     public int getId() {
@@ -40,11 +40,11 @@ public class updrole {
         this.description = description;
     }
 
-    public int getIdOrgane() {
-        return idOrgane;
+    public updorgane getUpdorgane() {
+        return updorgane;
     }
 
-    public void setIdOrgane(int idOrgane) {
-        this.idOrgane = idOrgane;
+    public void setUpdorgane(updorgane updorgane) {
+        this.updorgane = updorgane;
     }
 }

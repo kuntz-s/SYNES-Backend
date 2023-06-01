@@ -4,10 +4,11 @@ import com.synes.config.authentification.JwtTokenUtil;
 import com.synes.service.authentification.JwtUserDetailsService;
 import com.synes.service.gestionUtilisateur.EmailService;
 import com.synes.util.ApiError;
-import com.synes.util.gestionUtilisateur.Membre;
-import com.synes.util.gestionUtilisateur.UseConnectInfo;
 import com.synes.util.authentification.JwtRequest;
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
+import com.synes.util.gestionUtilisateur.Member;
+import com.synes.util.gestionUtilisateur.Membre;
+import com.synes.util.gestionUtilisateur.UseConnectInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -63,14 +64,14 @@ public class JwtAuthenticationController {
 			System.out.println("ce token est pour le user : "+jwtTokenUtil.getUsernameFromToken(token));
 			Membre leMembre = bd.searchUser(jwtTokenUtil.getUsernameFromToken(token));
 			System.out.println("membre"+leMembre);
-			String nomUniv = bd.getUniversityById(leMembre.getIduniversite());
+			String nomUniv = bd.getUniversityById(leMembre.getUpduniv().getId()).getNom();
 			System.out.println("nomuniv"+nomUniv);
-			int idRole = leMembre.getIdRole();
+			int idRole = leMembre.getUpdrole().getId();
 			System.out.println("id rol"+idRole);
-			List<String> listPermis = bd.getPermission(leMembre.getIdRole());
+			List<String> listPermis = bd.getPermission(leMembre.getUpdrole().getId());
 			System.out.println("list permis"+listPermis);
 
-			useConnectInfo = new UseConnectInfo(token,leMembre, bd.getRoleById(leMembre.getIdRole()),listPermis,nomUniv);
+			useConnectInfo = new UseConnectInfo(token,leMembre, bd.getRoleById(leMembre.getUpdrole().getId()).getNom(),listPermis,nomUniv);
 			int truc = bd.AddConnectedMembre(useConnectInfo);
 			System.out.println("addconn"+truc);
 
@@ -89,9 +90,10 @@ public class JwtAuthenticationController {
 
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
-	public Object saveUser(@RequestBody Membre user) throws Exception {
+	public Object saveUser(@RequestBody Member user) throws Exception {
+		Membre membre = new Membre(user.getMatricule(), user.getNom(), user.getPrenom(), user.getEmail(), user.getPhoto(), user.getMotdepasse(),bd.getRoleById(user.getIdRole()),bd.getUniversityById(user.getIduniversite()),user.getDateInscription());
 
-		if (bd.Add_Membre(user)==1) {
+		if (bd.Add_Membre(membre)==1) {
 
 			String motDePasse = user.getMatricule() + "_SYNES_" + user.getNom();
 

@@ -107,8 +107,8 @@ public class BaseDeDonnee {
                 membre.setEmail(rs.getString("email"));
                 membre.setPhoto(rs.getString("photo"));
                 membre.setMotdepasse(rs.getString("motDePasse"));
-                membre.setIduniversite(rs.getInt("idUniversite"));
-                membre.setIdRole(rs.getInt("idRole"));
+                membre.setUpduniv(getUniversityById(rs.getInt("idUniversite")));
+                membre.setUpdrole(getRoleById(rs.getInt("idRole")));
                 membre.setDateInscription(rs.getDate("dateInscription"));
 
 
@@ -124,9 +124,9 @@ public class BaseDeDonnee {
         return membre;
 
     }
-    public String getUniversityById(int id ){
+    public upduniv getUniversityById(int id ){
 
-        String nom="";
+        upduniv upduniv = new upduniv();
 
         try{
 
@@ -135,12 +135,15 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `universite` WHERE `id`='"+id+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `universite` WHERE `id`='"+id+"'");
 
 
 
             while(rs.next()){
-                nom=rs.getString("nom");
+                upduniv.setId(rs.getInt("id"));
+                upduniv.setNom(rs.getString("nom"));
+                upduniv.setLocalisation(rs.getString("localisation"));
+                upduniv.setLogo(rs.getString("logo"));
             }
 
         }
@@ -149,12 +152,12 @@ public class BaseDeDonnee {
         }
         System.out.println("  get univ name");
 
-        return nom;
+        return upduniv;
 
     }
-    public String getRoleById(int id ){
+    public updrole getRoleById(int id ){
 
-        String nom="";
+        updrole updrole = new updrole();
 
         try{
 
@@ -163,12 +166,15 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `role` WHERE `id`='"+id+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `role` WHERE `id`='"+id+"'");
 
 
 
             while(rs.next()){
-                nom=rs.getString("nom");
+                updrole.setId(rs.getInt("id"));
+                updrole.setNom(rs.getString("nom"));
+                updrole.setDescription(rs.getString("description"));
+                updrole.setUpdorgane(getOrganeById(rs.getInt("idOrgane")));
             }
 
         }
@@ -177,7 +183,7 @@ public class BaseDeDonnee {
         }
         System.out.println("  get role name");
 
-        return nom;
+        return updrole;
 
     }
     public List<String> getPermission(int idRole ){
@@ -394,7 +400,7 @@ public class BaseDeDonnee {
                 updorgane.setNom(rs.getString("nom"));
                 updorgane.setDescription(rs.getString("description"));
                 updorgane.setFondAlloue(rs.getInt("fondAlloue"));
-                updorgane.setIdUniv(rs.getInt("idUniversite"));
+                updorgane.setUpduniv(getUniversityById(rs.getInt("idUniversite")));
 
 
                 System.out.println("nom organe: "+updorgane.getNom());
@@ -442,7 +448,7 @@ public class BaseDeDonnee {
                 updrole.setId(rs.getInt("id"));
                 updrole.setNom(rs.getString("nom"));
                 updrole.setDescription(rs.getString("description"));
-                updrole.setIdOrgane(rs.getInt("idOrgane"));
+                updrole.setUpdorgane(getOrganeById(rs.getInt("idOrgane")));
 
                 System.out.println("nom univ: "+updrole.getNom());
 
@@ -489,7 +495,7 @@ public class BaseDeDonnee {
                 updrole.setId(rs.getInt("id"));
                 updrole.setNom(rs.getString("nom"));
                 updrole.setDescription(rs.getString("description"));
-                updrole.setIdOrgane(rs.getInt("idOrgane"));
+                updrole.setUpdorgane(getOrganeById(rs.getInt("idOrgane")));
 
                 System.out.println("nom role: "+updrole.getNom());
 
@@ -524,7 +530,7 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `membre` ");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `membre` ");
 
 
 
@@ -539,8 +545,8 @@ public class BaseDeDonnee {
                 membre.setEmail(rs.getString("email"));
                 membre.setPhoto(rs.getString("photo"));
                 membre.setMotdepasse(rs.getString("motDePasse"));
-                membre.setIduniversite(rs.getInt("idUniversite"));
-                membre.setIdRole(rs.getInt("idRole"));
+                membre.setUpduniv(getUniversityById(rs.getInt("idUniversite")));
+                membre.setUpdrole(getRoleById(rs.getInt("idRole")));
                 membre.setDateInscription(rs.getDate("dateInscription"));
 
                 updateMember.setId(rs.getInt("id"));
@@ -581,7 +587,7 @@ public class BaseDeDonnee {
 
               Statement stmt = con.createStatement();
 
-              ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `membre` WHERE `idOrgane`='"+idOrgane+"'");
+              ResultSet rs = stmt.executeQuery("SELECT * FROM `membre` WHERE `idOrgane`='"+idOrgane+"'");
 
 
 
@@ -596,8 +602,8 @@ public class BaseDeDonnee {
                   membre.setEmail(rs.getString("email"));
                   membre.setPhoto(rs.getString("photo"));
                   membre.setMotdepasse(rs.getString("motDePasse"));
-                  membre.setIduniversite(rs.getInt("idUniversite"));
-                  membre.setIdRole(rs.getInt("idRole"));
+                  membre.setUpduniv(getUniversityById(rs.getInt("idUniversite")));
+                  membre.setUpdrole(getRoleById(rs.getInt("idRole")));
                   membre.setDateInscription(rs.getDate("dateInscription"));
 
                   updateMember.setId(rs.getInt("id"));
@@ -1017,8 +1023,8 @@ public class BaseDeDonnee {
                 pst.setString(4, newMembre.getEmail());
                 pst.setString(5, newMembre.getPhoto());
                 pst.setString(6,encryptPws);
-                pst.setInt(7, newMembre.getIdRole());
-                pst.setInt(8, newMembre.getIduniversite());
+                pst.setInt(7, newMembre.getUpdrole().getId());
+                pst.setInt(8, newMembre.getUpduniv().getId());
                 pst.setObject(9,date);
                 pst.setObject(10,newMembre.getDateInscription());
 
@@ -1169,7 +1175,7 @@ public class BaseDeDonnee {
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
                 PreparedStatement pst=con.prepareStatement(query);
 
-                pst.setString(1, getRoleById(idRole));
+                pst.setString(1, getRoleById(idRole).getNom());
                 pst.setInt(2, idMembre);
 
                 pst.executeUpdate();
@@ -1373,8 +1379,8 @@ public class BaseDeDonnee {
             pst.setString(3, membre.getEmail());
             pst.setString(4, membre.getPhoto());
             pst.setString(5, encryptPws);
-            pst.setInt(6,membre.getIdRole());
-            pst.setInt(7, membre.getIduniversite());
+            pst.setInt(6,membre.getUpdrole().getId());
+            pst.setInt(7, membre.getUpduniv().getId());
             pst.setObject(8,membre.getDateInscription());
             pst.setInt(9,id);
 
@@ -1741,6 +1747,42 @@ public class BaseDeDonnee {
 
 
 
+    public updorgane getOrganeById(int id){
+        System.out.println("  get organes start");
+
+        updorgane updorgane = new updorgane();
+
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `organe` WHERE `id`='"+id+"'");
+
+
+
+            while(rs.next()){
+
+
+                updorgane.setId(rs.getInt("id"));
+                updorgane.setNom(rs.getString("nom"));
+                updorgane.setDescription(rs.getString("description"));
+                updorgane.setFondAlloue(rs.getInt("fondAlloue"));
+                updorgane.setUpduniv(getUniversityById(rs.getInt("idUniversite")));
+
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listOrganes");
+        }
+        System.out.println("  list well getted");
+
+        return updorgane;
+    }
 
 }
 

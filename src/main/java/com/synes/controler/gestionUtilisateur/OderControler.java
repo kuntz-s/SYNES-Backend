@@ -245,7 +245,7 @@ public class OderControler {
 
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
-            return bd.updateRole(updrole.getId(),updrole.getNom(),updrole.getDescription(),updrole.getIdOrgane());
+            return bd.updateRole(updrole.getId(),updrole.getNom(),updrole.getDescription(),updrole.getUpdorgane().getId());
         }else {
             response.setStatus(401);
             //throw new Error("user not found");
@@ -260,7 +260,7 @@ public class OderControler {
 
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
-            return bd.updateOrgane(updorgane.getId(),updorgane.getNom(),updorgane.getDescription(),updorgane.getFondAlloue(),updorgane.getIdUniv());
+            return bd.updateOrgane(updorgane.getId(),updorgane.getNom(),updorgane.getDescription(),updorgane.getFondAlloue(),updorgane.getUpduniv().getId());
         }else {
             response.setStatus(401);
             //throw new Error("user not found");

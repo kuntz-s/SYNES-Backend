@@ -5,17 +5,17 @@ public class updorgane {
     String nom;
     String description;
     int fondAlloue;
-    int idUniv;
+    upduniv upduniv;
 
     public updorgane() {
     }
 
-    public updorgane(int id, String nom, String description, int fondAlloue, int idUniv) {
+    public updorgane(int id, String nom, String description, int fondAlloue, com.synes.util.gestionUtilisateur.upduniv upduniv) {
         this.id = id;
         this.nom = nom;
         this.description = description;
         this.fondAlloue = fondAlloue;
-        this.idUniv = idUniv;
+        this.upduniv = upduniv;
     }
 
     public int getId() {
@@ -50,11 +50,11 @@ public class updorgane {
         this.fondAlloue = fondAlloue;
     }
 
-    public int getIdUniv() {
-        return idUniv;
+    public upduniv getUpduniv() {
+        return upduniv;
     }
 
-    public void setIdUniv(int idUniv) {
-        this.idUniv = idUniv;
+    public void setUpduniv(upduniv upduniv) {
+        this.upduniv = upduniv;
     }
 }

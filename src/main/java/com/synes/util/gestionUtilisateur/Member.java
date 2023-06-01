@@ -1,10 +1,34 @@
-
 package com.synes.util.gestionUtilisateur;
 
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
+
 import java.util.Date;
 
-public class Membre {
+
+
+
+/*
+{
+        "matricule":"1z1z1z",
+        "nom":"toto",
+        "prenom":"liu",
+        "email":"tot.liuàei.com",
+        "photo":"",
+        "iduniversite":1,
+        "idRole":1,
+        "dateInscription":"2023-05-22T14:19:35"
+        }
+
+
+        {
+    "email":"nzouetengmicaelle@gmail.com",
+    "password":"Micaelle4"
+}
+        */
+
+
+
+public class Member {
 
     BaseDeDonnee baseDeDonnee = new BaseDeDonnee();
 
@@ -14,47 +38,47 @@ public class Membre {
     String email;
     String photo;
     String motdepasse;
-    upduniv upduniv;
-    updrole updrole;
+    int iduniversite;
+    int idRole = baseDeDonnee.getRoleIdByUnivId(iduniversite);
 
     Date dateInscription;
 
 
 
-    public Membre() {
+    public Member() {
 
     }
 
-    public Membre(String matricule, String nom, String prenom, String email, String photo, String motdepasse, upduniv upduniv, Date dateInscription) {
+    public Member(String matricule, String nom, String prenom, String email, String photo, String motdepasse, int iduniversite, Date dateInscription) {
         this.matricule = matricule;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.photo = photo;
         this.motdepasse = motdepasse;
-        this.upduniv = upduniv;
-        //this.idRole = baseDeDonnee.getRoleIdByUnivId(iduniversite);
+        this.iduniversite = iduniversite;
+        this.idRole = baseDeDonnee.getRoleIdByUnivId(iduniversite);
         this.dateInscription = dateInscription;
     }
-    public Membre(String matricule, String nom, String prenom, String email, String photo, String motdepasse,updrole updrole, upduniv upduniv, Date dateInscription) {
+    public Member(String matricule, String nom, String prenom, String email, String photo, String motdepasse,int idRole, int iduniversite, Date dateInscription) {
         this.matricule = matricule;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.photo = photo;
         this.motdepasse = motdepasse;
-        this.upduniv = upduniv;
-        this.updrole = updrole;
+        this.iduniversite = iduniversite;
+        this.idRole = idRole;
         this.dateInscription = dateInscription;
     }
-    public Membre(String matricule, String nom, String prenom, String email, String photo,updrole updrole, upduniv upduniv, Date dateInscription) {
+    public Member(String matricule, String nom, String prenom, String email, String photo,int idRole, int iduniversite, Date dateInscription) {
         this.matricule = matricule;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.photo = photo;
-        this.upduniv = upduniv;
-        this.updrole = updrole;
+        this.iduniversite = iduniversite;
+        this.idRole = idRole;
         this.dateInscription = dateInscription;
     }
 
@@ -106,20 +130,23 @@ public class Membre {
         this.motdepasse = motdepasse;
     }
 
-    public com.synes.util.gestionUtilisateur.upduniv getUpduniv() {
-        return upduniv;
+    public int getIdRole() {
+        return idRole;
     }
 
-    public void setUpduniv(com.synes.util.gestionUtilisateur.upduniv upduniv) {
-        this.upduniv = upduniv;
+    public void setIdRole() {
+        this.idRole = baseDeDonnee.getRoleIdByUnivId(iduniversite);
+    }
+    public void setIdRole(int idRole) {
+        this.idRole = idRole;
     }
 
-    public com.synes.util.gestionUtilisateur.updrole getUpdrole() {
-        return updrole;
+    public int getIduniversite() {
+        return iduniversite;
     }
 
-    public void setUpdrole(com.synes.util.gestionUtilisateur.updrole updrole) {
-        this.updrole = updrole;
+    public void setIduniversite(int iduniversite) {
+        this.iduniversite = iduniversite;
     }
 
     public Date getDateInscription() {
