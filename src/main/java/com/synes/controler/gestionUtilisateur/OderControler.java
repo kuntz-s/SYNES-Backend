@@ -1,5 +1,6 @@
 package com.synes.controler.gestionUtilisateur;
 
+import com.synes.util.ApiError;
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
 import com.synes.util.gestionUtilisateur.*;
 import org.springframework.http.MediaType;
@@ -122,7 +123,9 @@ public class OderControler {
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
             return bd.createUniversity(newUniv.nom, newUniv.localisation, newUniv.logo);
         }else {
-            return "vous n'avez pas le droit d'effectuer cette operation";
+            response.setStatus(401);
+            //throw new Error("user not found");
+            return new ApiError(401,"vous n'avez pas le droit d'effectuer cette operation","Unauthorized");
         }
     }
 
@@ -133,7 +136,9 @@ public class OderControler {
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
             return bd.createOrgane(organe.nom,organe.description,organe.fondAlloue);
         }else {
-            return "vous n'avez pas le droit d'effectuer cette operation";
+            response.setStatus(401);
+            //throw new Error("user not found");
+            return new ApiError(401,"vous n'avez pas le droit d'effectuer cette operation","Unauthorized");
         }
     }
 
@@ -145,7 +150,9 @@ public class OderControler {
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
             return bd.createRole(role.nom,role.description,role.nomOrgane);
         }else {
-            return "vous n'avez pas le droit d'effectuer cette operation";
+            response.setStatus(401);
+            //throw new Error("user not found");
+            return new ApiError(401,"vous n'avez pas le droit d'effectuer cette operation","Unauthorized");
         }
     }
 
@@ -160,7 +167,9 @@ public class OderControler {
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
             return bd.giveRoleByOrgane(idOrgane, roleToMembre.idRole, roleToMembre.idMembre);
         }else {
-            return "vous n'avez pas le droit d'effectuer cette operation";
+            response.setStatus(401);
+            //throw new Error("user not found");
+            return new ApiError(401,"vous n'avez pas le droit d'effectuer cette operation","Unauthorized");
         }
 
     }
@@ -173,7 +182,9 @@ public class OderControler {
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role système")) == 0) {
             return bd.giveRole(roleToMembre.idRole,roleToMembre.idMembre);
         }else {
-            return "vous n'avez pas le droit d'effectuer cette operation";
+            response.setStatus(401);
+            //throw new Error("user not found");
+            return new ApiError(401,"vous n'avez pas le droit d'effectuer cette operation","Unauthorized");
         }
 
     }
@@ -192,7 +203,9 @@ public class OderControler {
 
             return list;
         }else {
-            return "vous n'avez pas le droit d'effectuer cette operation";
+            response.setStatus(401);
+            //throw new Error("user not found");
+            return new ApiError(401,"vous n'avez pas le droit d'effectuer cette operation","Unauthorized");
         }
 
     }
@@ -219,7 +232,9 @@ public class OderControler {
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
             return bd.updateUniversite(univ.getId(),univ.getNom(),univ.getLocalisation(),univ.getLogo());
         }else {
-            return "vous n'avez pas le droit d'effectuer cette operation";
+            response.setStatus(401);
+            //throw new Error("user not found");
+            return new ApiError(401,"vous n'avez pas le droit d'effectuer cette operation","Unauthorized");
         }
 
     }
@@ -232,7 +247,9 @@ public class OderControler {
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
             return bd.updateRole(updrole.getId(),updrole.getNom(),updrole.getDescription(),updrole.getIdOrgane());
         }else {
-            return "vous n'avez pas le droit d'effectuer cette operation";
+            response.setStatus(401);
+            //throw new Error("user not found");
+            return new ApiError(401,"vous n'avez pas le droit d'effectuer cette operation","Unauthorized");
         }
 
     }
@@ -245,7 +262,9 @@ public class OderControler {
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
             return bd.updateOrgane(updorgane.getId(),updorgane.getNom(),updorgane.getDescription(),updorgane.getFondAlloue(),updorgane.getIdUniv());
         }else {
-            return "vous n'avez pas le droit d'effectuer cette operation";
+            response.setStatus(401);
+            //throw new Error("user not found");
+            return new ApiError(401,"vous n'avez pas le droit d'effectuer cette operation","Unauthorized");
         }
 
     }
