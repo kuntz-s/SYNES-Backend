@@ -372,7 +372,6 @@ public class BaseDeDonnee {
         int i=1;
         List<updorgane> listOrganes = new ArrayList<>();
 
-        updorgane updorgane = new updorgane();
 
         try{
 
@@ -387,6 +386,9 @@ public class BaseDeDonnee {
 
 
             while(rs.next()){
+
+
+                updorgane updorgane = new updorgane();
 
                 updorgane.setId(rs.getInt("id"));
                 updorgane.setNom(rs.getString("nom"));
@@ -419,7 +421,6 @@ public class BaseDeDonnee {
         int i=1;
         List<updrole> listRoles = new ArrayList<>();
 
-        updrole updrole = new updrole();
 
         try{
 
@@ -434,6 +435,9 @@ public class BaseDeDonnee {
 
 
             while(rs.next()){
+
+
+                updrole updrole = new updrole();
 
                 updrole.setId(rs.getInt("id"));
                 updrole.setNom(rs.getString("nom"));
@@ -464,7 +468,6 @@ public class BaseDeDonnee {
         int i=1;
         List<updrole> listRole = new ArrayList<>();
 
-        updrole updrole = new updrole();
 
 
         try{
@@ -481,6 +484,7 @@ public class BaseDeDonnee {
 
             while(rs.next()){
 
+                updrole updrole = new updrole();
 
                 updrole.setId(rs.getInt("id"));
                 updrole.setNom(rs.getString("nom"));
@@ -511,8 +515,6 @@ public class BaseDeDonnee {
         int i=1;
         List<updateMember> listMembres = new ArrayList<>();
 
-        updateMember updateMember = new updateMember();
-        Membre membre = new Membre();
 
         try{
 
@@ -527,6 +529,9 @@ public class BaseDeDonnee {
 
 
             while(rs.next()){
+
+                updateMember updateMember = new updateMember();
+                Membre membre = new Membre();
 
                 membre.setMatricule(rs.getString("matricule"));
                 membre.setNom(rs.getString("nom"));
@@ -566,8 +571,6 @@ public class BaseDeDonnee {
           System.out.println("  get membre/organe start");
           int i=1;
           List<updateMember> listMembre = new ArrayList<>();
-          updateMember updateMember = new updateMember();
-          Membre membre = new Membre();
 
 
           try{
@@ -583,6 +586,9 @@ public class BaseDeDonnee {
 
 
               while(rs.next()){
+
+                  updateMember updateMember = new updateMember();
+                  Membre membre = new Membre();
 
                   membre.setMatricule(rs.getString("matricule"));
                   membre.setNom(rs.getString("nom"));
@@ -701,7 +707,7 @@ public class BaseDeDonnee {
         int rep=0;
 
         int fondA = 0;
-        String nomOr = "section"+nom;
+        String nomOr = "Section "+nom;
         String description = nomOr+" Organe du syndicat propre a l'université de "+nom;
         int univId = getUniversityId(nom);
 
@@ -742,7 +748,7 @@ public class BaseDeDonnee {
 
         int rep=0;
 
-        String nomRo = "membre"+nom;
+        String nomRo = "Membre "+nom;
         String description = "Membre du syndicat appartenant a l'université de "+nom;
         int organeId = getOrganeId(nom);
         System.out.println("l'id de l'organe du nouveau role: "+organeId);
