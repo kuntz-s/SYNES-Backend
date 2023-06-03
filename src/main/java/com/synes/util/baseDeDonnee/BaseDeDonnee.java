@@ -1805,7 +1805,7 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM `avoirpermission` ");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `permissions` ");
 
 
 
@@ -1813,13 +1813,9 @@ public class BaseDeDonnee {
 
                 Permission permission = new Permission();
 
-                int idPermis = rs.getInt("idPermission");
-                int idRole = rs.getInt("idRole");
-
-                permission.setId(getPermissionById(idPermis).getId());
-                permission.setNom(getPermissionById(idPermis).getNom());
-                permission.setDescription(getPermissionById(idPermis).getDescription());
-                permission.setRole(getRoleById(idRole));
+                permission.setId(rs.getInt("id"));
+                permission.setNom(rs.getString("nom"));
+                permission.setDescription(rs.getString("description"));
 
                 System.out.println("nom permission: "+permission.getNom());
 
