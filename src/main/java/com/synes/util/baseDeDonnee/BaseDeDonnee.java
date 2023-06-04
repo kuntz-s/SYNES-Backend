@@ -1232,20 +1232,17 @@ public class BaseDeDonnee {
     }
 
     //12.1
-    public int givePermission(String permission, String description, int idRole){
+    public Object givePermission(int idRole,int permission){
 
         int rep=0,cnt=0;
-        cnt=verif_double_permission(permission);
 
-
-        if(cnt==0){
             try{
-                String query="INSERT INTO `permission`(`nom`, `description`) VALUES  (?,?)";
+                String query="INSERT INTO `avoirpermission`(`idPermission`, `idRole`) VALUES  (?,?)";
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
                 PreparedStatement pst=con.prepareStatement(query);
 
-                pst.setString(1, permission);
-                pst.setString(2, description);
+                pst.setInt(1, permission);
+                pst.setInt(2, idRole);
 
                 pst.executeUpdate();
 
@@ -1257,39 +1254,31 @@ public class BaseDeDonnee {
             catch (Exception exc){
                 System.out.println(exc);
             }
-
-            if(rep==1){
-
-                givePermissionToRole(getIdPermission(permission),idRole);
-
+            if (rep==1){
+                return "insert idRole: "+idRole+"; idPermission: "+permission;
+            }else {
                 return 1;
-            }else{
-                return 0;
             }
-        }else{
-            System.out.println("this permission alrady exist");
 
-            return 0;
-        }
 
     }
-    public int givePermissionToRole(int idPermission, int idRole){
+   /* public int givePermissionToRole(int idPermission, int idRole){
 
         int rep=0;
 
 
             try{
-                String query="INSERT INTO `avoirpermission`(`idRole`, `idPermission`) VALUES  (?,?)";
+                String query="UPDATE `avoirpermission` SET `idPermission`=? WHERE `idRole` = ? ";
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
                 PreparedStatement pst=con.prepareStatement(query);
 
-                pst.setInt(1, idRole);
-                pst.setInt(2, idPermission);
+                pst.setInt(1, idPermission);
+                pst.setInt(2, idRole);
 
                 pst.executeUpdate();
 
 
-                System.out.println("register successfully");
+                System.out.println("successfully updated");
                 rep=1;
 
             }
@@ -1303,8 +1292,38 @@ public class BaseDeDonnee {
                 return 0;
             }
 
+    }*/
+    public int deletePermission(int id){
+
+        int rep=0;
+
+
+        try{
+            String query="DELETE FROM `avoirpermission` WHERE `idRole`=?";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setInt(1, id);
+
+            pst.executeUpdate();
+
+
+            System.out.println("successfully delete");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else{
+            return 1;
+        }
+
     }
-    public int verif_double_permission(String nom ){
+    /*public int verif_double_permission(int idPermis ){
 
         int h=0;
 
@@ -1315,7 +1334,7 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `permission` WHERE `nom`='"+nom+"'");
+            ResultSet rs = stmt.executeQuery("SELECT `idPermission` FROM `avoirpermission` WHERE `idPermission`='"+idPermis+"'");
 
 
 
@@ -1334,7 +1353,7 @@ public class BaseDeDonnee {
             return 1;
         }
 
-    }
+    }*/
     public int getIdPermission(String nom ){
 
         int id=0;
@@ -1538,14 +1557,14 @@ public class BaseDeDonnee {
             System.out.println(exc);
         }
 
-        if(h==1){
+        if(h>0){
             return 0;
         }else{
             return 1;
         }
 
     }
-    int getPermissionId(String nom){
+    /*int getPermissionId(String nom){
         System.out.println("  get perm id start");
         int id=0;
 
@@ -1573,11 +1592,10 @@ public class BaseDeDonnee {
         System.out.println("  id well getted");
 
         return id;
-    }
+    }*/
 
     public UseConnectInfo getCurrentUser(String token){
         UseConnectInfo useConnectInfo = new UseConnectInfo();
-
 
 
         try{
@@ -1598,12 +1616,13 @@ public class BaseDeDonnee {
                 useConnectInfo.setToken(rs.getString("token"));
 
 
-                System.out.println(useConnectInfo);
+                System.out.println("ttttt"+useConnectInfo.getNomRole());
             }
 
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
+            System.out.println("swfdxgfchvjbknlk,ml;ùmfhcgvjhbkjnlk,m 2");
         }
         System.out.println("  MemberConn well connect");
 

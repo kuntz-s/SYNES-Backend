@@ -56,14 +56,28 @@ class roleToMembre{
     }
 }
 class permis{
-    String nom;
-    String description;
-    int idOrgane;
+    int idRole;
+    List<Integer> newPermissions;
 
-    public permis(String nom, String description, int idOrgane) {
-        this.nom = nom;
-        this.description = description;
-        this.idOrgane = idOrgane;
+    public permis(int idRole, List<Integer> newPermissions) {
+        this.idRole = idRole;
+        this.newPermissions = newPermissions;
+    }
+
+    public int getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(int idRole) {
+        this.idRole = idRole;
+    }
+
+    public List<Integer> getNewPermissions() {
+        return newPermissions;
+    }
+
+    public void setNewPermissions(List<Integer> newPermissions) {
+        this.newPermissions = newPermissions;
     }
 }
 
@@ -205,14 +219,15 @@ public class OderControler {
 
     //12.1 attribution permissions
     @RequestMapping(value = "/givePremission", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object attribuPermis(@RequestHeader("authorization") String token, @RequestBody List<permis> permis, HttpServletResponse response) {
+    public Object attribuPermis(@RequestHeader("authorization") String token, @RequestBody permis permis, HttpServletResponse response) {
 
         List list = new ArrayList();
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion syndicat")) == 0) {
 
-            for (int i=0; i<permis.size(); i++){
-                list.add(bd.givePermission(permis.get(i).nom,permis.get(i).description,permis.get(i).idOrgane));
+            bd.deletePermission(permis.idRole);
+            for (int i=0; i<permis.newPermissions.size(); i++){
+                list.add(bd.givePermission(permis.idRole,permis.newPermissions.get(i)));
             }
 
             return list;
