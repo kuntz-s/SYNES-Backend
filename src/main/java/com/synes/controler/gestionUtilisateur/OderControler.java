@@ -110,7 +110,7 @@ public class OderControler {
 
     //3.2 liste roles d'un organe
     @RequestMapping(value = "/listeRoleOrgane/{id}", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object listeRoleOrgane(@PathVariable("id") int idOrgane){
+    public Object listeRoleOrgane(@PathVariable("id") int idOrgane, HttpServletResponse response){
 
         return bd.getRolesByOrganes(idOrgane);
     }
@@ -124,7 +124,7 @@ public class OderControler {
 
     // liste permissions d'un roles
     @RequestMapping(value = "/listePermissionsRole/{id}", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object listePermisRole(@PathVariable("id") int idRole){
+    public Object listePermisRole(@PathVariable("id") int idRole, HttpServletResponse response){
 
         return bd.getPermissionsByRoles(idRole);
     }
@@ -138,7 +138,7 @@ public class OderControler {
 
     //5 liste des membres d'un organe
     @RequestMapping(value = "/listeMembres/{id}", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object listeMembresOrgane(@RequestHeader("authorization") String token, @PathVariable("id") int idOrgane){
+    public Object listeMembresOrgane(@RequestHeader("authorization") String token, @PathVariable("id") int idOrgane, HttpServletResponse response){
 
         return bd.getMembresByOrganes(idOrgane,bd.getMemberOrgane(bd.getCurrentUser(token.substring(7)).getMembreId()));
     }
@@ -249,7 +249,15 @@ public class OderControler {
         }else {
             return "vous n'avez pas le droit d'effectuer cette operation";
         }*/
-        return bd.updateMembre(updateMember.getId(),updateMember.getMembre());
+
+        int result = bd.updateMembre(updateMember.getId(),updateMember.getMembre());
+
+        if(result==1){
+            response.setStatus(400);
+            return new ApiError(400,"une erreur est survenu","bad request");
+        }else{
+            return result;
+        }
 
     }
 
@@ -259,7 +267,15 @@ public class OderControler {
 
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
-            return bd.updateUniversite(univ.getId(),univ.getNom(),univ.getLocalisation(),univ.getLogo());
+
+            int result = bd.updateUniversite(univ.getId(),univ.getNom(),univ.getLocalisation(),univ.getLogo());
+
+            if(result==1){
+                response.setStatus(400);
+                return new ApiError(400,"une erreur est survenu","bad request");
+            }else{
+                return result;
+            }
         }else {
             response.setStatus(401);
             //throw new Error("user not found");
@@ -274,7 +290,14 @@ public class OderControler {
 
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
-            return bd.updateRole(Role.getId(), Role.getNom(), Role.getDescription(), Role.getOrgane().getId());
+            int result = bd.updateRole(Role.getId(), Role.getNom(), Role.getDescription(), Role.getOrgane().getId());
+
+            if(result==1){
+                response.setStatus(400);
+                return new ApiError(400,"une erreur est survenu","bad request");
+            }else{
+                return result;
+            }
         }else {
             response.setStatus(401);
             //throw new Error("user not found");
@@ -289,7 +312,15 @@ public class OderControler {
 
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
-            return bd.updateOrgane(Organe.getId(), Organe.getNom(), Organe.getDescription(), Organe.getFondAlloue(), Organe.getUniversite().getId());
+
+            int result = bd.updateOrgane(Organe.getId(), Organe.getNom(), Organe.getDescription(), Organe.getFondAlloue(), Organe.getUniversite().getId());
+
+            if(result==1){
+                response.setStatus(400);
+                return new ApiError(400,"une erreur est survenu","bad request");
+            }else{
+                return result;
+            }
         }else {
             response.setStatus(401);
             //throw new Error("user not found");
@@ -300,23 +331,44 @@ public class OderControler {
 
     //supprimer un role
     @RequestMapping(value = "/deleteRole/{id}", method = RequestMethod.DELETE, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object deleteRole(@RequestHeader("authorization") String token, @PathVariable("id") int id){
+    public Object deleteRole(@RequestHeader("authorization") String token, @PathVariable("id") int id, HttpServletResponse response){
 
-        return bd.deleteRole(id);
+        int result = bd.deleteRole(id);
+
+        if(result==1){
+            response.setStatus(400);
+            return new ApiError(400,"une erreur est survenu","bad request");
+        }else{
+            return result;
+        }
     }
 
     //supprimer un organe
     @RequestMapping(value = "/deleteOrgane/{id}", method = RequestMethod.DELETE, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object deleteOrgane(@RequestHeader("authorization") String token, @PathVariable("id") int id){
+    public Object deleteOrgane(@RequestHeader("authorization") String token, @PathVariable("id") int id, HttpServletResponse response){
 
-        return bd.deleteOrgane(id);
+        int result = bd.deleteOrgane(id);
+
+        if(result==1){
+            response.setStatus(400);
+            return new ApiError(400,"une erreur est survenu","bad request");
+        }else{
+            return result;
+        }
     }
 
     //supprimer une université
     @RequestMapping(value = "/deleteUniversity/{id}", method = RequestMethod.DELETE, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object deleteUniversity(@RequestHeader("authorization") String token, @PathVariable("id") int id){
+    public Object deleteUniversity(@RequestHeader("authorization") String token, @PathVariable("id") int id, HttpServletResponse response) {
 
-        return bd.deleteUniversite(id);
+        int result = bd.deleteUniversite(id);
+
+        if(result==1){
+            response.setStatus(400);
+            return new ApiError(400,"une erreur est survenu","bad request");
+        }else{
+            return result;
+        }
     }
 
 

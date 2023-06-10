@@ -1417,9 +1417,9 @@ public class BaseDeDonnee {
         }
 
         if(rep==1){
-            return 1;
-        }else {
             return 0;
+        }else {
+            return 1;
         }
 
     }
@@ -1443,6 +1443,7 @@ public class BaseDeDonnee {
 
 
             System.out.println("university successfully updated");
+            updateOrganeUniv(id,"Section "+nom);
             rep=1;
 
         }
@@ -1451,9 +1452,72 @@ public class BaseDeDonnee {
         }
 
         if(rep==1){
-            return 1;
-        }else {
             return 0;
+        }else {
+            return 1;
+        }
+
+    }
+    public int updateOrganeUniv( int idUniv,String nom){
+        int rep=0;
+
+        try{
+            String query="UPDATE `organe` SET `nom`=? WHERE `idUniversite` = ? ";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setString(1, nom);
+            pst.setInt(2, idUniv);
+
+            pst.executeUpdate();
+
+
+            System.out.println("organe successfully updated");
+
+            int idOrgane = getOrganeId(nom);
+            updateRoleUniv("Membre "+nom,idOrgane);
+
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else {
+            return 1;
+        }
+
+    }
+    public int updateRoleUniv(String nom, int idOrgane){
+        int rep=0;
+
+
+        try{
+            String query="UPDATE `role` SET `nom`=? WHERE `idOrgane` = ? ";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setString(1, nom);
+            pst.setInt(2, idOrgane);
+
+            pst.executeUpdate();
+
+
+            System.out.println("role successfully updated");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else {
+            return 1;
         }
 
     }
@@ -1485,9 +1549,9 @@ public class BaseDeDonnee {
         }
 
         if(rep==1){
-            return 1;
-        }else {
             return 0;
+        }else {
+            return 1;
         }
 
     }
@@ -1519,9 +1583,9 @@ public class BaseDeDonnee {
         }
 
         if(rep==1){
-            return 1;
-        }else {
             return 0;
+        }else {
+            return 1;
         }
 
     }
