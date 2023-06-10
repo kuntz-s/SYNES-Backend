@@ -298,7 +298,26 @@ public class OderControler {
 
     }
 
+    //supprimer un role
+    @RequestMapping(value = "/deleteRole/{id}", method = RequestMethod.DELETE, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object deleteRole(@RequestHeader("authorization") String token, @PathVariable("id") int id){
 
+        return bd.deleteRole(id);
+    }
+
+    //supprimer un organe
+    @RequestMapping(value = "/deleteOrgane/{id}", method = RequestMethod.DELETE, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object deleteOrgane(@RequestHeader("authorization") String token, @PathVariable("id") int id){
+
+        return bd.deleteOrgane(id);
+    }
+
+    //supprimer une université
+    @RequestMapping(value = "/deleteUniversity/{id}", method = RequestMethod.DELETE, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object deleteUniversity(@RequestHeader("authorization") String token, @PathVariable("id") int id){
+
+        return bd.deleteUniversite(id);
+    }
 
 
 

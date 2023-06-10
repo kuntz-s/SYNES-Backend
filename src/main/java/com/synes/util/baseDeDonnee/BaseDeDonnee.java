@@ -759,7 +759,7 @@ public class BaseDeDonnee {
         int rep=0;
 
         String nomRo = "Membre "+nom;
-        String description = "Membre du syndicat appartenant a l'université de "+nom;
+        String description = "Membre du syndicat appartenant a la  "+nom;
         int organeId = getOrganeId(nom);
         System.out.println("l'id de l'organe du nouveau role: "+organeId);
 
@@ -1526,8 +1526,6 @@ public class BaseDeDonnee {
 
     }
 
-
-
     public int verif_permission(int idRole, int idPermission){
 
         int h=0;
@@ -1766,8 +1764,6 @@ public class BaseDeDonnee {
         return id;
     }
 
-
-
     public Organe getOrganeById(int id){
         System.out.println("  get organes start");
 
@@ -1804,11 +1800,6 @@ public class BaseDeDonnee {
 
         return Organe;
     }
-
-
-
-
-
 
     public List<Permission> getPermissions(){
         System.out.println("  get roles start");
@@ -1898,6 +1889,299 @@ public class BaseDeDonnee {
 
             return listPermissions;
         }
+
+
+
+    //delete
+
+
+
+    public int getIdRoleByNom(String nomRole ){
+        int res = 0;
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `id` FROM `role` WHERE `nom`='"+nomRole+"'");
+
+
+
+            while(rs.next()){
+
+                res = rs.getInt("id");
+
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect");
+        }
+
+        return res;
+
+    }
+    public int updateRoleMembre(int idRole, int newRole){
+        int rep=0;
+
+
+        try{
+            String query="UPDATE `membre` SET `idRole`=? WHERE `idRole` = ? ";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setInt(1, newRole);
+            pst.setInt(2,idRole);
+
+            pst.executeUpdate();
+
+
+            System.out.println("member successfully updated");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 1;
+        }else {
+            return 0;
+        }
+
+    }
+
+    //supprimer une role
+    public int deleteRole(int id){
+
+        String nomRole = "Membre "+getOrganeById(getUniversityOrgane(id)).getNom();
+        int newRole = getIdRoleByNom(nomRole);
+        updateRoleMembre(id,newRole);
+
+        int rep=0;
+
+
+        try{
+            String query="DELETE FROM `role` WHERE `id`=?";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setInt(1, id);
+
+            pst.executeUpdate();
+
+
+            System.out.println("successfully deleted  the role");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
+    public int deleteRoleByOrgane(int id){
+
+        int rep=0;
+
+
+        try{
+            String query="DELETE FROM `role` WHERE `idOrgane`=?";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setInt(1, id);
+
+            pst.executeUpdate();
+
+
+            System.out.println("successfully deleted  the role");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
+
+    //supprimer une organe
+    public int deleteOrgane(int id){
+
+        int rep=0;
+        deleteRoleByOrgane(id);
+
+
+        try{
+            String query="DELETE FROM `organe` WHERE `id`=?";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setInt(1, id);
+
+            pst.executeUpdate();
+
+
+            System.out.println("successfully deleted the organe");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
+    public int getUniversityOrgane(int id){
+
+        int idOrg=0;
+        System.out.println("  get member organe start");
+
+        try{
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `idOrgane` FROM `organe`  WHERE `idUniversite`='"+id+"'");
+
+
+
+            while(rs.next()){
+                idOrg = rs.getInt("idOrgane");
+
+                System.out.println("id organe: "+idOrg);
+
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect id member organe");
+        }
+        System.out.println("  id well getted");
+
+        return idOrg;
+    }
+
+    /*recupère les role liez a une université début*/
+    public int getUniversityRole(int idUniv){
+
+        int idRole=0;
+        int idOrg=getUniversityOrgane(idUniv);
+        System.out.println("  get start");
+
+        try{
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `id` FROM `role`  WHERE `idOrgane`='"+idOrg+"'");
+
+
+
+            while(rs.next()){
+                idRole = rs.getInt("idOrgane");
+
+                System.out.println("id role: "+idRole);
+
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error ");
+        }
+        System.out.println("  id well getted");
+
+        return idRole;
+    }
+    /*recupère les role liez a une université fin*/
+    public int deleteOrganeByUniversity(int id){
+
+        int rep=0;
+        deleteRoleByOrgane(getUniversityOrgane(id));
+
+
+        try{
+            String query="DELETE FROM `organe` WHERE `idUniversite`=?";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setInt(1, id);
+
+            pst.executeUpdate();
+
+
+            System.out.println("successfully deleted the organe");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
+
+    //supprimer une université
+    public int deleteUniversite(int id){
+
+        deleteOrganeByUniversity(id);
+
+        int rep=0;
+
+
+        try{
+            String query="DELETE FROM `universite` WHERE `id`=?";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setInt(1, id);
+
+            pst.executeUpdate();
+
+
+            System.out.println("successfully deleted the university");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
 
 }
 
