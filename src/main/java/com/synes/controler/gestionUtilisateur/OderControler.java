@@ -258,7 +258,7 @@ public class OderControler {
     public Object updatUniv(@RequestHeader("authorization") String token, @RequestBody Universite univ, HttpServletResponse response) {
 
 
-        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
             return bd.updateUniversite(univ.getId(),univ.getNom(),univ.getLocalisation(),univ.getLogo());
         }else {
             response.setStatus(401);
@@ -273,7 +273,7 @@ public class OderControler {
     public Object updatRole(@RequestHeader("authorization") String token, @RequestBody Role Role, HttpServletResponse response) {
 
 
-        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
             return bd.updateRole(Role.getId(), Role.getNom(), Role.getDescription(), Role.getOrgane().getId());
         }else {
             response.setStatus(401);
@@ -288,7 +288,7 @@ public class OderControler {
     public Object updatOrgane(@RequestHeader("authorization") String token, @RequestBody Organe Organe, HttpServletResponse response) {
 
 
-        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
             return bd.updateOrgane(Organe.getId(), Organe.getNom(), Organe.getDescription(), Organe.getFondAlloue(), Organe.getUniversite().getId());
         }else {
             response.setStatus(401);
