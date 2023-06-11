@@ -33,6 +33,19 @@ class organe{
         this.fondAlloue = fondAlloue;
     }
 }
+class organes{
+    int id;
+    String nom;
+    String description;
+    int fondAlloue;
+
+    public organes(int id, String nom, String description, int fondAlloue) {
+        this.id = id;
+        this.nom = nom;
+        this.description = description;
+        this.fondAlloue = fondAlloue;
+    }
+}
 
 class role{
     String nom;
@@ -308,12 +321,12 @@ public class OderControler {
 
     //16 mise a jour info organe
     @RequestMapping(value = "/updateOrgane", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object updatOrgane(@RequestHeader("authorization") String token, @RequestBody Organe Organe, HttpServletResponse response) {
+    public Object updatOrgane(@RequestHeader("authorization") String token, @RequestBody organes organes, HttpServletResponse response) {
 
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
 
-            int result = bd.updateOrgane(Organe.getId(), Organe.getNom(), Organe.getDescription(), Organe.getFondAlloue(), Organe.getUniversite().getId());
+            int result = bd.updateOrgane(organes.id, organes.nom, organes.description, organes.fondAlloue);
 
             if(result==1){
                 response.setStatus(400);

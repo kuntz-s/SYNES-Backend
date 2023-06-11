@@ -1557,19 +1557,18 @@ public class BaseDeDonnee {
     }
 
     //16
-    public int updateOrgane(int id, String nom, String description,int fond, int idUniv){
+    public int updateOrgane(int id, String nom, String description,int fond){
         int rep=0;
 
         try{
-            String query="UPDATE `organe` SET `fondAlloue`=?,`description`=?,`nom`=?,`idUniversite`=? WHERE `id` = ? ";
+            String query="UPDATE `organe` SET `fondAlloue`=?,`description`=?,`nom`=? WHERE `id` = ? ";
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
             PreparedStatement pst=con.prepareStatement(query);
 
             pst.setInt(1, fond);
             pst.setString(2, description);
             pst.setString(3, nom);
-            pst.setInt(4, idUniv);
-            pst.setInt(5, id);
+            pst.setInt(4, id);
 
             pst.executeUpdate();
 
