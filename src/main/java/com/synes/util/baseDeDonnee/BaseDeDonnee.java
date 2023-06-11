@@ -1,5 +1,6 @@
 package com.synes.util.baseDeDonnee;
 
+import com.synes.util.gestionEvenement.Evenements;
 import com.synes.util.gestionUtilisateur.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -1954,10 +1955,7 @@ public class BaseDeDonnee {
         }
 
 
-
     //delete
-
-
 
     public int getIdRoleByNom(String nomRole ){
         int res = 0;
@@ -2231,6 +2229,180 @@ public class BaseDeDonnee {
 
 
             System.out.println("successfully deleted the university");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
+
+
+
+    public int getIdMemberByToken(String token){
+        System.out.println("  get membres start");
+        int id=0;
+
+
+        try{
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `id` FROM `membreconnected` WHERE `token` ='"+token+"'");
+
+
+
+            while(rs.next()){
+                id = rs.getInt("id");
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listMembres");
+        }
+        System.out.println("  user id well getted");
+
+        return id;
+    }
+
+
+    /////////////////////////* CRUD EVENEMENTS*///////////////////////////
+
+
+    public int createEvent(Evenements evenements){
+        int rep=0,cnt=0;
+        cnt=verif_double_event(evenements.getNom());
+
+
+
+        if(cnt==0){
+            try{
+                String query="INSERT INTO `evenement`(`nom`, `dateDebut`, `dateFin`, `description`, `idMembre`)  VALUES  (?,?,?,?,?)";
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+                PreparedStatement pst=con.prepareStatement(query);
+
+                pst.setString(1, evenements.getNom());
+                pst.setObject(2, evenements.getDateDebut());
+                pst.setObject(3, evenements.getDateFin());
+                pst.setString(4, evenements.getDescription());
+                pst.setInt(5, evenements.getIdMembre());
+
+                pst.executeUpdate();
+
+
+                System.out.println("register successfully");
+                rep=1;
+
+            }
+            catch (Exception exc){
+                System.out.println(exc);
+            }
+
+            if(rep==1){
+                return 0;
+            }else{
+                return 1;
+            }
+        }else{
+            System.out.println("this event alrady exist");
+
+            return 0;
+        }
+
+
+    }
+    public int verif_double_event(String nom ){
+
+        int h=0;
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `nom` FROM `evenement` WHERE `nom`='"+nom+"'");
+
+
+
+            while(rs.next()){
+                h=h+1;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(h==0){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
+
+    public int updateEvent(Evenements evenements){
+        int rep=0;
+
+        try{
+            String query="UPDATE `evenement` SET `nom`=?,`dateDebut`=?,`dateFin`=?,`description`=?,`idMembre`=? WHERE `id` = ? ";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setString(1, evenements.getNom());
+            pst.setObject(2, evenements.getDateDebut());
+            pst.setObject(3, evenements.getDateFin());
+            pst.setString(4, evenements.getDescription());
+            pst.setInt(5, evenements.getIdMembre());
+            pst.setInt(6, evenements.getId());
+
+            pst.executeUpdate();
+
+
+            System.out.println("event successfully updated");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else {
+            return 1;
+        }
+
+    }
+
+    public int deleteEvent(int id){
+
+        int rep=0;
+        deleteRoleByOrgane(id);
+
+
+        try{
+            String query="DELETE FROM `evenement` WHERE `id`=?";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setInt(1, id);
+
+            pst.executeUpdate();
+
+
+            System.out.println("successfully deleted the event");
             rep=1;
 
         }
