@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  lun. 29 mai 2023 à 02:30
+-- Généré le :  lun. 12 juin 2023 à 00:50
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  5.6.38
 
@@ -176,7 +176,8 @@ INSERT INTO `permissions` (`nom`, `description`, `id`) VALUES
 ('Gestion Syndicat', 'gérer tout ce qui concerne la création, modification, suppresion des roles, organes, universités', 1),
 ('Création membre', 'pouvoir créer un membre simplement avec le role par defaut Membre université', 2),
 ('Attributtion role organe', 'pouvoir attribuer un role à tout menbre de son organe uniquement', 3),
-('Attributtion role systeme', 'pouvoir attribuer un role à tout membre du systeme', 4);
+('Attributtion role systeme', 'pouvoir attribuer un role à tout membre du systeme', 4),
+('Gestion Evènement', 'Pouvoir manipuler les différents évènements du syndicat', 5);
 
 -- --------------------------------------------------------
 
@@ -425,7 +426,7 @@ ALTER TABLE `organe`
 -- AUTO_INCREMENT pour la table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `piecesjointes`
