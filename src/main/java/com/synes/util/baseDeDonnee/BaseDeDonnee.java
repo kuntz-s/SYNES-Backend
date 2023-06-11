@@ -2127,12 +2127,12 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT `idOrgane` FROM `organe`  WHERE `idUniversite`='"+id+"'");
+            ResultSet rs = stmt.executeQuery("SELECT `id` FROM `organe`  WHERE `idUniversite`='"+id+"'");
 
 
 
             while(rs.next()){
-                idOrg = rs.getInt("idOrgane");
+                idOrg = rs.getInt("id");
 
                 System.out.println("id organe: "+idOrg);
 
