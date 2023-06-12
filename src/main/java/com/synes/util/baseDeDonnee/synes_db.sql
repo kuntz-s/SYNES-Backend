@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  lun. 12 juin 2023 à 00:50
+-- Généré le :  lun. 12 juin 2023 à 19:09
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  5.6.38
 
@@ -35,6 +35,29 @@ CREATE TABLE `annonce` (
   `id` int(20) NOT NULL,
   `posteLe` datetime NOT NULL,
   `idMembre` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `avertissement`
+--
+
+CREATE TABLE `avertissement` (
+  `id` int(11) NOT NULL,
+  `raison` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `avoiravertissement`
+--
+
+CREATE TABLE `avoiravertissement` (
+  `id` int(11) NOT NULL,
+  `idMembre` int(11) NOT NULL,
+  `idAvertissement` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -90,15 +113,16 @@ CREATE TABLE `membre` (
   `id` int(20) NOT NULL,
   `idUniversite` int(20) NOT NULL,
   `dateCreation` datetime NOT NULL,
-  `dateInscription` datetime NOT NULL
+  `dateInscription` datetime NOT NULL,
+  `suspendu` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `membre`
 --
 
-INSERT INTO `membre` (`matricule`, `nom`, `prenom`, `email`, `photo`, `motDePasse`, `idRole`, `id`, `idUniversite`, `dateCreation`, `dateInscription`) VALUES
-('12x034euy1', 'tchuente', 'micaelle', 'nzouetengmicaelle@gmail.com', NULL, '$2a$10$/xuv7CJ4/7rCVJUYXU0YGe7br0gAsKiqNSsy20/DULDAgStpEXTHa', 1, 1, 1, '2023-05-22 14:19:35', '2010-10-10 10:10:10');
+INSERT INTO `membre` (`matricule`, `nom`, `prenom`, `email`, `photo`, `motDePasse`, `idRole`, `id`, `idUniversite`, `dateCreation`, `dateInscription`, `suspendu`) VALUES
+('12x034euy1', 'tchuente', 'micaelle', 'nzouetengmicaelle@gmail.com', NULL, '$2a$10$/xuv7CJ4/7rCVJUYXU0YGe7br0gAsKiqNSsy20/DULDAgStpEXTHa', 1, 1, 10, '2023-05-22 14:19:35', '2010-10-10 10:10:10', 0);
 
 -- --------------------------------------------------------
 
@@ -154,7 +178,8 @@ CREATE TABLE `organe` (
 --
 
 INSERT INTO `organe` (`id`, `fondAlloue`, `description`, `nom`, `idUniversite`) VALUES
-(1, 1000000, 'organe supreme du syndicat', 'congres', NULL);
+(1, 1000000, 'organe supreme du syndicat', 'congres', NULL),
+(11, 0, 'Section Université de yaoundé 1 Organe du syndicat propre a l\'université de Université de yaoundé 1', 'Section Université de yaoundé 1', 10);
 
 -- --------------------------------------------------------
 
@@ -177,7 +202,8 @@ INSERT INTO `permissions` (`nom`, `description`, `id`) VALUES
 ('Création membre', 'pouvoir créer un membre simplement avec le role par defaut Membre université', 2),
 ('Attributtion role organe', 'pouvoir attribuer un role à tout menbre de son organe uniquement', 3),
 ('Attributtion role systeme', 'pouvoir attribuer un role à tout membre du systeme', 4),
-('Gestion Evènement', 'Pouvoir manipuler les différents évènements du syndicat', 5);
+('Gestion Evènement', 'Pouvoir manipuler les différents évènements du syndicat', 5),
+('Gérer sanctions membres', 'Permet a celui qui la détient de pouvoir suspendre ou donner un avertissement à un membre', 6);
 
 -- --------------------------------------------------------
 
@@ -223,7 +249,8 @@ CREATE TABLE `role` (
 --
 
 INSERT INTO `role` (`nom`, `description`, `id`, `idOrgane`) VALUES
-('Secretaire Congres', 'porte parole de l\'organe du congres qui sera en charge la création des différents postes y relatifs et aussi des différentes universités participantes du SYNES', 1, 1);
+('Secretaire Congres', 'porte parole de l\'organe du congres qui sera en charge la création des différents postes y relatifs et aussi des différentes universités participantes du SYNES', 1, 1),
+('Membre Section Université de yaoundé 1', 'Membre du syndicat appartenant a la  Section Université de yaoundé 1', 18, 11);
 
 -- --------------------------------------------------------
 
@@ -271,7 +298,7 @@ CREATE TABLE `universite` (
 --
 
 INSERT INTO `universite` (`nom`, `localisation`, `logo`, `id`) VALUES
-('universite de yaounde 1', 'yaounde', NULL, 1);
+('Université de yaoundé 1', 'Yaoundé', NULL, 10);
 
 --
 -- Index pour les tables déchargées
@@ -283,6 +310,20 @@ INSERT INTO `universite` (`nom`, `localisation`, `logo`, `id`) VALUES
 ALTER TABLE `annonce`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fkmembre` (`idMembre`);
+
+--
+-- Index pour la table `avertissement`
+--
+ALTER TABLE `avertissement`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `avoiravertissement`
+--
+ALTER TABLE `avoiravertissement`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idme` (`idMembre`),
+  ADD KEY `idav` (`idAvertissement`);
 
 --
 -- Index pour la table `avoirpermission`
@@ -420,13 +461,13 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT pour la table `organe`
 --
 ALTER TABLE `organe`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT pour la table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `piecesjointes`
@@ -444,7 +485,7 @@ ALTER TABLE `recevoirnotification`
 -- AUTO_INCREMENT pour la table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT pour la table `soldebancaire`
@@ -462,7 +503,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT pour la table `universite`
 --
 ALTER TABLE `universite`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Contraintes pour les tables déchargées
@@ -473,6 +514,13 @@ ALTER TABLE `universite`
 --
 ALTER TABLE `annonce`
   ADD CONSTRAINT `fkmembre` FOREIGN KEY (`idMembre`) REFERENCES `membre` (`id`);
+
+--
+-- Contraintes pour la table `avoiravertissement`
+--
+ALTER TABLE `avoiravertissement`
+  ADD CONSTRAINT `idav` FOREIGN KEY (`idAvertissement`) REFERENCES `avertissement` (`id`),
+  ADD CONSTRAINT `idme` FOREIGN KEY (`idMembre`) REFERENCES `membre` (`id`);
 
 --
 -- Contraintes pour la table `avoirpermission`
