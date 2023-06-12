@@ -1026,7 +1026,7 @@ public class BaseDeDonnee {
                 pst.setString(4, newMembre.getEmail());
                 pst.setString(5, newMembre.getPhoto());
                 pst.setString(6,encryptPws);
-                pst.setInt(7, newMembre.getRole().getId());
+                pst.setInt(7, getRoleIdByUnivId(newMembre.getUniversite().getId()));
                 pst.setInt(8, newMembre.getUniversite().getId());
                 pst.setObject(9,date);
                 pst.setObject(10,newMembre.getDateInscription());
