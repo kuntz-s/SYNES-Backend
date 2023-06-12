@@ -25,15 +25,14 @@ public class Membre {
 
     }
 
-    public Membre(String matricule, String noms, String prenom, String email, String photo, String motdepasse, Universite Universite, Date dateInscription) {
+    public Membre(String matricule, String noms, String prenom, String email, String photo, Universite Universite, Date dateInscription) {
         this.matricule = matricule;
         this.noms = noms;
         this.prenom = prenom;
         this.email = email;
         this.photo = photo;
-        this.motdepasse = motdepasse;
         this.universite = Universite;
-        //this.idRole = baseDeDonnee.getRoleIdByUnivId(iduniversite);
+        this.role = baseDeDonnee.getRoleById(baseDeDonnee.getRoleIdByUnivId(universite.getId()));
         this.dateInscription = dateInscription;
     }
     public Membre(String matricule, String noms, String prenom, String email, String photo, String motdepasse, Role Role, Universite Universite, Date dateInscription) {

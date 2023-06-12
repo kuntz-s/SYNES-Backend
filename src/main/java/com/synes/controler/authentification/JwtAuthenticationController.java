@@ -91,7 +91,7 @@ public class JwtAuthenticationController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
 	public Object saveUser(@RequestBody Member user) throws Exception {
-		Membre membre = new Membre(user.getMatricule(), user.getNom(), user.getPrenom(), user.getEmail(), user.getPhoto(), user.getMotdepasse(),bd.getRoleById(user.getIdRole()),bd.getUniversityById(user.getIduniversite()),user.getDateInscription());
+		Membre membre = new Membre(user.getMatricule(), user.getNom(), user.getPrenom(), user.getEmail(), user.getPhoto(),bd.getUniversityById(user.getIduniversite()),user.getDateInscription());
 
 		if (bd.Add_Membre(membre)==1) {
 

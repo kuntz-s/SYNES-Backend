@@ -182,7 +182,7 @@ public class BaseDeDonnee {
         catch (Exception exc){
             System.out.println(exc+"  error connect");
         }
-        System.out.println("  get role name");
+        System.out.println("  get role info ; id = "+Role.getId());
 
         return Role;
 
@@ -295,7 +295,7 @@ public class BaseDeDonnee {
         catch (Exception exc){
             System.out.println(exc+"  error connect");
         }
-        System.out.println("  get role id");
+        System.out.println("  get role id = " +rid);
 
         return rid;
 
@@ -323,7 +323,7 @@ public class BaseDeDonnee {
         catch (Exception exc){
             System.out.println(exc+"  error connect");
         }
-        System.out.println("  get organe id");
+        System.out.println("  get organe id = "+oid);
 
         return oid;
 
@@ -671,14 +671,14 @@ public class BaseDeDonnee {
 
                 creatUniversityOrgane(nom);
 
-                return 1;
-            }else{
                 return 0;
+            }else{
+                return 1;
             }
         }else{
             System.out.println("this university alrady exist");
 
-            return 0;
+            return 1;
         }
 
     }
@@ -1026,7 +1026,8 @@ public class BaseDeDonnee {
                 pst.setString(4, newMembre.getEmail());
                 pst.setString(5, newMembre.getPhoto());
                 pst.setString(6,encryptPws);
-                pst.setInt(7, getRoleIdByUnivId(newMembre.getUniversite().getId()));
+                pst.setInt(7, newMembre.getRole().getId());
+                System.out.println("l'id role: "+ newMembre.getRole().getId());
                 pst.setInt(8, newMembre.getUniversite().getId());
                 pst.setObject(9,date);
                 pst.setObject(10,newMembre.getDateInscription());

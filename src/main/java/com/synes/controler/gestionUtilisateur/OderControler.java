@@ -161,8 +161,19 @@ public class OderControler {
     public Object creerUniv(@RequestHeader("authorization") String token, @RequestBody() univ newUniv, HttpServletResponse response) {
         System.out.println(newUniv.nom+" mmmmm "+ newUniv.localisation+" mmmmm "+ newUniv.logo );
 
+
+
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Syndicat")) == 0) {
-            return bd.createUniversity(newUniv.nom, newUniv.localisation, newUniv.logo);
+
+            int result = bd.createUniversity(newUniv.nom, newUniv.localisation, newUniv.logo);
+
+            if(result==1){
+                response.setStatus(400);
+                return new ApiError(400,"une erreur est survenu","bad request");
+            }else{
+                return result;
+            }
+
         }else {
             response.setStatus(401);
             //throw new Error("user not found");
