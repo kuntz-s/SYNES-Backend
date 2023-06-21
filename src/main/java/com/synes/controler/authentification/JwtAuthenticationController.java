@@ -90,7 +90,7 @@ public class JwtAuthenticationController {
 
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
-	public Object saveUser(@RequestBody Member user) throws Exception {
+	public Object saveUser(@RequestBody Member user, HttpServletResponse response) throws Exception {
 		Membre membre = new Membre(user.getMatricule(), user.getNom(), user.getPrenom(), user.getEmail(), user.getPhoto(),bd.getUniversityById(user.getIduniversite()),user.getDateInscription());
 
 		if (bd.Add_Membre(membre)==1) {
@@ -102,9 +102,11 @@ public class JwtAuthenticationController {
 					"NOTIFICATION D'AJOUT AU SYTEME EN LIGNE DU SYNES",
 					"Monsieur/Madame " + user.getNom() + " " + user.getPrenom() + ",\n Bienvenu dans la plateforme SYNES,\n votre compte viens d'être créé et \n vos informations de connexion sont:  \n email: " + user.getEmail() + " \n password: " + motDePasse+" \n\n Vous pouvez modifier votre mot de passe\n dans la section profil une fois connecté"
 			);*/
-			return 1;
+			return membre;
 		}else {
-			return 0;
+			response.setStatus(400);
+			return new ApiError(400,"une erreur est survenu","bad request");
+
 		}
 	}
 
