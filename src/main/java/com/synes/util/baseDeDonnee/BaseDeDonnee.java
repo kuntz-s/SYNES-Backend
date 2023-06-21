@@ -1,5 +1,6 @@
 package com.synes.util.baseDeDonnee;
 
+import com.synes.util.Notification;
 import com.synes.util.gestionEvenement.Evenements;
 import com.synes.util.gestionUtilisateur.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -2553,14 +2554,93 @@ public class BaseDeDonnee {
 
 
 
-    /////////////////////////* CRUD EVENEMENTS*///////////////////////////
+    /////////////////////////* NOTIFICAION *///////////////////////////
 
+    public int createNotif(Notification notification){
+        System.out.println("creat notif start");
+        int rep=0,cnt=0;
+
+        try{
+            String query="INSERT INTO `notification`(`typeMessage`, `envoyéLe`, `contenu`)   VALUES  (?,?,?)";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setString(1, notification.getTypeMessage());
+            pst.setObject(2, notification.getEnvoyéLe());
+            pst.setString(3, notification.getContenu());
+
+            pst.executeUpdate();
+
+
+            System.out.println("register successfully");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
+
+    public List<Notification> getNotifs(){
+        System.out.println("  get notif start");
+        int i=1;
+        List<Notification> listNotifs = new ArrayList<>();
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `notification` ");
+
+
+
+            while(rs.next()){
+
+                Notification notification = new Notification();
+
+                notification.setId(rs.getInt("id"));
+                notification.setTypeMessage(rs.getString("typeMessage"));
+                notification.setEnvoyéLe(rs.getDate("envoyéLe"));
+                notification.setContenu(rs.getString("contenu"));
+
+                System.out.println(" Notif : "+notification.getTypeMessage());
+
+                listNotifs.add(notification);
+
+
+                System.out.println("notif n: "+i+" = "+notification.getTypeMessage());
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listNotifs");
+        }
+        System.out.println("  list well getted");
+
+        return listNotifs;
+    }
+
+
+
+    /////////////////////////* CRUD EVENEMENTS *///////////////////////////
 
     public int createEvent(Evenements evenements){
+        System.out.println("creat event start");
         int rep=0,cnt=0;
         cnt=verif_double_event(evenements.getNom());
-
-
 
         if(cnt==0){
             try{
@@ -2599,6 +2679,7 @@ public class BaseDeDonnee {
 
 
     }
+
     public int verif_double_event(String nom ){
 
         int h=0;
