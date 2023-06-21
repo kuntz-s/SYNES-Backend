@@ -77,6 +77,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/updateUniversite").permitAll()
 				.antMatchers("/updateRole").permitAll()
 				.antMatchers("/updateOrgane").permitAll()
+				.antMatchers("/listeEvents").permitAll()
+				.antMatchers("/createEvent").permitAll()
+				.antMatchers("/updateEvent").permitAll()
+				.antMatchers("/deleteEvent/{id}").permitAll()
 				.antMatchers("/listePermissions").permitAll()
 				.antMatchers("/listePermissionsRole/{id}").permitAll()
 				// all other requests need to be authenticated
