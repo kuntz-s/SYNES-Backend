@@ -1,8 +1,10 @@
 package com.synes.controler.gestionUtilisateur;
 
+import com.synes.service.gestionUtilisateur.EmailService;
 import com.synes.util.ApiError;
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
 import com.synes.util.gestionUtilisateur.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -98,6 +100,10 @@ class permis{
 public class OderControler {
 
     BaseDeDonnee bd = new BaseDeDonnee();
+
+
+    @Autowired
+    private EmailService emailService;
 
 
     //1 liste université
@@ -395,6 +401,100 @@ public class OderControler {
         }
     }
 
+    //donner un avertissement
+    @RequestMapping(value = "/giveAvertissement", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object giveAvertissement(@RequestHeader("authorization") String token,@RequestBody Avertissement avertissement, HttpServletResponse response){
 
+
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gérer sanctions membres")) == 0) {
+
+            Membre membre = bd.getMemberById(avertissement.getIdMembre());
+            int result = bd.giveAvertissement(avertissement);
+
+            if(result==1){
+                response.setStatus(400);
+                return new ApiError(400,"une erreur est survenu","bad request");
+            }else{
+
+                /*this.emailService.sendMessage(
+                        membre.getEmail(),
+                        "NOTIFICATION AVERTISSEMENT",
+                        "Monsieur/Madame " + membre.getNoms() + " " + membre.getPrenom() + ",\n Vous recevez un avertissement pour "+bd.getAvertissementById(avertissement.getId())
+                );*/
+
+                return result+" MEMBRE AVERTIS";
+            }
+
+        }else {
+            response.setStatus(401);
+            //throw new Error("user not found");
+            return new ApiError(401,"vous n'avez pas le droit d'effectuer cette operation","Unauthorized");
+        }
+    }
+
+    // liste des avertissements attribuer
+    @RequestMapping(value = "/listeAvertissements", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object listeAvertissements(){
+
+        return bd.listAvertissements();
+    }
+
+    // suspenssion/réabilitation d'un membre
+    @RequestMapping(value = "/suspension/{id}", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object suspension(@RequestHeader("authorization") String token, @PathVariable("id") int id, HttpServletResponse response) {
+
+        Membre membre = bd.getMemberById(id);
+
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gérer sanctions membres")) == 0) {
+
+            int isSupendu = bd.getMemberById(id).getSuspendu();
+
+            if (isSupendu==0){
+                int result = bd.suspendreMembre(id);
+
+                if(result==1){
+                    response.setStatus(400);
+                    return new ApiError(400,"une erreur est survenu","bad request");
+                }else{
+
+                    /*this.emailService.sendMessage(
+                            membre.getEmail(),
+                            "NOTIFICATION DE SUSPENTION",
+                            "Monsieur/Madame " + membre.getNoms() + " " + membre.getPrenom() + ",\n Vous avez êtes suspendu  "
+                    );*/
+
+                    return result+" SUSPENDU";
+                }
+            }else {
+                int result = bd.reabiliterMembre(id);
+
+                if(result==1){
+                    response.setStatus(400);
+                    return new ApiError(400,"une erreur est survenu","bad request");
+                }else{
+
+                    /*this.emailService.sendMessage(
+                            membre.getEmail(),
+                            "NOTIFICATION REABILITATION",
+                            "Monsieur/Madame " + membre.getNoms() + " " + membre.getPrenom() + ",\n Vous êtes réabilité "
+                    );*/
+
+                    return result+" REABILITE";
+                }
+            }
+        }else {
+            response.setStatus(401);
+            //throw new Error("user not found");
+            return new ApiError(401,"vous n'avez pas le droit d'effectuer cette operation","Unauthorized");
+        }
+
+    }
+
+    // liste des suspendu
+    @RequestMapping(value = "/listeSuspendu", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object listeSuspendu(){
+
+        return bd.listSuspention();
+    }
 
 }

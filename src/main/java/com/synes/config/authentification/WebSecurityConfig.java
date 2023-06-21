@@ -83,6 +83,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/deleteEvent/{id}").permitAll()
 				.antMatchers("/listePermissions").permitAll()
 				.antMatchers("/listePermissionsRole/{id}").permitAll()
+				.antMatchers("/giveAvertissement").permitAll()
+				.antMatchers("/listeAvertissements").permitAll()
+				.antMatchers("/suspension/{id}").permitAll()
+				.antMatchers("/listeSuspendu").permitAll()
 				// all other requests need to be authenticated
 				.anyRequest().authenticated().and().
 				// make sure we use stateless session; session won't be used to

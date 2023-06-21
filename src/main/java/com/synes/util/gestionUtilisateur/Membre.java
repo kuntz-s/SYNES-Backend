@@ -16,6 +16,7 @@ public class Membre {
     String motdepasse;
     Universite universite;
     Role role;
+    int suspendu;
 
     Date dateInscription;
 
@@ -54,6 +55,20 @@ public class Membre {
         this.photo = photo;
         this.universite = Universite;
         this.role = Role;
+        this.dateInscription = dateInscription;
+    }
+
+    public Membre(BaseDeDonnee baseDeDonnee, String matricule, String noms, String prenom, String email, String photo, String motdepasse, Universite universite, Role role, int suspendu, Date dateInscription) {
+        this.baseDeDonnee = baseDeDonnee;
+        this.matricule = matricule;
+        this.noms = noms;
+        this.prenom = prenom;
+        this.email = email;
+        this.photo = photo;
+        this.motdepasse = motdepasse;
+        this.universite = universite;
+        this.role = role;
+        this.suspendu = suspendu;
         this.dateInscription = dateInscription;
     }
 
@@ -127,5 +142,13 @@ public class Membre {
 
     public void setDateInscription(Date dateInscription) {
         this.dateInscription = dateInscription;
+    }
+
+    public int getSuspendu() {
+        return suspendu;
+    }
+
+    public void setSuspendu(int suspendu) {
+        this.suspendu = suspendu;
     }
 }

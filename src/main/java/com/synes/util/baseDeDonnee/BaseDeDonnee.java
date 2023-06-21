@@ -111,6 +111,7 @@ public class BaseDeDonnee {
                 membre.setUniversite(getUniversityById(rs.getInt("idUniversite")));
                 membre.setRole(getRoleById(rs.getInt("idRole")));
                 membre.setDateInscription(rs.getDate("dateInscription"));
+                membre.setSuspendu(rs.getInt("suspendu"));
 
 
                 System.out.println(membre);
@@ -553,6 +554,7 @@ public class BaseDeDonnee {
                 membre.setUniversite(getUniversityById(rs.getInt("idUniversite")));
                 membre.setRole(getRoleById(rs.getInt("idRole")));
                 membre.setDateInscription(rs.getDate("dateInscription"));
+                membre.setSuspendu(rs.getInt("suspendu"));
 
                 updateMember.setId(rs.getInt("id"));
                 updateMember.setMembre(membre);
@@ -610,6 +612,7 @@ public class BaseDeDonnee {
                   membre.setUniversite(getUniversityById(rs.getInt("idUniversite")));
                   membre.setRole(getRoleById(rs.getInt("idRole")));
                   membre.setDateInscription(rs.getDate("dateInscription"));
+                  membre.setSuspendu(rs.getInt("suspendu"));
 
                   updateMember.setId(rs.getInt("id"));
                   updateMember.setMembre(membre);
@@ -1157,6 +1160,51 @@ public class BaseDeDonnee {
         System.out.println("  id well getted");
 
         return idOrg;
+    }
+    public Membre getMemberById(int id){
+
+        System.out.println("  get member organe start");
+
+        Membre membre = new Membre();
+
+        try{
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `membre`  WHERE `id`='"+id+"'");
+
+
+
+            while(rs.next()){
+
+
+                membre.setMatricule(rs.getString("matricule"));
+                membre.setNoms(rs.getString("nom"));
+                membre.setPrenom(rs.getString("prenom"));
+                membre.setEmail(rs.getString("email"));
+                membre.setPhoto(rs.getString("photo"));
+                membre.setMotdepasse(rs.getString("motDePasse"));
+                membre.setUniversite(getUniversityById(rs.getInt("idUniversite")));
+                membre.setRole(getRoleById(rs.getInt("idRole")));
+                membre.setDateInscription(rs.getDate("dateInscription"));
+                membre.setSuspendu(rs.getInt("suspendu"));
+
+
+
+
+                System.out.println("nom membre: "+membre.getNoms());
+
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect id member organe");
+        }
+        System.out.println("  id well getted");
+
+        return membre;
     }
     public int verifOrgane(int idOrgane, int idMembre){
 
@@ -2274,6 +2322,235 @@ public class BaseDeDonnee {
 
         return id;
     }
+
+    public int giveAvertissement(Avertissement avertissement){
+        int rep=0,cnt=0;
+
+
+
+            try{
+                String query="INSERT INTO `avoiravertissement`(`idMembre`, `idAvertissement` )  VALUES  (?,?)";
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+                PreparedStatement pst=con.prepareStatement(query);
+
+                pst.setInt(1, avertissement.getIdMembre());
+                pst.setObject(2, avertissement.getId());
+
+                pst.executeUpdate();
+
+
+                System.out.println("advertise successfully");
+                rep=1;
+
+            }
+            catch (Exception exc){
+                System.out.println(exc);
+            }
+
+            if(rep==1){
+                return 0;
+            }else{
+                return 1;
+            }
+
+
+    }
+    public Avertissement getAvertissementById(int id ){
+
+        Avertissement avertissement = new Avertissement();
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `avertissement` WHERE `id`='"+id+"'");
+
+
+
+            while(rs.next()){
+                avertissement.setId(rs.getInt("id"));
+                avertissement.setRaison(rs.getString("raison"));
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect");
+        }
+
+        return avertissement;
+
+    }
+    public List<Avertissement> listAvertissements(){
+        System.out.println("  get avertissement start");
+        int i=1;
+        List<Avertissement> listAvertissement = new ArrayList<>();
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `avoiravertissement` ");
+
+
+
+            while(rs.next()){
+
+                Avertissement avertissement = new Avertissement();
+
+                avertissement.setId(rs.getInt("idAvertissement"));
+                avertissement.setIdMembre(rs.getInt("idMembre"));
+                avertissement.setRaison(getAvertissementById(rs.getInt("idAvertissement")).getRaison());
+
+
+                listAvertissement.add(avertissement);
+
+
+
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listAvertissement");
+        }
+        System.out.println("  list well getted");
+
+        return listAvertissement;
+    }
+
+    public int suspendreMembre(int id){
+        int rep=0;
+
+        Membre membre = getMemberById(id);
+        String supEmail = "Suspendu"+membre.getEmail();
+
+        try{
+            String query="UPDATE `membre` SET `email`=?,`suspendu`=? WHERE `id` = ? ";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setString(1, supEmail);
+            pst.setInt(2, 1);
+            pst.setInt(3, id);
+
+            pst.executeUpdate();
+
+
+            System.out.println("suspendu successfully");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else {
+            return 1;
+        }
+
+    }
+
+    public int reabiliterMembre(int id){
+        int rep=0;
+
+        Membre membre = getMemberById(id);
+        String validEmail = membre.getEmail().substring(8);
+
+        try{
+            String query="UPDATE `membre` SET `email`=?,`suspendu`=? WHERE `id` = ? ";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setString(1, validEmail);
+            pst.setInt(2, 0);
+            pst.setInt(3, id);
+
+            pst.executeUpdate();
+
+
+            System.out.println("reabiliter successfully ");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else {
+            return 1;
+        }
+
+    }
+
+    public List<updateMember> listSuspention(){
+        System.out.println("  get avertissement start");
+        int i=1;
+        List<updateMember> listSuspendu = new ArrayList<>();
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `membre` WHERE `suspendu` = '"+1+"' ");
+
+
+
+            while(rs.next()){
+
+
+
+                Membre membre = new Membre();
+                updateMember updateMember = new updateMember();
+
+
+                membre.setMatricule(rs.getString("matricule"));
+                membre.setNoms(rs.getString("nom"));
+                membre.setPrenom(rs.getString("prenom"));
+                membre.setEmail(rs.getString("email"));
+                membre.setPhoto(rs.getString("photo"));
+                membre.setMotdepasse(rs.getString("motDePasse"));
+                membre.setUniversite(getUniversityById(rs.getInt("idUniversite")));
+                membre.setRole(getRoleById(rs.getInt("idRole")));
+                membre.setDateInscription(rs.getDate("dateInscription"));
+
+
+                updateMember.setMembre(membre);
+                updateMember.setId(rs.getInt("id"));
+
+
+                listSuspendu.add(updateMember);
+
+
+
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listSuspendu");
+        }
+        System.out.println("  list well getted");
+
+        return listSuspendu;
+    }
+
 
 
     /////////////////////////* CRUD EVENEMENTS*///////////////////////////
