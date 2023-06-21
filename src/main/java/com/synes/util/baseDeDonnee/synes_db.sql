@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  lun. 12 juin 2023 à 19:09
+-- Généré le :  mer. 21 juin 2023 à 09:45
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  5.6.38
 
@@ -449,7 +449,7 @@ ALTER TABLE `membre`
 -- AUTO_INCREMENT pour la table `membreconnected`
 --
 ALTER TABLE `membreconnected`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `notification`

@@ -38,7 +38,14 @@ public class eventController {
         }
     }
 
-    //16 mise a jour info évenement
+    // liste évènements
+    @RequestMapping(value = "/listeEvents", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object listeEvents(){
+
+        return bd.getEvents();
+    }
+
+    // mise a jour info évenement
     @RequestMapping(value = "/updateEvent", method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
     public Object updatEvent(@RequestHeader("authorization") String token, @RequestBody Evenements evenements, HttpServletResponse response) {
 

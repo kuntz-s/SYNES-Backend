@@ -2353,6 +2353,53 @@ public class BaseDeDonnee {
 
     }
 
+    public List<Evenements> getEvents(){
+        System.out.println("  get events start");
+        int i=1;
+        List<Evenements> listEvents = new ArrayList<>();
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `evenement` ");
+
+
+
+            while(rs.next()){
+
+                Evenements evenements = new Evenements();
+
+                evenements.setId(rs.getInt("id"));
+                evenements.setNom(rs.getString("nom"));
+                evenements.setDateDebut(rs.getDate("dateDebut"));
+                evenements.setDateFin(rs.getDate("dateFin"));
+                evenements.setDescription(rs.getString("description"));
+                evenements.setIdMembre(rs.getInt("idMembre"));
+
+                System.out.println("nom permission: "+evenements.getNom());
+
+                listEvents.add(evenements);
+
+
+                System.out.println("permission n: "+i+" = "+evenements.getNom());
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listPermissions");
+        }
+        System.out.println("  list well getted");
+
+        return listEvents;
+    }
+
     public int updateEvent(Evenements evenements){
         int rep=0;
 
