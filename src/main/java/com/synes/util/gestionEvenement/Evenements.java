@@ -10,16 +10,18 @@ public class Evenements {
     Date dateFin;
     String description;
     int idMembre;
+    String photo;
 
     public Evenements() { }
 
-    public Evenements(int id, String nom, Date dateDebut, Date dateFin, String description, int idMembre) {
+    public Evenements(int id, String nom, Date dateDebut, Date dateFin, String description, int idMembre, String photo) {
         this.id = id;
         this.nom = nom;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.description = description;
         this.idMembre = idMembre;
+        this.photo = photo;
     }
 
     public int getId() {
@@ -68,5 +70,13 @@ public class Evenements {
 
     public void setIdMembre(int idMembre) {
         this.idMembre = idMembre;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

@@ -2287,7 +2287,7 @@ public class BaseDeDonnee {
 
         if(cnt==0){
             try{
-                String query="INSERT INTO `evenement`(`nom`, `dateDebut`, `dateFin`, `description`, `idMembre`)  VALUES  (?,?,?,?,?)";
+                String query="INSERT INTO `evenement`(`nom`, `dateDebut`, `dateFin`, `description`, `idMembre`, `photo`)  VALUES  (?,?,?,?,?,?)";
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
                 PreparedStatement pst=con.prepareStatement(query);
 
@@ -2296,6 +2296,7 @@ public class BaseDeDonnee {
                 pst.setObject(3, evenements.getDateFin());
                 pst.setString(4, evenements.getDescription());
                 pst.setInt(5, evenements.getIdMembre());
+                pst.setString(6, evenements.getPhoto());
 
                 pst.executeUpdate();
 
@@ -2379,21 +2380,20 @@ public class BaseDeDonnee {
                 evenements.setNom(rs.getString("nom"));
                 evenements.setDateDebut(rs.getDate("dateDebut"));
                 evenements.setDateFin(rs.getDate("dateFin"));
-                evenements.setDescription(rs.getString("description"));
-                evenements.setIdMembre(rs.getInt("idMembre"));
+                evenements.setPhoto(rs.getString("photo"));
 
-                System.out.println("nom permission: "+evenements.getNom());
+                System.out.println("nom event: "+evenements.getNom());
 
                 listEvents.add(evenements);
 
 
-                System.out.println("permission n: "+i+" = "+evenements.getNom());
+                System.out.println("event n: "+i+" = "+evenements.getNom());
                 i++;
             }
 
         }
         catch (Exception exc){
-            System.out.println(exc+"  error connect listPermissions");
+            System.out.println(exc+"  error connect listEvents");
         }
         System.out.println("  list well getted");
 
@@ -2404,7 +2404,7 @@ public class BaseDeDonnee {
         int rep=0;
 
         try{
-            String query="UPDATE `evenement` SET `nom`=?,`dateDebut`=?,`dateFin`=?,`description`=?,`idMembre`=? WHERE `id` = ? ";
+            String query="UPDATE `evenement` SET `nom`=?,`dateDebut`=?,`dateFin`=?,`description`=?,`idMembre`=?,`photo`=? WHERE `id` = ? ";
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
             PreparedStatement pst=con.prepareStatement(query);
 
@@ -2413,7 +2413,8 @@ public class BaseDeDonnee {
             pst.setObject(3, evenements.getDateFin());
             pst.setString(4, evenements.getDescription());
             pst.setInt(5, evenements.getIdMembre());
-            pst.setInt(6, evenements.getId());
+            pst.setString(6, evenements.getPhoto());
+            pst.setInt(7, evenements.getId());
 
             pst.executeUpdate();
 
