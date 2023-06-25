@@ -3,6 +3,7 @@ package com.synes.util.gestionUtilisateur;
 
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
 import java.util.Date;
+import java.util.List;
 
 public class Membre {
 
@@ -15,6 +16,7 @@ public class Membre {
     String photo;
     String motdepasse;
     Universite universite;
+    List avertissement;
     Role role;
     int suspendu;
 
@@ -24,6 +26,21 @@ public class Membre {
 
     public Membre() {
 
+    }
+
+    public Membre(BaseDeDonnee baseDeDonnee, String matricule, String noms, String prenom, String email, String photo, String motdepasse, Universite universite, List avertissement, Role role, int suspendu, Date dateInscription) {
+        this.baseDeDonnee = baseDeDonnee;
+        this.matricule = matricule;
+        this.noms = noms;
+        this.prenom = prenom;
+        this.email = email;
+        this.photo = photo;
+        this.motdepasse = motdepasse;
+        this.universite = universite;
+        this.avertissement = avertissement;
+        this.role = role;
+        this.suspendu = suspendu;
+        this.dateInscription = dateInscription;
     }
 
     public Membre(String matricule, String noms, String prenom, String email, String photo, Universite Universite, Date dateInscription) {
@@ -150,5 +167,13 @@ public class Membre {
 
     public void setSuspendu(int suspendu) {
         this.suspendu = suspendu;
+    }
+
+    public List getAvertissement() {
+        return avertissement;
+    }
+
+    public void setAvertissement(List avertissement) {
+        this.avertissement = avertissement;
     }
 }

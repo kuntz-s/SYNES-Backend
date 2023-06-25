@@ -24,5 +24,5 @@ public class NotificationControler {
         Thread.sleep(2000);
         return bd.getNotifs();
     }
-    
+
 }

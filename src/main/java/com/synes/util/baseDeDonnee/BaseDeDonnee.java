@@ -556,6 +556,7 @@ public class BaseDeDonnee {
                 membre.setRole(getRoleById(rs.getInt("idRole")));
                 membre.setDateInscription(rs.getDate("dateInscription"));
                 membre.setSuspendu(rs.getInt("suspendu"));
+                membre.setAvertissement(getMemberAvertissement(rs.getInt("id")));
 
                 updateMember.setId(rs.getInt("id"));
                 updateMember.setMembre(membre);
@@ -2425,6 +2426,39 @@ public class BaseDeDonnee {
         System.out.println("  list well getted");
 
         return listAvertissement;
+    }
+
+    public List getMemberAvertissement(int id){
+
+        int idAvertissement=0;
+        System.out.println("  get member avertissement start");
+        List listAv = new ArrayList();
+
+        try{
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `id` FROM `avoiravertissement`  WHERE `idMembre`='"+id+"'");
+
+
+
+            while(rs.next()){
+                idAvertissement = rs.getInt("id");
+                listAv.add(idAvertissement);
+
+                System.out.println("id avertissement: "+idAvertissement);
+
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect id member avertissement");
+        }
+        System.out.println("  id well getted");
+
+        return listAv;
     }
 
     public int suspendreMembre(int id){
