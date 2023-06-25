@@ -545,6 +545,7 @@ public class BaseDeDonnee {
 
                 updateMember updateMember = new updateMember();
                 Membre membre = new Membre();
+                List<Object> listAv = new ArrayList<>();
 
                 membre.setMatricule(rs.getString("matricule"));
                 membre.setNoms(rs.getString("nom"));
@@ -556,7 +557,12 @@ public class BaseDeDonnee {
                 membre.setRole(getRoleById(rs.getInt("idRole")));
                 membre.setDateInscription(rs.getDate("dateInscription"));
                 membre.setSuspendu(rs.getInt("suspendu"));
-                membre.setAvertissement(getMemberAvertissement(rs.getInt("id")));
+
+                listAv.add(getMemberAvertissement(rs.getInt("id")));
+
+
+                membre.setAvertissement(listAv);
+
 
                 updateMember.setId(rs.getInt("id"));
                 updateMember.setMembre(membre);
@@ -2385,6 +2391,38 @@ public class BaseDeDonnee {
         return avertissement;
 
     }
+    public List<Avertissement> getAvertissement(int id ){
+
+        List<Avertissement> listA = new ArrayList<>();
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `avertissement` WHERE `id`='"+id+"'");
+
+
+
+            while(rs.next()){
+                Avertissement avertissement = new Avertissement();
+
+                avertissement.setId(rs.getInt("id"));
+                avertissement.setRaison(rs.getString("raison"));
+
+                listA.add(avertissement);
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect");
+        }
+
+        return listA;
+
+    }
     public List<Avertissement> listAvertissements(){
         System.out.println("  get avertissement start");
         int i=1;
@@ -2440,13 +2478,15 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT `id` FROM `avoiravertissement`  WHERE `idMembre`='"+id+"'");
+            ResultSet rs = stmt.executeQuery("SELECT `idAvertissement` FROM `avoiravertissement`  WHERE `idMembre`='"+id+"'");
 
 
 
             while(rs.next()){
-                idAvertissement = rs.getInt("id");
-                listAv.add(idAvertissement);
+                idAvertissement = rs.getInt("idAvertissement");
+
+
+                listAv.add(getAvertissementById(idAvertissement));
 
                 System.out.println("id avertissement: "+idAvertissement);
 
@@ -2456,7 +2496,7 @@ public class BaseDeDonnee {
         catch (Exception exc){
             System.out.println(exc+"  error connect id member avertissement");
         }
-        System.out.println("  id well getted");
+        System.out.println("  id  ii well getted");
 
         return listAv;
     }
