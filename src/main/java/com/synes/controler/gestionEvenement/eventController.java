@@ -29,9 +29,10 @@ public class eventController {
     public Object creerEvenement(@RequestHeader("authorization") String token, @RequestBody Evenements evenements, HttpServletResponse response) throws InterruptedException, ParseException {
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Evènement")) == 0) {
-            evenements.setIdMembre(bd.getIdMemberByToken(token.substring(7)));
+            int id = bd.getIdMemberByToken(token.substring(7));
+            System.out.println(id+"    vvv");
 
-            int result = bd.createEvent(evenements);
+            int result = bd.createEvent(evenements,id);
 
             if(result==1){
                 response.setStatus(400);

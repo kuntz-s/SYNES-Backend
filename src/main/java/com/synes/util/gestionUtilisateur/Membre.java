@@ -9,6 +9,7 @@ public class Membre {
 
     BaseDeDonnee baseDeDonnee = new BaseDeDonnee();
 
+    int id;
     String matricule;
     String noms;
     String prenom;
@@ -175,5 +176,13 @@ public class Membre {
 
     public void setAvertissement(List avertissement) {
         this.avertissement = avertissement;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

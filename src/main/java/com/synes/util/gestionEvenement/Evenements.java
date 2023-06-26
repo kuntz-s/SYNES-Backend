@@ -1,5 +1,7 @@
 package com.synes.util.gestionEvenement;
 
+import com.synes.util.gestionUtilisateur.Membre;
+
 import java.util.Date;
 
 public class Evenements {
@@ -9,18 +11,18 @@ public class Evenements {
     Date dateDebut;
     Date dateFin;
     String description;
-    int idMembre;
+    Membre membre;
     String photo;
 
     public Evenements() { }
 
-    public Evenements(int id, String nom, Date dateDebut, Date dateFin, String description, int idMembre, String photo) {
+    public Evenements(int id, String nom, Date dateDebut, Date dateFin, String description, Membre membre, String photo) {
         this.id = id;
         this.nom = nom;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.description = description;
-        this.idMembre = idMembre;
+        this.membre = membre;
         this.photo = photo;
     }
 
@@ -64,12 +66,12 @@ public class Evenements {
         this.description = description;
     }
 
-    public int getIdMembre() {
-        return idMembre;
+    public Membre getMembre() {
+        return membre;
     }
 
-    public void setIdMembre(int idMembre) {
-        this.idMembre = idMembre;
+    public void setMembre(Membre membre) {
+        this.membre = membre;
     }
 
     public String getPhoto() {
