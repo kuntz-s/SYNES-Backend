@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mer. 21 juin 2023 à 09:45
+-- Généré le :  lun. 26 juin 2023 à 02:03
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  5.6.38
 
@@ -79,7 +79,9 @@ CREATE TABLE `avoirpermission` (
 INSERT INTO `avoirpermission` (`idRole`, `idPermission`, `id`) VALUES
 (1, 1, 1),
 (1, 2, 2),
-(1, 4, 3);
+(1, 4, 3),
+(1, 6, 4),
+(1, 5, 5);
 
 -- --------------------------------------------------------
 
@@ -93,7 +95,8 @@ CREATE TABLE `evenement` (
   `dateDebut` datetime NOT NULL,
   `dateFin` datetime NOT NULL,
   `description` varchar(500) NOT NULL,
-  `idMembre` int(20) NOT NULL
+  `idMembre` int(20) NOT NULL,
+  `photo` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -428,34 +431,46 @@ ALTER TABLE `annonce`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT pour la table `avertissement`
+--
+ALTER TABLE `avertissement`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT pour la table `avoiravertissement`
+--
+ALTER TABLE `avoiravertissement`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT pour la table `avoirpermission`
 --
 ALTER TABLE `avoirpermission`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `evenement`
 --
 ALTER TABLE `evenement`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT pour la table `membre`
 --
 ALTER TABLE `membre`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `membreconnected`
 --
 ALTER TABLE `membreconnected`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `organe`
@@ -519,7 +534,6 @@ ALTER TABLE `annonce`
 -- Contraintes pour la table `avoiravertissement`
 --
 ALTER TABLE `avoiravertissement`
-  ADD CONSTRAINT `idav` FOREIGN KEY (`idAvertissement`) REFERENCES `avertissement` (`id`),
   ADD CONSTRAINT `idme` FOREIGN KEY (`idMembre`) REFERENCES `membre` (`id`);
 
 --
@@ -533,7 +547,7 @@ ALTER TABLE `avoirpermission`
 -- Contraintes pour la table `evenement`
 --
 ALTER TABLE `evenement`
-  ADD CONSTRAINT `fkmm` FOREIGN KEY (`idMembre`) REFERENCES `membre` (`id`);
+  ADD CONSTRAINT `fkmm` FOREIGN KEY (`idMembre`) REFERENCES `membreconnected` (`id`);
 
 --
 -- Contraintes pour la table `membre`
