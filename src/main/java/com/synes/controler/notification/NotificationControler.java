@@ -32,7 +32,7 @@ public class NotificationControler {
         return bd.getNotifs();
     }
 
-    @RequestMapping(value = "/getNotifocation", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/getNotifocation", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
     public Object getNot(@RequestHeader("authorization") String token, HttpServletResponse response) throws InterruptedException, ParseException {
         return getNotif();
     }
