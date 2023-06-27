@@ -18,8 +18,9 @@ public class NotificationControler {
     SimpMessagingTemplate simpMessagingTemplate;
     BaseDeDonnee bd = new BaseDeDonnee();
 
+    //le EndPoint est /app/sendNotification
     @MessageMapping("/sendNotification")
-    @SendTo("/topic/sendNotification")
+    @SendTo("/all/sendNotification")
     public Object sendNotification (Notification notification) throws InterruptedException{
         Thread.sleep(2000);
         return notification ;
