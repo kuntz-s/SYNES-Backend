@@ -1,11 +1,14 @@
 package com.synes.util;
 
 
+import com.synes.util.gestionUtilisateur.Membre;
+
 import java.util.Date;
 
 public class Notification {
 
     private int id;
+    private Membre membre;
     private String contenu;
     private Date envoyéLe;
     private String typeMessage;
@@ -13,12 +16,14 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(int id, String contenu, Date envoyéLe, String typeMessage) {
+    public Notification(int id, Membre membre, String contenu, Date envoyéLe, String typeMessage) {
         this.id = id;
+        this.membre = membre;
         this.contenu = contenu;
         this.envoyéLe = envoyéLe;
         this.typeMessage = typeMessage;
     }
+
     public Notification(String contenu, Date envoyéLe, String typeMessage) {
         this.contenu = contenu;
         this.envoyéLe = envoyéLe;
@@ -55,5 +60,13 @@ public class Notification {
 
     public void setTypeMessage(String typeMessage) {
         this.typeMessage = typeMessage;
+    }
+
+    public Membre getMembre() {
+        return membre;
+    }
+
+    public void setMembre(Membre membre) {
+        this.membre = membre;
     }
 }

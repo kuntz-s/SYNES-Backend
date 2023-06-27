@@ -2714,6 +2714,51 @@ public class BaseDeDonnee {
         return listNotifs;
     }
 
+    public List<Notification> getPrivateNotifs(int id){
+        System.out.println("  get notif start");
+        int i=1;
+        List<Notification> listNotifs = new ArrayList<>();
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `avoirnotification` WHERE `idMembre`='"+id+"' ");
+
+
+
+            while(rs.next()){
+
+                Notification notification = new Notification();
+
+                notification.setId(rs.getInt("id"));
+                notification.setTypeMessage(rs.getString("typeMessage"));
+                notification.setEnvoyéLe(rs.getDate("envoyéLe"));
+                notification.setContenu(rs.getString("contenu"));
+
+                System.out.println(" Notif : "+notification.getTypeMessage());
+
+                listNotifs.add(notification);
+
+
+                System.out.println("notif n: "+i+" = "+notification.getTypeMessage());
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listNotifs");
+        }
+        System.out.println("  list well getted");
+
+        return listNotifs;
+    }
+
 
 
     /////////////////////////* CRUD EVENEMENTS *///////////////////////////
