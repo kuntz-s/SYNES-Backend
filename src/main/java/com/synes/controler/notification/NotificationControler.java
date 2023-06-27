@@ -25,4 +25,11 @@ public class NotificationControler {
         return bd.getNotifs();
     }
 
+    @MessageMapping("/sendNotificationto")
+    @SendTo("/topic/sendNotificationto")
+    public Object sendNotificationTo (Notification notification, int id) throws InterruptedException{
+        Thread.sleep(2000);
+        return notification ;
+    }
+
 }

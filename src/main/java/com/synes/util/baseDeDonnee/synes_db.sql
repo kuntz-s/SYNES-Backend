@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  lun. 26 juin 2023 à 02:03
+-- Généré le :  mar. 27 juin 2023 à 02:56
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  5.6.38
 
@@ -81,7 +81,8 @@ INSERT INTO `avoirpermission` (`idRole`, `idPermission`, `id`) VALUES
 (1, 2, 2),
 (1, 4, 3),
 (1, 6, 4),
-(1, 5, 5);
+(1, 5, 5),
+(1, 7, 6);
 
 -- --------------------------------------------------------
 
@@ -147,7 +148,8 @@ CREATE TABLE `membreconnected` (
 --
 
 INSERT INTO `membreconnected` (`idMembre`, `id`, `nomRole`, `nomUniversite`, `token`, `permissions`) VALUES
-(1, 1, 'Secretaire Congres', 'universite de yaounde 1', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuem91ZXRlbmdtaWNhZWxsZUBnbWFpbC5jb20iLCJleHAiOjE2ODUzMzE2NDgsImlhdCI6MTY4NTMxMzY0OH0.oG4EsgYnwg8alQl39PvYphVpEfGlTMcUcrB_YRDywsb9oxaNGqzoTZv85QF2iKZU51AEIkorAB1b9h2JbyHWfQ', ';Gestion Syndicat;Création membre;Attributtion role systeme');
+(1, 1, 'Secretaire Congres', 'universite de yaounde 1', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuem91ZXRlbmdtaWNhZWxsZUBnbWFpbC5jb20iLCJleHAiOjE2ODUzMzE2NDgsImlhdCI6MTY4NTMxMzY0OH0.oG4EsgYnwg8alQl39PvYphVpEfGlTMcUcrB_YRDywsb9oxaNGqzoTZv85QF2iKZU51AEIkorAB1b9h2JbyHWfQ', ';Gestion Syndicat;Création membre;Attributtion role systeme'),
+(1, 2, 'Secretaire Congres', 'Université de yaoundé 1', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuem91ZXRlbmdtaWNhZWxsZUBnbWFpbC5jb20iLCJleHAiOjE2ODkxMDQ1NjYsImlhdCI6MTY4NzgwODU2Nn0.Ugu2-0ZPiA3NdpcspQ0zmYMRb8GKi5lp6eaPlwmnGaTgBNF4VmwtJuDKEiERer_5anX712HJU8zoeXSi3V1mSQ', ';Gestion Syndicat;Création membre;Attributtion role systeme;Gérer sanctions membres;Gestion Evènement');
 
 -- --------------------------------------------------------
 
@@ -206,7 +208,8 @@ INSERT INTO `permissions` (`nom`, `description`, `id`) VALUES
 ('Attributtion role organe', 'pouvoir attribuer un role à tout menbre de son organe uniquement', 3),
 ('Attributtion role systeme', 'pouvoir attribuer un role à tout membre du systeme', 4),
 ('Gestion Evènement', 'Pouvoir manipuler les différents évènements du syndicat', 5),
-('Gérer sanctions membres', 'Permet a celui qui la détient de pouvoir suspendre ou donner un avertissement à un membre', 6);
+('Gérer sanctions membres', 'Permet a celui qui la détient de pouvoir suspendre ou donner un avertissement à un membre', 6),
+('Gestion transaction', 'Permet de gerer les activitées liée aux transactions finacière', 7);
 
 -- --------------------------------------------------------
 
@@ -434,43 +437,43 @@ ALTER TABLE `annonce`
 -- AUTO_INCREMENT pour la table `avertissement`
 --
 ALTER TABLE `avertissement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `avoiravertissement`
 --
 ALTER TABLE `avoiravertissement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `avoirpermission`
 --
 ALTER TABLE `avoirpermission`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `evenement`
 --
 ALTER TABLE `evenement`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `membre`
 --
 ALTER TABLE `membre`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `membreconnected`
 --
 ALTER TABLE `membreconnected`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `organe`
@@ -482,7 +485,7 @@ ALTER TABLE `organe`
 -- AUTO_INCREMENT pour la table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `piecesjointes`
@@ -506,13 +509,13 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT pour la table `soldebancaire`
 --
 ALTER TABLE `soldebancaire`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `universite`

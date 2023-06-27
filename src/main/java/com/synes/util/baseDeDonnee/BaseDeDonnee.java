@@ -2,12 +2,18 @@ package com.synes.util.baseDeDonnee;
 
 import com.synes.util.Notification;
 import com.synes.util.gestionEvenement.Evenements;
+import com.synes.util.gestionTransaction.SoldeBancaire;
+import com.synes.util.gestionTransaction.Transaction;
 import com.synes.util.gestionUtilisateur.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BaseDeDonnee {
@@ -2937,6 +2943,179 @@ public class BaseDeDonnee {
             return 1;
         }
 
+    }
+
+
+
+    /////////////////////////* TRANSACTION *///////////////////////////
+
+
+    public int createTransaction(Transaction transaction) throws ParseException {
+        System.out.println("create Transaction start");
+        int rep=0,cnt=0;
+
+            try{
+                String query="INSERT INTO `transaction`(`montant`, `type`, `raison`, `idMembre`, `idEvenement`) VALUES  (?,?,?,?,?)";
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+                PreparedStatement pst=con.prepareStatement(query);
+
+                pst.setInt(1, transaction.getMontant());
+                pst.setString(2, transaction.getType());
+                pst.setString(3, transaction.getRaison());
+                pst.setInt(4, transaction.getMembre().getId());
+                pst.setInt(5, transaction.getEvenements().getId());
+
+                pst.executeUpdate();
+
+
+                System.out.println("register successfully");
+                rep=1;
+
+            }
+            catch (Exception exc){
+                System.out.println(exc);
+            }
+
+            int idTrans = getTransactionId(transaction.getRaison(),transaction.getMembre().getId());
+            transaction.setId(idTrans);
+
+
+            if(rep==1){
+                if(transaction.getType().equals("retrait")){
+                    Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
+
+                    SoldeBancaire soldeBancaire = new SoldeBancaire();
+                    soldeBancaire.setSolde(transaction.getMontant());
+                    soldeBancaire.setTransaction(transaction);
+                    soldeBancaire.setModifieLe(date);
+
+                    updateSoldeBancaire(soldeBancaire,1);
+                }else {
+                    Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
+
+                    SoldeBancaire soldeBancaire = new SoldeBancaire();
+                    soldeBancaire.setSolde(transaction.getMontant());
+                    soldeBancaire.setTransaction(transaction);
+                    soldeBancaire.setModifieLe(date);
+
+                    updateSoldeBancaire(soldeBancaire,0);
+                }
+
+                return 0;
+            }else{
+                return 1;
+            }
+
+    }
+
+    public int getTransactionId(String raison, int idM){
+        System.out.println("  get Transaction id start");
+        int id=0;
+
+        System.out.println("nom de la Transaction dont je veux l'id : "+raison);
+
+        try{
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `id` FROM `transaction`  WHERE `raison`='"+raison+"' AND `idMembre`='"+idM+"' ");
+
+
+
+            while(rs.next()){
+                id = rs.getInt("id");
+
+                System.out.println("id Transaction: "+id);
+
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect id Transaction");
+        }
+        System.out.println("  id de cet Transaction well getted");
+
+        return id;
+    }
+
+    public int updateSoldeBancaire(SoldeBancaire soldeBancaire,int isNeg){
+        System.out.println("create soldebancaire start");
+        int rep=0,solde = 0;
+        System.out.println("le solde avant : "+getSolde());
+        if (isNeg==1){
+            solde = getSolde()-soldeBancaire.getSolde();
+            System.out.println(getSolde()+"-"+soldeBancaire.getSolde());
+            System.out.println(solde);
+        }else {
+            solde = getSolde()+soldeBancaire.getSolde();
+            System.out.println(getSolde()+"+"+soldeBancaire.getSolde());
+            System.out.println(solde);
+        }
+
+
+
+        try{
+            String query="INSERT INTO `soldebancaire`(`solde`, `modifieLe`, `idTransaction`) VALUES  (?,?,?)";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setInt(1, solde);
+            pst.setObject(2, soldeBancaire.getModifieLe());
+            pst.setInt(3, soldeBancaire.getTransaction().getId());
+
+            pst.executeUpdate();
+
+
+            System.out.println("register successfully");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
+
+    public int getSolde(){
+        System.out.println("  get solde start");
+        int i=1;
+        int solde=0;
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `soldebancaire` ");
+
+
+
+            while(rs.next()){
+
+                solde = rs.getInt("solde");
+                System.out.println("solde n: "+i+" = "+rs.getInt("id"));
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listEvents");
+        }
+        System.out.println("  solde well getted");
+
+        return solde;
     }
 
 }
