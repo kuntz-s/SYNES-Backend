@@ -95,13 +95,13 @@ public class JwtAuthenticationController {
 
 		if (bd.Add_Membre(membre)==1) {
 
-			/*String motDePasse = user.getMatricule() + "_SYNES_" + user.getNom();
+			String motDePasse = user.getMatricule() + "_SYNES_" + user.getNom();
 
 			this.emailService.sendMessage(
 					user.getEmail(),
 					"NOTIFICATION D'AJOUT AU SYTEME EN LIGNE DU SYNES",
 					"Monsieur/Madame " + user.getNom() + " " + user.getPrenom() + ",\n Bienvenu dans la plateforme SYNES,\n votre compte viens d'être créé et \n vos informations de connexion sont:  \n email: " + user.getEmail() + " \n password: " + motDePasse+" \n\n Vous pouvez modifier votre mot de passe\n dans la section profil une fois connecté"
-			);*/
+			);
 			return membre;
 		}else {
 			response.setStatus(400);

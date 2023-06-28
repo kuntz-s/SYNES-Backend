@@ -222,7 +222,7 @@ public class OderControler {
 
         int idOrgane = bd.getOrganeId(bd.getCurrentUser(token.substring(7)).getNomRole());
 
-        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role organe")) == 0) {
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attributtion role organe")) == 0) {
             return bd.giveRoleByOrgane(idOrgane, roleToMembre.idRole, roleToMembre.idMembre);
         }else {
             response.setStatus(401);
@@ -237,7 +237,7 @@ public class OderControler {
     public Object attribuRoleSystem(@RequestHeader("authorization") String token,@RequestBody roleToMembre roleToMembre, HttpServletResponse response) {
 
 
-        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attribution role système")) == 0) {
+        if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Attributtion role systeme")) == 0) {
             return bd.giveRole(roleToMembre.idRole,roleToMembre.idMembre);
         }else {
             response.setStatus(401);
