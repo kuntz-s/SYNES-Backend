@@ -7,7 +7,6 @@ import com.synes.util.baseDeDonnee.BaseDeDonnee;
 import com.synes.util.gestionTransaction.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -34,7 +33,7 @@ public class transactionController {
 
     // creation d'évenement
     @MessageMapping("/sendNotificationCreateTransaction")
-    @SendTo("/topic/sendNotificationCreateTransaction")
+    //@SendTo("/topic/sendNotification")
    // @RequestMapping(value = "/createTransaction", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
     public Object createTransaction(@RequestHeader("authorization") String token, @RequestBody Transaction transaction, HttpServletResponse response) throws InterruptedException, ParseException {
 
@@ -55,7 +54,7 @@ public class transactionController {
                 bd.createNotif(notification);
                 //notificationControler.sendNotificationTo(notification,idDestinateur);
                 //notificationControler.sendNotification(notification);
-                simpMessagingTemplate.convertAndSendToUser(String.valueOf(notification.getMembre().getId()),"/specific",notification);
+                simpMessagingTemplate.convertAndSend("/specific/"+notification.getMembre().getId(),notification);
 
                 return result+"  TRANSACTION AJOUTEE";
             }

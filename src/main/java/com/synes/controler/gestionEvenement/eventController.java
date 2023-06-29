@@ -8,7 +8,6 @@ import com.synes.util.gestionEvenement.Evenements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +30,7 @@ public class eventController {
 
     // creation d'évenement
     @MessageMapping("/sendNotificationCreateEvent")
-    @SendTo("/topic/sendNotificationCreateEvent")
+    //@SendTo("/topic/sendNotification")
    // @RequestMapping(value = "/createEvent", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
     public Object creerEvenement(@RequestHeader("authorization") String token, @RequestBody Evenements evenements, HttpServletResponse response) throws InterruptedException, ParseException {
 
@@ -49,6 +48,7 @@ public class eventController {
                 Notification notification = new Notification("L'évènement "+evenements.getNom()+" a été créé",date,"NOUVEL EVENEMENT");
                 bd.createNotif(notification);
                 //notificationControler.sendNotification(notification);
+                simpMessagingTemplate.convertAndSend("/topic/sendNotification",notification);
 
                 return result+"  EVENEMENT CREER";
             }
