@@ -89,6 +89,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/listeSuspendu").permitAll()
 				.antMatchers("/createTransaction").permitAll()
 				.antMatchers("/stomp-endpoint/**").permitAll()
+				.antMatchers("/getNotification").permitAll()
+				.antMatchers("/getPrivateNotification").permitAll()
 				// all other requests need to be authenticated
 				.anyRequest().authenticated().and().
 				// make sure we use stateless session; session won't be used to
