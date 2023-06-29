@@ -1,12 +1,8 @@
 package com.synes.controler.notification;
 
-import com.synes.util.Notification;
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -19,7 +15,7 @@ public class NotificationControler {
     @Autowired
     SimpMessagingTemplate simpMessagingTemplate;
     BaseDeDonnee bd = new BaseDeDonnee();
-
+/*
     @MessageMapping("/sendNotification")
     @SendTo("/topic/sendNotification")
     public Object sendNotification (Notification notification) throws InterruptedException{
@@ -32,7 +28,7 @@ public class NotificationControler {
         simpMessagingTemplate.convertAndSendToUser(String.valueOf(notification.getMembre().getId()),"/specific",notification);
     }
 
-
+*/
 
     @RequestMapping(value = "/getNotification", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
     public Object getNotif() throws InterruptedException{

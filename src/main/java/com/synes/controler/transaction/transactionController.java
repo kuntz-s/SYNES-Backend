@@ -6,8 +6,12 @@ import com.synes.util.Notification;
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
 import com.synes.util.gestionTransaction.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
@@ -22,12 +26,16 @@ public class transactionController {
 
 
     @Autowired
+    SimpMessagingTemplate simpMessagingTemplate;
+    @Autowired
     NotificationControler notificationControler;
     BaseDeDonnee bd = new BaseDeDonnee();
 
 
     // creation d'évenement
-    @RequestMapping(value = "/createTransaction", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
+    @MessageMapping("/sendNotificationCreateTransaction")
+    @SendTo("/topic/sendNotificationCreateTransaction")
+   // @RequestMapping(value = "/createTransaction", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
     public Object createTransaction(@RequestHeader("authorization") String token, @RequestBody Transaction transaction, HttpServletResponse response) throws InterruptedException, ParseException {
 
         System.out.println("    vvv");
@@ -46,7 +54,9 @@ public class transactionController {
                 Notification notification = new Notification("La transaction de Mr/Mme "+ bd.getMemberById(transaction.getMembre().getId()).getNoms()+" "+bd.getMemberById(transaction.getMembre().getId()).getPrenom()+" pour "+transaction.getRaison()+" a bien été reçu",date,"CONFIRMATION DE TRANSACTION");
                 bd.createNotif(notification);
                 //notificationControler.sendNotificationTo(notification,idDestinateur);
-                notificationControler.sendNotification(notification);
+                //notificationControler.sendNotification(notification);
+                simpMessagingTemplate.convertAndSendToUser(String.valueOf(notification.getMembre().getId()),"/specific",notification);
+
                 return result+"  TRANSACTION AJOUTEE";
             }
         }else {

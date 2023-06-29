@@ -12,16 +12,18 @@ public class Notification {
     private String contenu;
     private Date envoyéLe;
     private String typeMessage;
+    private String circonscription;
 
     public Notification() {
     }
 
-    public Notification(int id, Membre membre, String contenu, Date envoyéLe, String typeMessage) {
+    public Notification(int id, Membre membre, String contenu, Date envoyéLe, String typeMessage, String circonscription) {
         this.id = id;
         this.membre = membre;
         this.contenu = contenu;
         this.envoyéLe = envoyéLe;
         this.typeMessage = typeMessage;
+        this.circonscription = circonscription;
     }
 
     public Notification(String contenu, Date envoyéLe, String typeMessage) {
@@ -68,5 +70,13 @@ public class Notification {
 
     public void setMembre(Membre membre) {
         this.membre = membre;
+    }
+
+    public String getCirconscription() {
+        return circonscription;
+    }
+
+    public void setCirconscription(String circonscription) {
+        this.circonscription = circonscription;
     }
 }

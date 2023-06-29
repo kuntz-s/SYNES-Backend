@@ -7,6 +7,9 @@ import com.synes.util.baseDeDonnee.BaseDeDonnee;
 import com.synes.util.gestionEvenement.Evenements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,12 +23,16 @@ import java.util.Date;
 public class eventController {
 
     @Autowired
+    SimpMessagingTemplate simpMessagingTemplate;
+    @Autowired
     NotificationControler notificationControler;
     BaseDeDonnee bd = new BaseDeDonnee();
 
 
     // creation d'évenement
-    @RequestMapping(value = "/createEvent", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
+    @MessageMapping("/sendNotificationCreateEvent")
+    @SendTo("/topic/sendNotificationCreateEvent")
+   // @RequestMapping(value = "/createEvent", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
     public Object creerEvenement(@RequestHeader("authorization") String token, @RequestBody Evenements evenements, HttpServletResponse response) throws InterruptedException, ParseException {
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Evènement")) == 0) {
@@ -41,7 +48,8 @@ public class eventController {
                 Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
                 Notification notification = new Notification("L'évènement "+evenements.getNom()+" a été créé",date,"NOUVEL EVENEMENT");
                 bd.createNotif(notification);
-                notificationControler.sendNotification(notification);
+                //notificationControler.sendNotification(notification);
+
                 return result+"  EVENEMENT CREER";
             }
         }else {

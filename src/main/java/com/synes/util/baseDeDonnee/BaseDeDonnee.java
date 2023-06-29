@@ -2637,7 +2637,7 @@ public class BaseDeDonnee {
 
     /////////////////////////* NOTIFICAION *///////////////////////////
 
-    public int createNotif(Notification notification){
+    public int createNotifG(Notification notification){
         System.out.println("creat notif start");
         int rep=0,cnt=0;
 
@@ -2668,8 +2668,83 @@ public class BaseDeDonnee {
         }
 
     }
+    public int getNotifId(Notification notification){
+        System.out.println("  get id notif start");
+        int i=1,idNot=0;
 
-    public List<Notification> getNotifs(){
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `notification` WHERE `contenu`='"+notification.getContenu()+"' AND `envoyéLe`='"+notification.getEnvoyéLe()+"'");
+
+
+
+            while(rs.next()){
+
+                Notification notif = new Notification();
+
+                notification.setId(rs.getInt("id"));
+                notification.setTypeMessage(rs.getString("typeMessage"));
+                notification.setEnvoyéLe(rs.getDate("envoyéLe"));
+                notification.setContenu(rs.getString("contenu"));
+
+                System.out.println(" Notif : "+notification.getTypeMessage());
+
+                idNot = rs.getInt("id");
+
+
+                System.out.println("notif n: "+i+" = "+notification.getTypeMessage());
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect id Notif");
+        }
+        System.out.println("   well getted");
+
+        return idNot;
+    }
+    public int createNotif(Notification notification){
+        System.out.println("creat notif start");
+        createNotifG(notification);
+        int rep=0,cnt=0;
+
+        try{
+            String query="INSERT INTO `recevoirnotification`(`idNotification`, `idMembre`, `circonscription`)  VALUES  (?,?,?)";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setInt(1, getNotifId(notification));
+            pst.setInt(2, notification.getMembre().getId());
+            pst.setString(3, notification.getCirconscription());
+
+            pst.executeUpdate();
+
+
+            System.out.println("register successfully");
+            rep=1;
+
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
+
+    public List<Notification> getAllNotifs(){
         System.out.println("  get notif start");
         int i=1;
         List<Notification> listNotifs = new ArrayList<>();
@@ -2714,6 +2789,100 @@ public class BaseDeDonnee {
         return listNotifs;
     }
 
+    public Notification getNotifById(int idNot){
+        System.out.println("  get id notif start");
+        int i=1;
+        Notification notification = new Notification();
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `notification` WHERE `id`='"+idNot+"' ");
+
+
+
+            while(rs.next()){
+
+                notification.setId(rs.getInt("id"));
+                notification.setTypeMessage(rs.getString("typeMessage"));
+                notification.setEnvoyéLe(rs.getDate("envoyéLe"));
+                notification.setContenu(rs.getString("contenu"));
+
+                System.out.println(" Notif : "+notification.getTypeMessage());
+
+                idNot = rs.getInt("id");
+
+
+                System.out.println("notif n: "+i+" = "+notification.getTypeMessage());
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect id Notif");
+        }
+        System.out.println("   well getted");
+
+        return notification;
+    }
+    public List<Notification> getNotifs(){
+        System.out.println("  get notif start");
+        int i=1;
+        List<Notification> listNotifs = new ArrayList<>();
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `recevoirnotification` WHERE `idMembre`='"+0+"' ");
+
+
+
+            while(rs.next()){
+
+                Notification notification = new Notification();
+
+                notification.setId(rs.getInt("id"));
+                notification.setCirconscription(rs.getString("circonscription"));
+
+                Notification not = getNotifById(rs.getInt("id"));
+                Membre membre = getMemberById(rs.getInt("idMembre"));
+
+
+                notification.setTypeMessage(not.getTypeMessage());
+                notification.setMembre(membre);
+                notification.setEnvoyéLe(not.getEnvoyéLe());
+                notification.setContenu(not.getContenu());
+
+
+                System.out.println(" Notif : "+notification.getTypeMessage());
+
+                listNotifs.add(notification);
+
+
+                System.out.println("notif n: "+i+" = "+notification.getTypeMessage());
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect listNotifs");
+        }
+        System.out.println("  list well getted");
+
+        return listNotifs;
+    }
     public List<Notification> getPrivateNotifs(int id){
         System.out.println("  get notif start");
         int i=1;
@@ -2728,8 +2897,7 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM `avoirnotification` WHERE `idMembre`='"+id+"' ");
-
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `recevoirnotification` WHERE `idMembre`='"+id+"' ");
 
 
             while(rs.next()){
@@ -2737,9 +2905,17 @@ public class BaseDeDonnee {
                 Notification notification = new Notification();
 
                 notification.setId(rs.getInt("id"));
-                notification.setTypeMessage(rs.getString("typeMessage"));
-                notification.setEnvoyéLe(rs.getDate("envoyéLe"));
-                notification.setContenu(rs.getString("contenu"));
+                notification.setCirconscription(rs.getString("circonscription"));
+
+                Notification not = getNotifById(rs.getInt("id"));
+                Membre membre = getMemberById(rs.getInt("idMembre"));
+
+
+                notification.setTypeMessage(not.getTypeMessage());
+                notification.setMembre(membre);
+                notification.setEnvoyéLe(not.getEnvoyéLe());
+                notification.setContenu(not.getContenu());
+
 
                 System.out.println(" Notif : "+notification.getTypeMessage());
 
