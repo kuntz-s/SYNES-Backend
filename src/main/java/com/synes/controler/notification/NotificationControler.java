@@ -8,8 +8,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @Controller
 public class NotificationControler {
@@ -26,12 +25,14 @@ public class NotificationControler {
     }
 
     @MessageMapping("/sendPrivateNotification")
-    public void sendPrivateNotification (@Payload Notification notification) throws InterruptedException{
-        simpMessagingTemplate.convertAndSendToUser(String.valueOf(notification.getMembre().getId()),"/specific",notification);
+    public void sendPrivateNotification (@Payload Notification notification, @RequestHeader("authorization") String token) throws InterruptedException{
+        int id = bd.getIdMemberByToken(token.substring(7));
+
+        simpMessagingTemplate.convertAndSendToUser(String.valueOf(id),"/specific",notification);
     }
 
 
-    @RequestMapping("/getNotification")
+   /* @RequestMapping("/getNotification")
     public Object getNotif() throws InterruptedException{
         Thread.sleep(2000);
         return bd.getNotifs();
@@ -40,7 +41,7 @@ public class NotificationControler {
     public Object getPrivateNotification (@PathVariable("id") int id) throws InterruptedException{
         Thread.sleep(2000);
         return bd.getPrivateNotifs(id);
-    }
+    }*/
 
    /* @MessageMapping("/getPrivateNotification/{id}")
     public void getPrivateNotification () throws InterruptedException{
