@@ -29,7 +29,7 @@ public class transactionController {
     BaseDeDonnee bd = new BaseDeDonnee();
 
 
-    // creation d'évenement
+    // creation de transactions
     //@MessageMapping("/sendNotificationCreateTransaction")
     //@SendTo("/topic/sendNotification")
     @RequestMapping(value = "/createTransaction", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
@@ -48,7 +48,7 @@ public class transactionController {
                 return new ApiError(400,"une erreur est survenu","bad request");
             }else{
                 Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
-                Notification notification = new Notification("La transaction de Mr/Mme "+ bd.getMemberById(transaction.getMembre().getId()).getNoms()+" "+bd.getMemberById(transaction.getMembre().getId()).getPrenom()+" pour "+transaction.getRaison()+" a bien été reçu",date,"CONFIRMATION DE TRANSACTION");
+                Notification notification = new Notification("La transaction de Mr/Mme "+ bd.eGetMemberById(transaction.getMembre().getId()).getNoms()+" "+bd.eGetMemberById(transaction.getMembre().getId()).getPrenom()+" pour "+transaction.getRaison()+" a bien été reçu",date,"CONFIRMATION DE TRANSACTION");
                 bd.createNotif(notification);
                 //notificationControler.sendNotificationTo(notification,idDestinateur);
                 //notificationControler.sendNotification(notification);
@@ -61,6 +61,13 @@ public class transactionController {
             //throw new Error("user not found");
             return new ApiError(401,"vous n'avez pas le droit d'effectuer cette operation","Unauthorized");
         }
+    }
+
+    // liste transactions
+    @RequestMapping(value = "/listeTransaction", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object listeTransaction(){
+
+        return bd.getTransactions();
     }
 
 }

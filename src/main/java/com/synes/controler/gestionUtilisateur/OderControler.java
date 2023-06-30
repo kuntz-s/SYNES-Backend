@@ -416,11 +416,11 @@ public class OderControler {
                 return new ApiError(400,"une erreur est survenu","bad request");
             }else{
 
-                /*this.emailService.sendMessage(
+                this.emailService.sendMessage(
                         membre.getEmail(),
                         "NOTIFICATION AVERTISSEMENT",
                         "Monsieur/Madame " + membre.getNoms() + " " + membre.getPrenom() + ",\n Vous recevez un avertissement pour "+bd.getAvertissementById(avertissement.getId())
-                );*/
+                );
 
                 return result+" MEMBRE AVERTIS";
             }
@@ -457,11 +457,11 @@ public class OderControler {
                     return new ApiError(400,"une erreur est survenu","bad request");
                 }else{
 
-                    /*this.emailService.sendMessage(
+                    this.emailService.sendMessage(
                             membre.getEmail(),
                             "NOTIFICATION DE SUSPENTION",
                             "Monsieur/Madame " + membre.getNoms() + " " + membre.getPrenom() + ",\n Vous avez êtes suspendu  "
-                    );*/
+                    );
 
                     return result+" SUSPENDU";
                 }
@@ -473,11 +473,11 @@ public class OderControler {
                     return new ApiError(400,"une erreur est survenu","bad request");
                 }else{
 
-                    /*this.emailService.sendMessage(
+                    this.emailService.sendMessage(
                             membre.getEmail(),
                             "NOTIFICATION REABILITATION",
                             "Monsieur/Madame " + membre.getNoms() + " " + membre.getPrenom() + ",\n Vous êtes réabilité "
-                    );*/
+                    );
 
                     return result+" REABILITE";
                 }
