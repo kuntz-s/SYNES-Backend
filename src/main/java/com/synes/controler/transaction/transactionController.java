@@ -6,11 +6,9 @@ import com.synes.util.Notification;
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
 import com.synes.util.gestionTransaction.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.http.MediaType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
@@ -32,9 +30,9 @@ public class transactionController {
 
 
     // creation d'évenement
-    @MessageMapping("/sendNotificationCreateTransaction")
+    //@MessageMapping("/sendNotificationCreateTransaction")
     //@SendTo("/topic/sendNotification")
-   // @RequestMapping(value = "/createTransaction", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/createTransaction", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
     public Object createTransaction(@RequestHeader("authorization") String token, @RequestBody Transaction transaction, HttpServletResponse response) throws InterruptedException, ParseException {
 
         System.out.println("    vvv");

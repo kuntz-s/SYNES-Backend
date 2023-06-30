@@ -7,7 +7,6 @@ import com.synes.util.baseDeDonnee.BaseDeDonnee;
 import com.synes.util.gestionEvenement.Evenements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +28,9 @@ public class eventController {
 
 
     // creation d'évenement
-    @MessageMapping("/sendNotificationCreateEvent")
+    //@MessageMapping("/sendNotificationCreateEvent")
     //@SendTo("/topic/sendNotification")
-   // @RequestMapping(value = "/createEvent", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/createEvent", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
     public Object creerEvenement(@RequestHeader("authorization") String token, @RequestBody Evenements evenements, HttpServletResponse response) throws InterruptedException, ParseException {
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Evènement")) == 0) {
