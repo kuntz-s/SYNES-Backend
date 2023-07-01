@@ -25,6 +25,13 @@ public class Notification {
         this.typeMessage = typeMessage;
         this.circonscription = circonscription;
     }
+    public Notification(Membre membre, String contenu, Date envoyéLe, String typeMessage, String circonscription) {
+        this.membre = membre;
+        this.contenu = contenu;
+        this.envoyéLe = envoyéLe;
+        this.typeMessage = typeMessage;
+        this.circonscription = circonscription;
+    }
 
     public Notification(String contenu, Date envoyéLe, String typeMessage) {
         this.contenu = contenu;

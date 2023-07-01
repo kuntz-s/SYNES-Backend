@@ -4,6 +4,16 @@ import com.synes.util.gestionUtilisateur.Membre;
 
 import java.util.Date;
 
+
+/*
+{
+    "nom":"cotisation juin",
+    "dateDebut":"2023-06-01T23:45:17",
+    "dateFin":"2023-06-30T23:45:17",
+    "description":"cotisation mensuel du mois de juin",
+    "photo":""
+}
+ */
 public class Evenements {
 
     int id;

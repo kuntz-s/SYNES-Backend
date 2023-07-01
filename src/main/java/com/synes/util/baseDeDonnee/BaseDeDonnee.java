@@ -337,6 +337,36 @@ public class BaseDeDonnee {
 
     }
 
+
+    public int getOrganeIdByRoleId(int id ){
+
+        int oid=0;
+
+        try{
+
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT `idOrgane` FROM `role` WHERE `id`='"+id+"'");
+
+
+
+            while(rs.next()){
+                oid=rs.getInt("idOrgane");
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect");
+        }
+        System.out.println("  get role id = " +oid);
+
+        return oid;
+
+    }
+
     //1
     public List<Universite> getUniversitys(){
         System.out.println("  get univertys start");
@@ -1147,7 +1177,7 @@ public class BaseDeDonnee {
     }
     public int getMemberOrgane(int id){
 
-        int idOrg=0;
+        int idRole=0,idOrg=0;
         System.out.println("  get member organe start");
 
         try{
@@ -1156,14 +1186,16 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT `idOrgane` FROM `membre`  WHERE `id`='"+id+"'");
+            ResultSet rs = stmt.executeQuery("SELECT `idRole` FROM `membre`  WHERE `id`='"+id+"'");
 
 
 
             while(rs.next()){
-                idOrg = rs.getInt("idOrgane");
+                idRole = rs.getInt("idRole");
 
-                System.out.println("id organe: "+idOrg);
+                idOrg = getOrganeIdByRoleId(idRole);
+
+                System.out.println("id role: "+idOrg);
 
             }
 
@@ -1195,6 +1227,7 @@ public class BaseDeDonnee {
 
                 System.out.println("je recupère les infos du membre");
 
+                membre.setId(rs.getInt("id"));
                 membre.setMatricule(rs.getString("matricule"));
                 membre.setNoms(rs.getString("nom"));
                 membre.setPrenom(rs.getString("prenom"));
@@ -1760,7 +1793,7 @@ public class BaseDeDonnee {
 
 
         int rep=0,cnt=0;
-        cnt=verif_double_conn(useConnectInfo.getMembre().getEmail());
+        cnt=verif_double_conn(getIdMemberByMatricule(useConnectInfo.getMembre().getMatricule()));
 
         String permissions = "";
         for (int i=0; i<useConnectInfo.getListPermission().size(); i++){
@@ -1823,7 +1856,7 @@ public class BaseDeDonnee {
 
 
     } ///gerer l'envoie d'email
-    public int verif_double_conn(String email ){
+    public int verif_double_conn(int idMembre ){
 
         int h=0;
 
@@ -1834,7 +1867,7 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT `email` FROM `membreConnected` WHERE `email`='"+email+"'");
+            ResultSet rs = stmt.executeQuery("SELECT `idMembre` FROM `membreConnected` WHERE `idMembre`='"+idMembre+"'");
 
 
 
@@ -2341,12 +2374,12 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT `id` FROM `membreconnected` WHERE `token` ='"+token+"'");
+            ResultSet rs = stmt.executeQuery("SELECT `idMembre` FROM `membreconnected` WHERE `token` ='"+token+"'");
 
 
 
             while(rs.next()){
-                id = rs.getInt("id");
+                id = rs.getInt("idMembre");
             }
 
         }
@@ -2689,7 +2722,7 @@ public class BaseDeDonnee {
 
     }
     public int getNotifId(Notification notification){
-        System.out.println("  get id notif start");
+        System.out.println("  get id notif start  "+notification.getContenu()+"   "+notification.getEnvoyéLe());
         int i=1,idNot=0;
 
 
@@ -2701,7 +2734,7 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM `notification` WHERE `contenu`='"+notification.getContenu()+"' AND `envoyéLe`='"+notification.getEnvoyéLe()+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `notification` WHERE `typeMessage`='"+notification.getTypeMessage()+"' ");
 
 
 
@@ -2732,7 +2765,7 @@ public class BaseDeDonnee {
         return idNot;
     }
     public int createNotif(Notification notification){
-        System.out.println("creat notif start");
+        System.out.println(getNotifId(notification) +"  creat notif start"+notification.getMembre().getId());
         createNotifG(notification);
         int rep=0,cnt=0;
 
@@ -2741,6 +2774,7 @@ public class BaseDeDonnee {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
             PreparedStatement pst=con.prepareStatement(query);
 
+            System.out.println("sdddddddddddddddddddd "+getNotifId(notification));
             pst.setInt(1, getNotifId(notification));
             pst.setInt(2, notification.getMembre().getId());
             pst.setString(3, notification.getCirconscription());
@@ -3038,12 +3072,12 @@ public class BaseDeDonnee {
         Membre membre = new Membre();
 
         try{
-            System.out.println("je recupère les infos du membre11");
+            System.out.println("je recupère les infos du membre  11");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM `membreconnected`  WHERE `id`='"+id+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `membreconnected`  WHERE `idMembre`='"+id+"'");
 
 
 
@@ -3052,11 +3086,24 @@ public class BaseDeDonnee {
                 System.out.println("je recupère les infos du membre");
 
                 int idDuM = rs.getInt("idMembre");
-                membre = getMemberById(idDuM);
+
+                membre = new Membre(getMemberById(idDuM));
+
                 membre.setId(idDuM);
+               /* membre.setMatricule(mI.getMatricule());
+                membre.setNoms(mI.getNoms());
+                membre.setPrenom(mI.getPrenom());
+                membre.setEmail(mI.getEmail());
+                membre.setPhoto(mI.getPhoto());
+                membre.setMotdepasse(mI.getMotdepasse());
+                membre.setUniversite(mI.getUniversite());
+                membre.setRole(mI.getRole());
+                membre.setDateInscription(mI.getDateInscription());
+                membre.setSuspendu(mI.getSuspendu());*/
 
 
-                System.out.println("nom membre: "+membre.getNoms());
+
+                System.out.println("nom du fameux membre: "+membre.getNoms());
 
             }
 

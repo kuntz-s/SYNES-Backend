@@ -38,7 +38,6 @@ public class transactionController {
         System.out.println("    vvv");
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion transaction")) == 0) {
             int id = bd.getIdMemberByToken(token.substring(7));
-            System.out.println(id+"    vvv");
             int idDestinateur = 0;
 
             int result = bd.createTransaction(transaction);
@@ -48,11 +47,13 @@ public class transactionController {
                 return new ApiError(400,"une erreur est survenu","bad request");
             }else{
                 Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
-                Notification notification = new Notification("La transaction de Mr/Mme "+ bd.eGetMemberById(transaction.getMembre().getId()).getNoms()+" "+bd.eGetMemberById(transaction.getMembre().getId()).getPrenom()+" pour "+transaction.getRaison()+" a bien été reçu",date,"CONFIRMATION DE TRANSACTION");
+                Notification notification = new Notification(bd.getMemberById(id),"La transaction de Mr/Mme "+ bd.eGetMemberById(transaction.getMembre().getId()).getNoms()+" "+bd.eGetMemberById(transaction.getMembre().getId()).getPrenom()+" pour "+transaction.getRaison()+" a bien été reçu",date,"CONFIRMATION DE TRANSACTION "+ bd.eGetMemberById(transaction.getMembre().getId()).getNoms(),bd.getOrganeById(bd.getMemberOrgane(id)).getNom());
+                System.out.println(id+"    vvv   "+bd.getMemberOrgane(id));
+                System.out.println(id+"    vvnv   "+bd.eGetMemberById(transaction.getMembre().getId()).getNoms());
                 bd.createNotif(notification);
                 //notificationControler.sendNotificationTo(notification,idDestinateur);
                 //notificationControler.sendNotification(notification);
-                simpMessagingTemplate.convertAndSend("/specific/"+notification.getMembre().getId(),notification);
+                simpMessagingTemplate.convertAndSend("/specific/"+transaction.getMembre().getId(),notification);
 
                 return result+"  TRANSACTION AJOUTEE";
             }

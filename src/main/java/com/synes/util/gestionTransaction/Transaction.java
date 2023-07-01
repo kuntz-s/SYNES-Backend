@@ -3,6 +3,15 @@ package com.synes.util.gestionTransaction;
 import com.synes.util.gestionEvenement.Evenements;
 import com.synes.util.gestionUtilisateur.Membre;
 
+/*
+{
+    "montant":5000,
+    "type":"retrait",
+    "raison":"cotisation deuil",
+    "membre":{"id":1},
+    "evenement":{"id":1}
+}
+*/
 public class Transaction {
     private int id;
     private int montant;

@@ -44,7 +44,7 @@ public class eventController {
                 return new ApiError(400,"une erreur est survenu","bad request");
             }else{
                 Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
-                Notification notification = new Notification("L'évènement "+evenements.getNom()+" a été créé",date,"NOUVEL EVENEMENT");
+                Notification notification = new Notification(bd.getMemberById(id),"Evènement "+evenements.getNom()+" a été créé",date,"EVENEMENT "+evenements.getDescription(),bd.getOrganeById(bd.getMemberOrgane(id)).getNom());
                 bd.createNotif(notification);
                 //notificationControler.sendNotification(notification);
                 simpMessagingTemplate.convertAndSend("/topic/sendNotification",notification);

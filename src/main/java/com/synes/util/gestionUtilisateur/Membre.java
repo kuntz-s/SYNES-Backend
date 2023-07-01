@@ -29,8 +29,21 @@ public class Membre {
 
     }
 
-    public Membre(BaseDeDonnee baseDeDonnee, String matricule, String noms, String prenom, String email, String photo, String motdepasse, Universite universite, List avertissement, Role role, int suspendu, Date dateInscription) {
-        this.baseDeDonnee = baseDeDonnee;
+    public Membre(Membre membre) {
+        this.matricule = membre.getMatricule();
+        this.noms = membre.getNoms();
+        this.prenom = membre.getPrenom();
+        this.email = membre.getEmail();
+        this.photo = membre.getPhoto();
+        this.motdepasse = membre.getMotdepasse();
+        this.universite = membre.getUniversite();
+        this.avertissement = membre.getAvertissement();
+        this.role = membre.getRole();
+        this.suspendu = membre.getSuspendu();
+        this.dateInscription = membre.getDateInscription();
+    }
+
+    public Membre( String matricule, String noms, String prenom, String email, String photo, String motdepasse, Universite universite, List avertissement, Role role, int suspendu, Date dateInscription) {
         this.matricule = matricule;
         this.noms = noms;
         this.prenom = prenom;
