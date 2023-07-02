@@ -3,21 +3,19 @@ package com.synes.util;
 
 import com.synes.util.gestionUtilisateur.Membre;
 
-import java.util.Date;
-
 public class Notification {
 
     private int id;
     private Membre membre;
     private String contenu;
-    private Date envoyéLe;
+    private Object envoyéLe;
     private String typeMessage;
     private String circonscription;
 
     public Notification() {
     }
 
-    public Notification(int id, Membre membre, String contenu, Date envoyéLe, String typeMessage, String circonscription) {
+    public Notification(int id, Membre membre, String contenu, Object envoyéLe, String typeMessage, String circonscription) {
         this.id = id;
         this.membre = membre;
         this.contenu = contenu;
@@ -25,7 +23,7 @@ public class Notification {
         this.typeMessage = typeMessage;
         this.circonscription = circonscription;
     }
-    public Notification(Membre membre, String contenu, Date envoyéLe, String typeMessage, String circonscription) {
+    public Notification(Membre membre, String contenu, Object envoyéLe, String typeMessage, String circonscription) {
         this.membre = membre;
         this.contenu = contenu;
         this.envoyéLe = envoyéLe;
@@ -33,7 +31,7 @@ public class Notification {
         this.circonscription = circonscription;
     }
 
-    public Notification(String contenu, Date envoyéLe, String typeMessage) {
+    public Notification(String contenu, Object envoyéLe, String typeMessage) {
         this.contenu = contenu;
         this.envoyéLe = envoyéLe;
         this.typeMessage = typeMessage;
@@ -55,11 +53,11 @@ public class Notification {
         this.contenu = contenu;
     }
 
-    public Date getEnvoyéLe() {
+    public Object getEnvoyéLe() {
         return envoyéLe;
     }
 
-    public void setEnvoyéLe(Date envoyéLe) {
+    public void setEnvoyéLe(Object envoyéLe) {
         this.envoyéLe = envoyéLe;
     }
 

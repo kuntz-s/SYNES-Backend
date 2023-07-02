@@ -1,17 +1,15 @@
 package com.synes.util.gestionTransaction;
 
-import java.util.Date;
-
 public class SoldeBancaire {
     private int id;
     private Transaction transaction;
     private int solde;
-    private Date modifieLe;
+    private Object modifieLe;
 
     public SoldeBancaire() {
     }
 
-    public SoldeBancaire(int id, Transaction transaction, int solde, Date modifieLe) {
+    public SoldeBancaire(int id, Transaction transaction, int solde, Object modifieLe) {
         this.id = id;
         this.transaction = transaction;
         this.solde = solde;
@@ -42,11 +40,11 @@ public class SoldeBancaire {
         this.solde = solde;
     }
 
-    public Date getModifieLe() {
+    public Object getModifieLe() {
         return modifieLe;
     }
 
-    public void setModifieLe(Date modifieLe) {
+    public void setModifieLe(Object modifieLe) {
         this.modifieLe = modifieLe;
     }
 }

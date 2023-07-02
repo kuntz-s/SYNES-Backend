@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 @RestController
@@ -52,7 +50,9 @@ public class transactionController {
                 response.setStatus(400);
                 return new ApiError(400,"une erreur est survenu !","bad request");
             }else{
-                Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
+                //Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
+                LocalDateTime date = LocalDateTime.now();
+
                 Notification notification = new Notification(bd.getMemberById(id),"La transaction de Mr/Mme "+ bd.getMemberById(transaction.getMembre().getId()).getNoms()+" "+bd.getMemberById(transaction.getMembre().getId()).getPrenom()+" pour "+transaction.getRaison()+" a bien été reçu",date,"CONFIRMATION DE TRANSACTION "+ bd.getMemberById(transaction.getMembre().getId()).getNoms(),bd.getOrganeById(bd.getMemberOrgane(id)).getNom());
                 System.out.println(id+"    vvv   "+bd.getMemberOrgane(id));
                 System.out.println(id+"    vvnv   "+bd.getMemberById(transaction.getMembre().getId()).getNoms());

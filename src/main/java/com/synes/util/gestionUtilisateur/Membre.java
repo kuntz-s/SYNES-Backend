@@ -21,7 +21,7 @@ public class Membre {
     Role role;
     int suspendu;
 
-    Date dateInscription;
+    Object dateInscription;
 
 
 
@@ -44,7 +44,7 @@ public class Membre {
         this.dateInscription = membre.getDateInscription();
     }
 
-    public Membre( String matricule, String noms, String prenom, String email, String photo, String motdepasse, Universite universite, List avertissement, Role role, int suspendu, Date dateInscription) {
+    public Membre( String matricule, String noms, String prenom, String email, String photo, String motdepasse, Universite universite, List avertissement, Role role, int suspendu, Object dateInscription) {
         this.matricule = matricule;
         this.noms = noms;
         this.prenom = prenom;
@@ -58,7 +58,7 @@ public class Membre {
         this.dateInscription = dateInscription;
     }
 
-    public Membre(String matricule, String noms, String prenom, String email, String photo, Universite Universite, Date dateInscription) {
+    public Membre(String matricule, String noms, String prenom, String email, String photo, Universite Universite, Object dateInscription) {
         this.matricule = matricule;
         this.noms = noms;
         this.prenom = prenom;
@@ -68,7 +68,7 @@ public class Membre {
         this.role = baseDeDonnee.getRoleById(baseDeDonnee.getRoleIdByUnivId(universite.getId()));
         this.dateInscription = dateInscription;
     }
-    public Membre(String matricule, String noms, String prenom, String email, String photo, String motdepasse, Role Role, Universite Universite, Date dateInscription) {
+    public Membre(String matricule, String noms, String prenom, String email, String photo, String motdepasse, Role Role, Universite Universite, Object dateInscription) {
         this.matricule = matricule;
         this.noms = noms;
         this.prenom = prenom;
@@ -79,7 +79,7 @@ public class Membre {
         this.role = Role;
         this.dateInscription = dateInscription;
     }
-    public Membre(String matricule, String noms, String prenom, String email, String photo, Role Role, Universite Universite, Date dateInscription) {
+    public Membre(String matricule, String noms, String prenom, String email, String photo, Role Role, Universite Universite, Object dateInscription) {
         this.matricule = matricule;
         this.noms = noms;
         this.prenom = prenom;
@@ -168,11 +168,11 @@ public class Membre {
         this.role = role;
     }
 
-    public Date getDateInscription() {
+    public Object getDateInscription() {
         return dateInscription;
     }
 
-    public void setDateInscription(Date dateInscription) {
+    public void setDateInscription(Object dateInscription) {
         this.dateInscription = dateInscription;
     }
 

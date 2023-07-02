@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 @RestController
@@ -43,7 +41,8 @@ public class eventController {
                 response.setStatus(400);
                 return new ApiError(400,"une erreur est survenu","bad request");
             }else{
-                Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
+                //Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
+                LocalDateTime date = LocalDateTime.now();
                 Notification notification = new Notification(bd.getMemberById(id),"Evènement "+evenements.getNom()+" a été créé",date,"EVENEMENT "+evenements.getDescription(),bd.getOrganeById(bd.getMemberOrgane(id)).getNom());
                 bd.createNotif(notification);
                 //notificationControler.sendNotification(notification);

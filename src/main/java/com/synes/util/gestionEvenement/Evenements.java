@@ -2,8 +2,6 @@ package com.synes.util.gestionEvenement;
 
 import com.synes.util.gestionUtilisateur.Membre;
 
-import java.util.Date;
-
 
 /*
 {
@@ -18,15 +16,15 @@ public class Evenements {
 
     int id;
     String nom;
-    Date dateDebut;
-    Date dateFin;
+    Object dateDebut;
+    Object dateFin;
     String description;
     Membre membre;
     String photo;
 
     public Evenements() { }
 
-    public Evenements(int id, String nom, Date dateDebut, Date dateFin, String description, Membre membre, String photo) {
+    public Evenements(int id, String nom, Object dateDebut, Object dateFin, String description, Membre membre, String photo) {
         this.id = id;
         this.nom = nom;
         this.dateDebut = dateDebut;
@@ -52,19 +50,19 @@ public class Evenements {
         this.nom = nom;
     }
 
-    public Date getDateDebut() {
+    public Object getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(Date dateDebut) {
+    public void setDateDebut(Object dateDebut) {
         this.dateDebut = dateDebut;
     }
 
-    public Date getDateFin() {
+    public Object getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(Date dateFin) {
+    public void setDateFin(Object dateFin) {
         this.dateFin = dateFin;
     }
 

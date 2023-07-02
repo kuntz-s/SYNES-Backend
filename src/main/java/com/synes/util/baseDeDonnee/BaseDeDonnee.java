@@ -9,11 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.*;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class BaseDeDonnee {
@@ -118,7 +115,7 @@ public class BaseDeDonnee {
                 membre.setMotdepasse(rs.getString("motDePasse"));
                 membre.setUniversite(getUniversityById(rs.getInt("idUniversite")));
                 membre.setRole(getRoleById(rs.getInt("idRole")));
-                membre.setDateInscription(rs.getDate("dateInscription"));
+                membre.setDateInscription(rs.getObject("dateInscription"));
                 membre.setSuspendu(rs.getInt("suspendu"));
 
 
@@ -592,7 +589,7 @@ public class BaseDeDonnee {
                 membre.setMotdepasse(rs.getString("motDePasse"));
                 membre.setUniversite(getUniversityById(rs.getInt("idUniversite")));
                 membre.setRole(getRoleById(rs.getInt("idRole")));
-                membre.setDateInscription(rs.getDate("dateInscription"));
+                membre.setDateInscription(rs.getObject("dateInscription"));
                 membre.setSuspendu(rs.getInt("suspendu"));
 
                 listAv.add(getMemberAvertissement(rs.getInt("id")));
@@ -656,7 +653,7 @@ public class BaseDeDonnee {
                   membre.setMotdepasse(rs.getString("motDePasse"));
                   membre.setUniversite(getUniversityById(rs.getInt("idUniversite")));
                   membre.setRole(getRoleById(rs.getInt("idRole")));
-                  membre.setDateInscription(rs.getDate("dateInscription"));
+                  membre.setDateInscription(rs.getObject("dateInscription"));
                   membre.setSuspendu(rs.getInt("suspendu"));
 
                   updateMember.setId(rs.getInt("id"));
@@ -1237,7 +1234,7 @@ public class BaseDeDonnee {
                 membre.setMotdepasse(rs.getString("motDePasse"));
                 membre.setUniversite(getUniversityById(rs.getInt("idUniversite")));
                 membre.setRole(getRoleById(rs.getInt("idRole")));
-                membre.setDateInscription(rs.getDate("dateInscription"));
+                membre.setDateInscription(rs.getObject("dateInscription"));
                 membre.setSuspendu(rs.getInt("suspendu"));
 
 
@@ -2667,7 +2664,7 @@ public class BaseDeDonnee {
                 membre.setMotdepasse(rs.getString("motDePasse"));
                 membre.setUniversite(getUniversityById(rs.getInt("idUniversite")));
                 membre.setRole(getRoleById(rs.getInt("idRole")));
-                membre.setDateInscription(rs.getDate("dateInscription"));
+                membre.setDateInscription(rs.getObject("dateInscription"));
 
 
                 updateMember.setMembre(membre);
@@ -2748,7 +2745,7 @@ public class BaseDeDonnee {
 
                 notification.setId(rs.getInt("id"));
                 notification.setTypeMessage(rs.getString("typeMessage"));
-                notification.setEnvoyéLe(rs.getDate("envoyéLe"));
+                notification.setEnvoyéLe(rs.getObject("envoyéLe"));
                 notification.setContenu(rs.getString("contenu"));
 
                 System.out.println(" Notif : "+notification.getTypeMessage());
@@ -2826,7 +2823,7 @@ public class BaseDeDonnee {
 
                 notification.setId(rs.getInt("id"));
                 notification.setTypeMessage(rs.getString("typeMessage"));
-                notification.setEnvoyéLe(rs.getDate("envoyéLe"));
+                notification.setEnvoyéLe(rs.getObject("envoyéLe"));
                 notification.setContenu(rs.getString("contenu"));
 
                 System.out.println(" Notif : "+notification.getTypeMessage());
@@ -2869,7 +2866,7 @@ public class BaseDeDonnee {
 
                 notification.setId(rs.getInt("id"));
                 notification.setTypeMessage(rs.getString("typeMessage"));
-                notification.setEnvoyéLe(rs.getDate("envoyéLe"));
+                notification.setEnvoyéLe(rs.getObject("envoyéLe"));
                 notification.setContenu(rs.getString("contenu"));
 
                 System.out.println(" Notif : "+notification.getTypeMessage());
@@ -3143,8 +3140,8 @@ public class BaseDeDonnee {
 
                 evenements.setId(rs.getInt("id"));
                 evenements.setNom(rs.getString("nom"));
-                evenements.setDateDebut(rs.getDate("dateDebut"));
-                evenements.setDateFin(rs.getDate("dateFin"));
+                evenements.setDateDebut(rs.getObject("dateDebut"));
+                evenements.setDateFin(rs.getObject("dateFin"));
                 evenements.setDescription(rs.getString("description"));
                 evenements.setPhoto(rs.getString("photo"));
                 evenements.setMembre(eGetMemberById(rs.getInt("idMembre")));
@@ -3192,8 +3189,8 @@ public class BaseDeDonnee {
 
                 evenements.setId(rs.getInt("id"));
                 evenements.setNom(rs.getString("nom"));
-                evenements.setDateDebut(rs.getDate("dateDebut"));
-                evenements.setDateFin(rs.getDate("dateFin"));
+                evenements.setDateDebut(rs.getObject("dateDebut"));
+                evenements.setDateFin(rs.getObject("dateFin"));
                 evenements.setDescription(rs.getString("description"));
                 evenements.setPhoto(rs.getString("photo"));
                 evenements.setMembre(getMemberById(rs.getInt("idMembre")));
@@ -3320,7 +3317,8 @@ public class BaseDeDonnee {
 
             if(rep==1){
                 if(transaction.getType().equals("retrait")){
-                    Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
+                    //Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
+                    LocalDateTime date = LocalDateTime.now();
 
                     SoldeBancaire soldeBancaire = new SoldeBancaire();
                     soldeBancaire.setSolde(transaction.getMontant());
@@ -3329,7 +3327,8 @@ public class BaseDeDonnee {
 
                     updateSoldeBancaire(soldeBancaire,1);
                 }else {
-                    Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
+                    //Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
+                    LocalDateTime date = LocalDateTime.now();
 
                     SoldeBancaire soldeBancaire = new SoldeBancaire();
                     soldeBancaire.setSolde(transaction.getMontant());
