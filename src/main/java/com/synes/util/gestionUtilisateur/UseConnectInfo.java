@@ -1,7 +1,5 @@
 package com.synes.util.gestionUtilisateur;
 
-import com.synes.util.gestionUtilisateur.Membre;
-
 import java.util.List;
 
 public class UseConnectInfo {
@@ -17,6 +15,15 @@ public class UseConnectInfo {
     public UseConnectInfo(String token, Membre leMembre, String nomRole, String nomUniv) {
     }
     public UseConnectInfo() {
+    }
+
+    public UseConnectInfo(String token, Membre membre, String nomRole, List<String> listPermission, String nomUniversite, int idMembre) {
+        this.token = token;
+        this.membre = membre;
+        this.nomRole = nomRole;
+        this.listPermission = listPermission;
+        this.nomUniversite = nomUniversite;
+        this.idMembre = idMembre;
     }
 
     public UseConnectInfo(String token, Membre membre, String nomRole, List<String> listPermission, String nomUniversite) {

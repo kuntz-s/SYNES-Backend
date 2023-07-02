@@ -53,9 +53,9 @@ public class transactionController {
                 return new ApiError(400,"une erreur est survenu !","bad request");
             }else{
                 Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
-                Notification notification = new Notification(bd.getMemberById(id),"La transaction de Mr/Mme "+ bd.eGetMemberById(transaction.getMembre().getId()).getNoms()+" "+bd.eGetMemberById(transaction.getMembre().getId()).getPrenom()+" pour "+transaction.getRaison()+" a bien été reçu",date,"CONFIRMATION DE TRANSACTION "+ bd.eGetMemberById(transaction.getMembre().getId()).getNoms(),bd.getOrganeById(bd.getMemberOrgane(id)).getNom());
+                Notification notification = new Notification(bd.getMemberById(id),"La transaction de Mr/Mme "+ bd.getMemberById(transaction.getMembre().getId()).getNoms()+" "+bd.getMemberById(transaction.getMembre().getId()).getPrenom()+" pour "+transaction.getRaison()+" a bien été reçu",date,"CONFIRMATION DE TRANSACTION "+ bd.getMemberById(transaction.getMembre().getId()).getNoms(),bd.getOrganeById(bd.getMemberOrgane(id)).getNom());
                 System.out.println(id+"    vvv   "+bd.getMemberOrgane(id));
-                System.out.println(id+"    vvnv   "+bd.eGetMemberById(transaction.getMembre().getId()).getNoms());
+                System.out.println(id+"    vvnv   "+bd.getMemberById(transaction.getMembre().getId()).getNoms());
                 bd.createNotif(notification);
                 //notificationControler.sendNotificationTo(notification,idDestinateur);
                 //notificationControler.sendNotification(notification);

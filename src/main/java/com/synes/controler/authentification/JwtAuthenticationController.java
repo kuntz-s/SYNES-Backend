@@ -71,7 +71,7 @@ public class JwtAuthenticationController {
 			List<String> listPermis = bd.getPermission(leMembre.getRole().getId());
 			System.out.println("list permis"+listPermis);
 
-			useConnectInfo = new UseConnectInfo(token,leMembre, bd.getRoleById(leMembre.getRole().getId()).getNom(),listPermis,nomUniv);
+			useConnectInfo = new UseConnectInfo(token,leMembre, bd.getRoleById(leMembre.getRole().getId()).getNom(),listPermis,nomUniv,bd.getIdMemberByMatricule(leMembre.getMatricule()));
 			int truc = bd.AddConnectedMembre(useConnectInfo);
 			System.out.println("addconn"+truc);
 

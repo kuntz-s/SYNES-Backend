@@ -109,6 +109,7 @@ public class BaseDeDonnee {
 
 
             while(rs.next()){
+                membre.setId(rs.getInt("id"));
                 membre.setMatricule(rs.getString("matricule"));
                 membre.setNoms(rs.getString("nom"));
                 membre.setPrenom(rs.getString("prenom"));
@@ -1795,6 +1796,8 @@ public class BaseDeDonnee {
         int rep=0,cnt=0;
         cnt=verif_double_conn(getIdMemberByMatricule(useConnectInfo.getMembre().getMatricule()));
 
+        System.out.println("id du membre que je connecte "+getIdMemberByMatricule(useConnectInfo.getMembre().getMatricule()));
+
         String permissions = "";
         for (int i=0; i<useConnectInfo.getListPermission().size(); i++){
             permissions = permissions+";"+useConnectInfo.getListPermission().get(i);
@@ -1830,11 +1833,12 @@ public class BaseDeDonnee {
             }
         }else{
             try{
-                String query="UPDATE `membreconnected` SET `token`=?";
+                String query="UPDATE `membreconnected` SET `token`=? WHERE `idMembre`=?";
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
                 PreparedStatement pst=con.prepareStatement(query);
 
                 pst.setString(1, useConnectInfo.getToken());
+                pst.setInt(2, getIdMemberByMatricule(useConnectInfo.getMembre().getMatricule()));
 
                 pst.executeUpdate();
 
@@ -2960,7 +2964,7 @@ public class BaseDeDonnee {
                 notification.setCirconscription(rs.getString("circonscription"));
 
                 Notification not = getNotifById(rs.getInt("id"));
-                Membre membre = eGetMemberById(rs.getInt("idMembre"));
+                Membre membre = getMemberById(rs.getInt("idMembre"));
 
 
                 notification.setTypeMessage(not.getTypeMessage());
@@ -3143,7 +3147,7 @@ public class BaseDeDonnee {
                 evenements.setDateFin(rs.getDate("dateFin"));
                 evenements.setDescription(rs.getString("description"));
                 evenements.setPhoto(rs.getString("photo"));
-                evenements.setMembre(eGetMemberById(rs.getInt("idMembre")));
+                evenements.setMembre(getMemberById(rs.getInt("idMembre")));
 
 
 
@@ -3192,7 +3196,7 @@ public class BaseDeDonnee {
                 evenements.setDateFin(rs.getDate("dateFin"));
                 evenements.setDescription(rs.getString("description"));
                 evenements.setPhoto(rs.getString("photo"));
-                evenements.setMembre(eGetMemberById(rs.getInt("idMembre")));
+                evenements.setMembre(getMemberById(rs.getInt("idMembre")));
 
 
 
@@ -3368,7 +3372,7 @@ public class BaseDeDonnee {
                 transaction.setRaison(rs.getString("raison"));
                 transaction.setType(rs.getString("type"));
                 transaction.setMontant(rs.getInt("montant"));
-                transaction.setMembre(eGetMemberById(rs.getInt("idMembre")));
+                transaction.setMembre(getMemberById(rs.getInt("idMembre")));
                 transaction.setEvenements(getEvenementById(rs.getInt("idEvenement")));
 
 
