@@ -9,7 +9,7 @@ import com.synes.util.gestionUtilisateur.Membre;
     "type":"retrait",
     "raison":"cotisation deuil",
     "membre":{"id":1},
-    "evenement":{"id":1}
+    "evenements":{"id":1}
 }
 */
 public class Transaction {

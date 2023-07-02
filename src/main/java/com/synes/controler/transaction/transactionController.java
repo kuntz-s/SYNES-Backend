@@ -35,7 +35,13 @@ public class transactionController {
     @RequestMapping(value = "/createTransaction", method = RequestMethod.POST, consumes= MediaType.APPLICATION_JSON_VALUE)
     public Object createTransaction(@RequestHeader("authorization") String token, @RequestBody Transaction transaction, HttpServletResponse response) throws InterruptedException, ParseException {
 
-        System.out.println("    vvv");
+        System.out.println("    vvv  "+transaction.getRaison());
+        System.out.println("    vvv  "+transaction.getType());
+        System.out.println("    vvv  "+transaction.getMontant());
+        System.out.println("    vvv  "+transaction.getMembre().getId());
+        System.out.println("    vvv  "+transaction.getEvenements());
+
+
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion transaction")) == 0) {
             int id = bd.getIdMemberByToken(token.substring(7));
             int idDestinateur = 0;
@@ -44,7 +50,7 @@ public class transactionController {
 
             if(result==1){
                 response.setStatus(400);
-                return new ApiError(400,"une erreur est survenu","bad request");
+                return new ApiError(400,"une erreur est survenu !","bad request");
             }else{
                 Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
                 Notification notification = new Notification(bd.getMemberById(id),"La transaction de Mr/Mme "+ bd.eGetMemberById(transaction.getMembre().getId()).getNoms()+" "+bd.eGetMemberById(transaction.getMembre().getId()).getPrenom()+" pour "+transaction.getRaison()+" a bien été reçu",date,"CONFIRMATION DE TRANSACTION "+ bd.eGetMemberById(transaction.getMembre().getId()).getNoms(),bd.getOrganeById(bd.getMemberOrgane(id)).getNom());
@@ -67,7 +73,7 @@ public class transactionController {
     // liste transactions
     @RequestMapping(value = "/listeTransaction", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
     public Object listeTransaction(){
-
+        System.out.println("aaaaaaaaaaaaaaaaaa");
         return bd.getTransactions();
     }
 

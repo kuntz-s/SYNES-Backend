@@ -88,6 +88,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/suspension/{id}").permitAll()
 				.antMatchers("/listeSuspendu").permitAll()
 				.antMatchers("/createTransaction").permitAll()
+				.antMatchers("/listeTransaction").permitAll()
 				.antMatchers("/stomp-endpoint/**").permitAll()
 				.antMatchers("/getNotification").permitAll()
 				.antMatchers("/getPrivateNotification").permitAll()
