@@ -40,6 +40,7 @@ public class BaseDeDonnee {
                 mail=rs.getString("email");
                 System.out.println(pws+" = "+encryptedPws+" "+mail);
             }
+            con.close();
 
         }
         catch (Exception exc){
@@ -79,6 +80,7 @@ public class BaseDeDonnee {
             }
             memberConn = new MemberConn(mail,passWord);
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
@@ -122,6 +124,7 @@ public class BaseDeDonnee {
                 System.out.println(membre);
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
@@ -153,6 +156,7 @@ public class BaseDeDonnee {
                 Universite.setLogo(rs.getString("logo"));
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
@@ -184,6 +188,7 @@ public class BaseDeDonnee {
                 Role.setOrgane(getOrganeById(rs.getInt("idOrgane")));
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
@@ -227,6 +232,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect pemission");
@@ -259,6 +265,7 @@ public class BaseDeDonnee {
                 permission.setDescription(rs.getString("description"));
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
@@ -297,6 +304,7 @@ public class BaseDeDonnee {
                 rid=rs.getInt("id");
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
@@ -325,6 +333,7 @@ public class BaseDeDonnee {
                 oid=rs.getInt("id");
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
@@ -355,6 +364,7 @@ public class BaseDeDonnee {
                 oid=rs.getInt("idOrgane");
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
@@ -403,6 +413,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listUniv");
@@ -453,6 +464,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listOrganes");
@@ -500,6 +512,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listRole");
@@ -547,6 +560,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listrole/id");
@@ -611,6 +625,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listMembres");
@@ -670,6 +685,7 @@ public class BaseDeDonnee {
                   i++;
               }
 
+              con.close();
           }
           catch (Exception exc){
               System.out.println(exc+"  error connect membre/organe");
@@ -707,6 +723,7 @@ public class BaseDeDonnee {
                 System.out.println("register successfully");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -746,6 +763,7 @@ public class BaseDeDonnee {
                 h=h+1;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -785,6 +803,7 @@ public class BaseDeDonnee {
                 System.out.println("register univOrgane successfully");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -826,6 +845,7 @@ public class BaseDeDonnee {
                 System.out.println("register univRole successfully");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -859,6 +879,7 @@ public class BaseDeDonnee {
 
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect id univ");
@@ -890,6 +911,7 @@ public class BaseDeDonnee {
 
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect id organe");
@@ -922,6 +944,7 @@ public class BaseDeDonnee {
                 System.out.println("register successfully");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -959,6 +982,7 @@ public class BaseDeDonnee {
                 h=h+1;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -994,6 +1018,7 @@ public class BaseDeDonnee {
                 System.out.println("register successfully");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -1030,6 +1055,7 @@ public class BaseDeDonnee {
                 h=h+1;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -1083,6 +1109,7 @@ public class BaseDeDonnee {
                 System.out.println("register successfully");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -1121,6 +1148,7 @@ public class BaseDeDonnee {
                 h=h+1;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -1155,6 +1183,7 @@ public class BaseDeDonnee {
                 System.out.println("successfully updated");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -1197,6 +1226,7 @@ public class BaseDeDonnee {
 
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect id member organe");
@@ -1244,6 +1274,7 @@ public class BaseDeDonnee {
 
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect id member ");
@@ -1282,6 +1313,7 @@ public class BaseDeDonnee {
                 System.out.println("successfully updated");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -1314,6 +1346,7 @@ public class BaseDeDonnee {
                 System.out.println("successfully updated");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -1346,6 +1379,7 @@ public class BaseDeDonnee {
                 System.out.println("register successfully");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -1407,6 +1441,7 @@ public class BaseDeDonnee {
             System.out.println("successfully delete");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -1469,6 +1504,7 @@ public class BaseDeDonnee {
                 id=rs.getInt("id");
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
@@ -1507,6 +1543,7 @@ public class BaseDeDonnee {
             System.out.println("member successfully updated");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -1542,6 +1579,7 @@ public class BaseDeDonnee {
             updateOrganeUniv(id,"Section "+nom);
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -1575,6 +1613,7 @@ public class BaseDeDonnee {
 
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -1605,6 +1644,7 @@ public class BaseDeDonnee {
             System.out.println("role successfully updated");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -1639,6 +1679,7 @@ public class BaseDeDonnee {
             System.out.println("role successfully updated");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -1672,6 +1713,7 @@ public class BaseDeDonnee {
             System.out.println("organe successfully updated");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -1709,6 +1751,7 @@ public class BaseDeDonnee {
                 }
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -1776,6 +1819,7 @@ public class BaseDeDonnee {
                 System.out.println("ttttt"+useConnectInfo.getNomRole());
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
@@ -1818,6 +1862,7 @@ public class BaseDeDonnee {
                 System.out.println("register successfully");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -1843,6 +1888,7 @@ public class BaseDeDonnee {
                 System.out.println("update successfully");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -1876,6 +1922,7 @@ public class BaseDeDonnee {
                 h=h+1;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -1907,6 +1954,7 @@ public class BaseDeDonnee {
                 id = rs.getInt("id");
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listMembres");
@@ -1937,6 +1985,7 @@ public class BaseDeDonnee {
 
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect id role");
@@ -1974,6 +2023,7 @@ public class BaseDeDonnee {
 
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listOrganes");
@@ -2018,6 +2068,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listPermissions");
@@ -2063,6 +2114,7 @@ public class BaseDeDonnee {
                     i++;
                 }
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc+"  error connect listPermissions");
@@ -2095,6 +2147,7 @@ public class BaseDeDonnee {
 
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
@@ -2121,6 +2174,7 @@ public class BaseDeDonnee {
             System.out.println("member successfully updated");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -2157,6 +2211,7 @@ public class BaseDeDonnee {
             System.out.println("successfully deleted  the role");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -2187,6 +2242,7 @@ public class BaseDeDonnee {
             System.out.println("successfully deleted  the role");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -2220,6 +2276,7 @@ public class BaseDeDonnee {
             System.out.println("successfully deleted the organe");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -2254,6 +2311,7 @@ public class BaseDeDonnee {
 
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect id member organe");
@@ -2287,6 +2345,7 @@ public class BaseDeDonnee {
 
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error ");
@@ -2315,6 +2374,7 @@ public class BaseDeDonnee {
             System.out.println("successfully deleted the organe");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -2349,6 +2409,7 @@ public class BaseDeDonnee {
             System.out.println("successfully deleted the university");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -2383,6 +2444,7 @@ public class BaseDeDonnee {
                 id = rs.getInt("idMembre");
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listMembres");
@@ -2411,6 +2473,7 @@ public class BaseDeDonnee {
                 System.out.println("advertise successfully");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -2444,6 +2507,7 @@ public class BaseDeDonnee {
                 avertissement.setRaison(rs.getString("raison"));
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
@@ -2476,6 +2540,7 @@ public class BaseDeDonnee {
                 listA.add(avertissement);
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect");
@@ -2518,6 +2583,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listAvertissement");
@@ -2553,6 +2619,7 @@ public class BaseDeDonnee {
 
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect id member avertissement");
@@ -2583,6 +2650,7 @@ public class BaseDeDonnee {
             System.out.println("suspendu successfully");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -2617,6 +2685,7 @@ public class BaseDeDonnee {
             System.out.println("reabiliter successfully ");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -2678,6 +2747,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listSuspendu");
@@ -2710,6 +2780,7 @@ public class BaseDeDonnee {
             System.out.println("register successfully");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -2757,6 +2828,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect id Notif");
@@ -2786,6 +2858,7 @@ public class BaseDeDonnee {
             System.out.println("register successfully");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -2835,6 +2908,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listNotifs");
@@ -2878,6 +2952,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect id Notif");
@@ -2928,6 +3003,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listNotifs");
@@ -2979,6 +3055,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listNotifs");
@@ -3016,6 +3093,7 @@ public class BaseDeDonnee {
                 System.out.println("register successfully");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -3054,6 +3132,7 @@ public class BaseDeDonnee {
                 h=h+1;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -3108,6 +3187,7 @@ public class BaseDeDonnee {
 
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect id member ");
@@ -3157,6 +3237,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listEvents");
@@ -3204,6 +3285,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listEvents");
@@ -3235,6 +3317,7 @@ public class BaseDeDonnee {
             System.out.println("event successfully updated");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -3267,6 +3350,7 @@ public class BaseDeDonnee {
             System.out.println("successfully deleted the event");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -3306,6 +3390,7 @@ public class BaseDeDonnee {
                 System.out.println("register successfully");
                 rep=1;
 
+                con.close();
             }
             catch (Exception exc){
                 System.out.println(exc);
@@ -3385,6 +3470,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listEvents");
@@ -3419,6 +3505,7 @@ public class BaseDeDonnee {
 
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect id Transaction");
@@ -3459,6 +3546,7 @@ public class BaseDeDonnee {
             System.out.println("register successfully");
             rep=1;
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc);
@@ -3497,6 +3585,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect listEvents");
@@ -3531,6 +3620,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect solde Events");
@@ -3567,6 +3657,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect list event members");
@@ -3602,6 +3693,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect list trans member");
@@ -3645,6 +3737,7 @@ public class BaseDeDonnee {
                 i++;
             }
 
+            con.close();
         }
         catch (Exception exc){
             System.out.println(exc+"  error connect list trans member");
