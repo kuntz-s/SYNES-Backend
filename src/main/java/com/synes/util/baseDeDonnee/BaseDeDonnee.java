@@ -3081,7 +3081,7 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM `membreconnected`  WHERE `idMembre`='"+id+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `membreconnected`  WHERE `id`='"+id+"'");
 
 
 
@@ -3147,11 +3147,11 @@ public class BaseDeDonnee {
                 evenements.setDateFin(rs.getDate("dateFin"));
                 evenements.setDescription(rs.getString("description"));
                 evenements.setPhoto(rs.getString("photo"));
-                evenements.setMembre(getMemberById(rs.getInt("idMembre")));
+                evenements.setMembre(eGetMemberById(rs.getInt("idMembre")));
 
 
 
-                System.out.println("nom event: "+evenements.getNom()+"vvv"+rs.getInt("idMembre")+"  "+evenements.getMembre().getNoms());
+                System.out.println("nom event: "+evenements.getNom()+"v"+eGetMemberById(rs.getInt("idMembre")).getNoms()+"vv"+rs.getInt("idMembre")+"  "+evenements.getMembre().getNoms());
 
                 listEvents.add(evenements);
 
@@ -3505,6 +3505,154 @@ public class BaseDeDonnee {
         System.out.println("  solde well getted");
 
         return solde;
+    }
+
+    public int getSoldeEvenement(int idEvent){
+        System.out.println("  get solde start");
+        int i=1;
+        int solde=0;
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `transaction` WHERE `idEvenement`='"+idEvent+"'");
+
+
+
+            while(rs.next()){
+
+                solde = solde + rs.getInt("montant");
+                System.out.println("solde n: "+i+" = "+rs.getInt("montant"));
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect solde Events");
+        }
+        System.out.println("  solde Events well getted");
+
+        return solde;
+    }
+
+    //liste des membres ayant contribué a un évènement
+    public List<Membre> getEventMembres(int idEvent){
+        System.out.println("  get event members start");
+        int i=1;
+
+        List<Membre> listMember = new ArrayList<>();
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `transaction` WHERE `idEvenement`='"+idEvent+"'");
+
+
+
+            while(rs.next()){
+                Membre membre = new Membre(getMemberById(rs.getInt("idMembre")));
+
+                listMember.add(membre);
+
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect list event members");
+        }
+        System.out.println("  list event members well getted");
+
+        return listMember;
+    }
+    //liste des évènements auxquels un membres a participé
+    public List<Evenements> getMembreEvents(int idMembre){
+        System.out.println("  get member events start");
+        int i=1;
+
+        List<Evenements> listEvents = new ArrayList<>();
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `transaction` WHERE `idMembre`='"+idMembre+"'");
+
+
+
+            while(rs.next()){
+                Evenements evenements = getEvenementById(rs.getInt("idEvenement"));
+
+                listEvents.add(evenements);
+
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect list trans member");
+        }
+        System.out.println("  list trans member well getted");
+
+        return listEvents;
+    }
+    //liste des transaction éffectué par un membre
+    public List<Transaction> getMembreTransactions(int idMembre){
+        System.out.println("  get member trans start");
+        int i=1;
+        int solde=0;
+
+        List<Transaction> listTrans = new ArrayList<>();
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `transaction` WHERE `idMembre`='"+idMembre+"'");
+
+
+
+            while(rs.next()){
+                Transaction transaction = new Transaction();
+
+                transaction.setId(rs.getInt("id"));
+                transaction.setRaison(rs.getString("raison"));
+                transaction.setType(rs.getString("type"));
+                transaction.setMontant(rs.getInt("montant"));
+                transaction.setMembre(getMemberById(rs.getInt("idMembre")));
+                transaction.setEvenements(getEvenementById(rs.getInt("idEvenement")));
+
+                listTrans.add(transaction);
+
+                i++;
+            }
+
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect list trans member");
+        }
+        System.out.println("  list trans member well getted");
+
+        return listTrans;
     }
 
 }

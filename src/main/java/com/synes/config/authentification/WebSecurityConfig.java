@@ -92,6 +92,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/stomp-endpoint/**").permitAll()
 				.antMatchers("/getNotification").permitAll()
 				.antMatchers("/getPrivateNotification").permitAll()
+				.antMatchers("/soldeEvent/{id}").permitAll()
+				.antMatchers("/eventMembers/{id}").permitAll()
+				.antMatchers("/memberEvents/{id}").permitAll()
+				.antMatchers("/memberTransactions/{id}").permitAll()
 				// all other requests need to be authenticated
 				.anyRequest().authenticated().and().
 				// make sure we use stateless session; session won't be used to

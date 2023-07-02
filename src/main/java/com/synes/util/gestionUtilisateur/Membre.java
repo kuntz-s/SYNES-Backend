@@ -30,6 +30,7 @@ public class Membre {
     }
 
     public Membre(Membre membre) {
+        this.id = membre.getId();
         this.matricule = membre.getMatricule();
         this.noms = membre.getNoms();
         this.prenom = membre.getPrenom();

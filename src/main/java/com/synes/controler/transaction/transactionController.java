@@ -77,4 +77,10 @@ public class transactionController {
         return bd.getTransactions();
     }
 
+    //liste des transaction éffectué par un membre
+    @RequestMapping(value = "/memberTransactions/{id}", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object memberTransactions(@PathVariable("id") int id){
+        return bd.getMembreTransactions(id);
+    }
+
 }

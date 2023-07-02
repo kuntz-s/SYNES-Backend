@@ -102,5 +102,25 @@ public class eventController {
         }
     }
 
+    //solde des cotribution pour un evenement
+    @RequestMapping(value = "/soldeEvent/{id}", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object soldeEvent(@PathVariable("id") int id){
+
+        return bd.getSoldeEvenement(id);
+    }
+
+    //liste des membres ayant contribué a un évènement
+    @RequestMapping(value = "/eventMembers/{id}", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object eventMembers(@PathVariable("id") int id){
+
+        return bd.getEventMembres(id);
+    }
+
+    //liste des évènements auxquels un membres a participé
+    @RequestMapping(value = "/memberEvents/{id}", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object memberEvents(@PathVariable("id") int id){
+
+        return bd.getMembreEvents(id);
+    }
 
 }
