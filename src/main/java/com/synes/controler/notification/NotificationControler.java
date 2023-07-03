@@ -2,15 +2,14 @@ package com.synes.controler.notification;
 
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class NotificationControler {
 
     @Autowired
@@ -32,20 +31,19 @@ public class NotificationControler {
 */
 
     @MessageMapping("/solde")
+    //@RequestMapping(value = "/solde", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
     public void solde () throws InterruptedException{
         simpMessagingTemplate.convertAndSend("/getSolde",bd.getSolde());
     }
 
-    @RequestMapping(value = "/getNotification", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object getNotif() throws InterruptedException{
-        Thread.sleep(2000);
+    @RequestMapping(value = "/getNotification", method = RequestMethod.GET)
+    public Object getNotif() {
         return bd.getNotifs();
     }
 
-    @RequestMapping(value = "/getPrivateNotification", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
-    public Object getPrivateNotification (@RequestHeader("authorization") String token) throws InterruptedException{
+    @RequestMapping(value = "/getPrivateNotification", method = RequestMethod.GET)
+    public Object getPrivateNotification (@RequestHeader("authorization") String token) {
         int id = bd.getIdMemberByToken(token.substring(7));
-        Thread.sleep(2000);
         return bd.getPrivateNotifs(id);
     }
 

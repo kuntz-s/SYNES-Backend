@@ -43,7 +43,7 @@ public class eventController {
             }else{
                 //Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
                 LocalDateTime date = LocalDateTime.now();
-                Notification notification = new Notification(bd.getMemberById(id),"Evènement "+evenements.getNom()+" a été créé",date,"EVENEMENT "+evenements.getDescription(),bd.getOrganeById(bd.getMemberOrgane(id)).getNom());
+                Notification notification = new Notification(bd.getMemberById(0),"Evènement "+evenements.getNom()+" a été créé",date,"EVENEMENT "+evenements.getDescription(),bd.getOrganeById(bd.getMemberOrgane(id)).getNom());
                 bd.createNotif(notification);
                 //notificationControler.sendNotification(notification);
                 simpMessagingTemplate.convertAndSend("/topic/sendNotification",notification);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mar. 27 juin 2023 à 02:56
+-- Généré le :  lun. 03 juil. 2023 à 04:36
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  5.6.38
 
@@ -126,6 +126,7 @@ CREATE TABLE `membre` (
 --
 
 INSERT INTO `membre` (`matricule`, `nom`, `prenom`, `email`, `photo`, `motDePasse`, `idRole`, `id`, `idUniversite`, `dateCreation`, `dateInscription`, `suspendu`) VALUES
+('all', 'all', 'all', 'all', 'all', 'all', 1, 0, 10, '2023-05-22 14:19:35', '2023-05-22 14:19:35', 0),
 ('12x034euy1', 'tchuente', 'micaelle', 'nzouetengmicaelle@gmail.com', NULL, '$2a$10$/xuv7CJ4/7rCVJUYXU0YGe7br0gAsKiqNSsy20/DULDAgStpEXTHa', 1, 1, 10, '2023-05-22 14:19:35', '2010-10-10 10:10:10', 0);
 
 -- --------------------------------------------------------
@@ -148,8 +149,8 @@ CREATE TABLE `membreconnected` (
 --
 
 INSERT INTO `membreconnected` (`idMembre`, `id`, `nomRole`, `nomUniversite`, `token`, `permissions`) VALUES
-(1, 1, 'Secretaire Congres', 'universite de yaounde 1', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuem91ZXRlbmdtaWNhZWxsZUBnbWFpbC5jb20iLCJleHAiOjE2ODUzMzE2NDgsImlhdCI6MTY4NTMxMzY0OH0.oG4EsgYnwg8alQl39PvYphVpEfGlTMcUcrB_YRDywsb9oxaNGqzoTZv85QF2iKZU51AEIkorAB1b9h2JbyHWfQ', ';Gestion Syndicat;Création membre;Attributtion role systeme'),
-(1, 2, 'Secretaire Congres', 'Université de yaoundé 1', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuem91ZXRlbmdtaWNhZWxsZUBnbWFpbC5jb20iLCJleHAiOjE2ODkxMDQ1NjYsImlhdCI6MTY4NzgwODU2Nn0.Ugu2-0ZPiA3NdpcspQ0zmYMRb8GKi5lp6eaPlwmnGaTgBNF4VmwtJuDKEiERer_5anX712HJU8zoeXSi3V1mSQ', ';Gestion Syndicat;Création membre;Attributtion role systeme;Gérer sanctions membres;Gestion Evènement');
+(0, 0, 'all', 'all', '0', ''),
+(1, 7, 'Secretaire Congres', 'Université de yaoundé 1', 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuem91ZXRlbmdtaWNhZWxsZUBnbWFpbC5jb20iLCJleHAiOjE2ODk2NDQ4NjcsImlhdCI6MTY4ODM0ODg2N30.6gooO9MowEba4wdGIxFbwYP-NOmar-UemwCSzxV6H05CKNVa8f6YONneQtJdn85IVwqrzPk9jktXHijzFyKObQ', ';Gestion Syndicat;Création membre;Attributtion role systeme;Gérer sanctions membres;Gestion Evènement;Gestion transaction');
 
 -- --------------------------------------------------------
 
@@ -455,25 +456,25 @@ ALTER TABLE `avoirpermission`
 -- AUTO_INCREMENT pour la table `evenement`
 --
 ALTER TABLE `evenement`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT pour la table `membre`
 --
 ALTER TABLE `membre`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `membreconnected`
 --
 ALTER TABLE `membreconnected`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT pour la table `organe`
@@ -497,7 +498,7 @@ ALTER TABLE `piecesjointes`
 -- AUTO_INCREMENT pour la table `recevoirnotification`
 --
 ALTER TABLE `recevoirnotification`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT pour la table `role`
@@ -509,13 +510,13 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT pour la table `soldebancaire`
 --
 ALTER TABLE `soldebancaire`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT pour la table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT pour la table `universite`
@@ -550,7 +551,7 @@ ALTER TABLE `avoirpermission`
 -- Contraintes pour la table `evenement`
 --
 ALTER TABLE `evenement`
-  ADD CONSTRAINT `fkmm` FOREIGN KEY (`idMembre`) REFERENCES `membreconnected` (`id`);
+  ADD CONSTRAINT `fkmmm` FOREIGN KEY (`idMembre`) REFERENCES `membre` (`id`);
 
 --
 -- Contraintes pour la table `membre`

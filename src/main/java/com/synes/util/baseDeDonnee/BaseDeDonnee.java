@@ -2963,7 +2963,7 @@ public class BaseDeDonnee {
     }
     public List<Notification> getNotifs(){
         System.out.println("  get notif start");
-        int i=1;
+        int i=1,nul=0;
         List<Notification> listNotifs = new ArrayList<>();
 
 
@@ -2975,18 +2975,20 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM `recevoirnotification` WHERE `idMembre`='"+0+"' ");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `recevoirnotification` WHERE `idMembre`='"+nul+"' ");
 
+            System.out.println("  get 5555555555555555555");
 
 
             while(rs.next()){
-
+                System.out.println("  get 444444");
                 Notification notification = new Notification();
 
-                notification.setId(rs.getInt("id"));
+                notification.setId(rs.getInt("idNotification"));
+                System.out.println("  get 444444   "+rs.getInt("idNotification"));
                 notification.setCirconscription(rs.getString("circonscription"));
 
-                Notification not = getNotifById(rs.getInt("id"));
+                Notification not = getNotifById(rs.getInt("idNotification"));
 
 
                 notification.setTypeMessage(not.getTypeMessage());
@@ -3013,7 +3015,7 @@ public class BaseDeDonnee {
         return listNotifs;
     }
     public List<Notification> getPrivateNotifs(int id){
-        System.out.println("  get notif start");
+        System.out.println(" a get notif start "+id);
         int i=1;
         List<Notification> listNotifs = new ArrayList<>();
 
@@ -3033,10 +3035,10 @@ public class BaseDeDonnee {
 
                 Notification notification = new Notification();
 
-                notification.setId(rs.getInt("id"));
+                notification.setId(rs.getInt("idNotification"));
                 notification.setCirconscription(rs.getString("circonscription"));
 
-                Notification not = getNotifById(rs.getInt("id"));
+                Notification not = getNotifById(rs.getInt("idNotification"));
                 Membre membre = getMemberById(rs.getInt("idMembre"));
 
 
@@ -3070,7 +3072,7 @@ public class BaseDeDonnee {
     /////////////////////////* CRUD EVENEMENTS *///////////////////////////
 
     public int createEvent(Evenements evenements,int id){
-        System.out.println("creat event start");
+        System.out.println("creat event start  "+id);
         int rep=0,cnt=0;
         cnt=verif_double_event(evenements.getNom());
 
