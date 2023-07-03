@@ -3749,6 +3749,47 @@ public class BaseDeDonnee {
         return listTrans;
     }
 
+
+
+
+
+
+
+
+
+    public Object setImgProfile(String imgPath,int idMembre){
+        int rep=0,cnt=0;
+
+
+
+        try{
+            String query="UPDATE `membre` SET `photo`=? WHERE `id` = ? ";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setString(1, imgPath);
+            pst.setInt(2, idMembre);
+
+            pst.executeUpdate();
+
+
+            System.out.println("successfully updated");
+            rep=1;
+
+            con.close();
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 1;
+        }else{
+            return 0;
+        }
+
+    }
+
 }
 
 

@@ -31,7 +31,7 @@ public class SynesApplication {
 
 		ClassLoader classLoader = SynesApplication.class.getClassLoader();
 
-		File file = new File(Objects.requireNonNull(classLoader.getResource("synes-service-account-key.json")).getFile());
+		File file = new File(Objects.requireNonNull(classLoader.getResource("firebase.json")).getFile());
 		FileInputStream serviceAccount = new FileInputStream(file.getAbsolutePath());
 
 		FirebaseOptions options = new FirebaseOptions.Builder()
