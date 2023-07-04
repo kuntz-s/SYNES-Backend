@@ -2758,6 +2758,24 @@ public class BaseDeDonnee {
     }
 
 
+    public UserInfo getUserInfo(int idMembre){
+        UserInfo userInfo = new UserInfo();
+
+        Membre membre = getMemberById(idMembre);
+        List<Transaction> transactions = getMembreTransactions(idMembre);
+        List<Evenements> evenements = getMembreEvents(idMembre);
+        List<Avertissement> avertissements = getMemberAvertissement(idMembre);
+
+        userInfo.setMembre(membre);
+        userInfo.setTransactionList(transactions);
+        userInfo.setEvenementsList(evenements);
+        userInfo.setAvertissementList(avertissements);
+
+
+        return userInfo;
+    }
+
+
 
     /////////////////////////* NOTIFICAION *///////////////////////////
 

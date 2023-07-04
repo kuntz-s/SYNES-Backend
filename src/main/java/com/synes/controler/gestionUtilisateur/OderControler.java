@@ -497,4 +497,10 @@ public class OderControler {
         return bd.listSuspention();
     }
 
+
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
+    public Object getUserById(@RequestHeader("authorization") String token, @PathVariable("id") int idMembre, HttpServletResponse response){
+
+        return bd.getUserInfo(idMembre);
+    }
 }

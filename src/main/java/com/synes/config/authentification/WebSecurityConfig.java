@@ -97,6 +97,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/memberEvents/{id}").permitAll()
 				.antMatchers("/memberTransactions/{id}").permitAll()
 				.antMatchers("/setImg").permitAll()
+				.antMatchers("/user/{id}").permitAll()
 				// all other requests need to be authenticated
 				.anyRequest().authenticated().and().
 				// make sure we use stateless session; session won't be used to
