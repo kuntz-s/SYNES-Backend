@@ -2806,13 +2806,11 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM `notification` WHERE `typeMessage`='"+notification.getTypeMessage()+"' ");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `notification` WHERE `contenu`='"+notification.getContenu()+"' ");
 
 
 
             while(rs.next()){
-
-                Notification notif = new Notification();
 
                 notification.setId(rs.getInt("id"));
                 notification.setTypeMessage(rs.getString("typeMessage"));
@@ -2838,8 +2836,8 @@ public class BaseDeDonnee {
         return idNot;
     }
     public int createNotif(Notification notification){
-        System.out.println(getNotifId(notification) +"  creat notif start"+notification.getMembre().getId());
         createNotifG(notification);
+        System.out.println(getNotifId(notification) +"  creat notif start"+notification.getMembre().getId());
         int rep=0,cnt=0;
 
         try{
@@ -2975,7 +2973,7 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM `recevoirnotification` WHERE `idMembre`='"+nul+"' ");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `recevoirnotification` WHERE `idMembre`='"+nul+"' ORDER BY `recevoirnotification`.`id` DESC");
 
             System.out.println("  get 5555555555555555555");
 
@@ -3028,7 +3026,7 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM `recevoirnotification` WHERE `idMembre`='"+id+"' ");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `recevoirnotification` WHERE `idMembre`='"+id+"' ORDER BY `recevoirnotification`.`id` DESC");
 
 
             while(rs.next()){
@@ -3212,7 +3210,7 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM `evenement` ");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `evenement` ORDER BY `evenement`.`id` DESC");
 
 
 
@@ -3226,11 +3224,11 @@ public class BaseDeDonnee {
                 evenements.setDateFin(rs.getObject("dateFin"));
                 evenements.setDescription(rs.getString("description"));
                 evenements.setPhoto(rs.getString("photo"));
-                evenements.setMembre(eGetMemberById(rs.getInt("idMembre")));
+                evenements.setMembre(getMemberById(rs.getInt("idMembre")));
 
 
 
-                System.out.println("nom event: "+evenements.getNom()+"v"+eGetMemberById(rs.getInt("idMembre")).getNoms()+"vv"+rs.getInt("idMembre")+"  "+evenements.getMembre().getNoms());
+                System.out.println("nom event: "+evenements.getNom()+"v"+getMemberById(rs.getInt("idMembre")).getNoms()+"vv"+rs.getInt("idMembre")+"  "+evenements.getMembre().getNoms());
 
                 listEvents.add(evenements);
 
@@ -3248,7 +3246,7 @@ public class BaseDeDonnee {
 
         return listEvents;
     }
-    private Evenements getEvenementById(int idEvenement) {
+    public Evenements getEvenementById(int idEvenement) {
 
         System.out.println("  get events start");
         int i=1;
@@ -3446,7 +3444,7 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM `transaction` ");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `transaction` ORDER BY `transaction`.`id` DESC");
 
 
 
@@ -3720,7 +3718,7 @@ public class BaseDeDonnee {
 
             Statement stmt = con.createStatement();
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM `transaction` WHERE `idMembre`='"+idMembre+"'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `transaction` WHERE `idMembre`='"+idMembre+"' ORDER BY `transaction`.`id` DESC");
 
 
 

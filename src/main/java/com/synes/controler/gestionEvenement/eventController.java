@@ -33,7 +33,7 @@ public class eventController {
 
         if (bd.verif_permission(bd.getRoleId(bd.getCurrentUser(token.substring(7)).getNomRole()), bd.getIdPermission("Gestion Evènement")) == 0) {
             int id = bd.getIdMemberByToken(token.substring(7));
-            System.out.println(id+"    vvv");
+            System.out.println(id+"    vvv ttttt   "+evenements.getNom());
 
             int result = bd.createEvent(evenements,id);
 
@@ -43,7 +43,11 @@ public class eventController {
             }else{
                 //Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
                 LocalDateTime date = LocalDateTime.now();
-                Notification notification = new Notification(bd.getMemberById(0),"Evènement "+evenements.getNom()+" a été créé",date,"EVENEMENT "+evenements.getDescription(),bd.getOrganeById(bd.getMemberOrgane(id)).getNom());
+
+                System.out.println(id+"    vvv ttttt   "+evenements.getNom());
+                Notification notification = new Notification(bd.getMemberById(0), "L évènement " +evenements.getNom()+" viens d être créé, vous pouvez le consulter en allant dans la section évènement",date,"NOUVEL EVENEMENT ",bd.getOrganeById(bd.getMemberOrgane(id)).getNom());
+
+                System.out.println(id+"    vvv ttttt   "+notification.getContenu());
                 bd.createNotif(notification);
                 //notificationControler.sendNotification(notification);
                 simpMessagingTemplate.convertAndSend("/topic/sendNotification",notification);

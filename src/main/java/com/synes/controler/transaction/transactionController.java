@@ -53,7 +53,7 @@ public class transactionController {
                 //Date date = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
                 LocalDateTime date = LocalDateTime.now();
 
-                Notification notification = new Notification(bd.getMemberById(transaction.getMembre().getId()),"La transaction de Mr/Mme "+ bd.getMemberById(transaction.getMembre().getId()).getNoms()+" "+bd.getMemberById(transaction.getMembre().getId()).getPrenom()+" pour "+transaction.getRaison()+" a bien été reçu",date,"CONFIRMATION DE TRANSACTION "+ bd.getMemberById(transaction.getMembre().getId()).getNoms(),bd.getOrganeById(bd.getMemberOrgane(id)).getNom());
+                Notification notification = new Notification(bd.getMemberById(transaction.getMembre().getId()),"Votre transaction concernant l évènement "+bd.getEvenementById(transaction.getEvenements().getId()).getNom()+" d un montant de "+transaction.getMontant()+" viens d être éffectuée avec succès, vous pouvez accéder à la liste de vos transactions en consultant votre profil ",date,"CONFIRMATION DE TRANSACTION ",bd.getOrganeById(bd.getMemberOrgane(id)).getNom());
                 System.out.println(id+"    vvv   "+bd.getMemberOrgane(id));
                 System.out.println(id+"    vvnv   "+bd.getMemberById(transaction.getMembre().getId()).getNoms());
                 bd.createNotif(notification);
