@@ -1,6 +1,7 @@
 package com.synes.util.baseDeDonnee;
 
 import com.synes.util.Notification;
+import com.synes.util.gestionAnnonce.Annonce;
 import com.synes.util.gestionEvenement.Evenements;
 import com.synes.util.gestionTransaction.SoldeBancaire;
 import com.synes.util.gestionTransaction.Transaction;
@@ -2765,11 +2766,13 @@ public class BaseDeDonnee {
         List<Transaction> transactions = getMembreTransactions(idMembre);
         List<Evenements> evenements = getMembreEvents(idMembre);
         List<Avertissement> avertissements = getMemberAvertissement(idMembre);
+        List<Annonce> annonces = getMemberAnnonces(idMembre);
 
         userInfo.setMembre(membre);
         userInfo.setTransactionList(transactions);
         userInfo.setEvenementsList(evenements);
         userInfo.setAvertissementList(avertissements);
+        userInfo.setAnnonceList(annonces);
 
 
         return userInfo;
@@ -3766,8 +3769,41 @@ public class BaseDeDonnee {
     }
 
 
+////////////////////////////////* ANNONCES *///////////////////////////////////////
+
+    public int createAnnonce(Annonce annonce){
+        int rep = 0;
 
 
+
+
+        return  rep;
+    }
+    public List<Annonce> getMemberAnnonces(int idmembre){
+        List<Annonce> listAnnonce = new ArrayList<>();
+
+
+
+
+        return listAnnonce;
+    }
+
+    public Annonce getAnnonceById(int id){
+        Annonce annonce = new Annonce();
+
+
+
+
+        return annonce;
+    }
+    public List<Annonce> listAnnonces(){
+        List<Annonce> listAnnonce = new ArrayList<>();
+
+
+
+
+        return listAnnonce;
+    }
 
 
 
