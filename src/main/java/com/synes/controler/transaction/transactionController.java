@@ -60,6 +60,7 @@ public class transactionController {
                 //notificationControler.sendNotificationTo(notification,idDestinateur);
                 //notificationControler.sendNotification(notification);
                 simpMessagingTemplate.convertAndSend("/specific/"+transaction.getMembre().getId(),notification);
+                simpMessagingTemplate.convertAndSend("/getSolde",bd.getSolde());
 
                 return result+"  TRANSACTION AJOUTEE";
             }

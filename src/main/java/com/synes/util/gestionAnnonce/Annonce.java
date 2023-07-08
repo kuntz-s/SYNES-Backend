@@ -2,6 +2,17 @@ package com.synes.util.gestionAnnonce;
 
 import com.synes.util.gestionUtilisateur.Membre;
 
+
+/*
+{
+    "titre":"test annonce",
+    "contenu":"blablabla",
+    "typeAnnonce":"avec image",
+    "posteLe":"",
+    "membre":{"id":1}
+}
+*/
+
 public class Annonce {
     private int id;
     private String titre;

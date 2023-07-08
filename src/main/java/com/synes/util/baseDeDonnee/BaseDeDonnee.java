@@ -2,6 +2,7 @@ package com.synes.util.baseDeDonnee;
 
 import com.synes.util.Notification;
 import com.synes.util.gestionAnnonce.Annonce;
+import com.synes.util.gestionAnnonce.PieceJointe;
 import com.synes.util.gestionEvenement.Evenements;
 import com.synes.util.gestionTransaction.SoldeBancaire;
 import com.synes.util.gestionTransaction.Transaction;
@@ -3769,21 +3770,78 @@ public class BaseDeDonnee {
     }
 
 
-////////////////////////////////* ANNONCES *///////////////////////////////////////
+////////////////////////////////* ANNONCES & pieces jointes *///////////////////////////////////////
 
     public int createAnnonce(Annonce annonce){
         int rep = 0;
 
+        System.out.println("create annonce start");
+        try{
+            String query="INSERT INTO `annonce`(`titre`, `contenu`, `typeAnnonce`, `posteLe`, `idMembre`) VALUES  (?,?,?,?,?)";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setString(1, annonce.getTitre());
+            pst.setString(2, annonce.getContenu());
+            pst.setString(3, annonce.getTypeAnnonce());
+            pst.setObject(4, annonce.getPosteLe());
+            pst.setInt(5, annonce.getMembre().getId());
+
+            pst.executeUpdate();
 
 
+            System.out.println("register successfully");
+            rep=1;
 
-        return  rep;
+            con.close();
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+
+        if(rep==1){
+            return 0;
+        }else{
+            return 1;
+        }
+
     }
     public List<Annonce> getMemberAnnonces(int idmembre){
         List<Annonce> listAnnonce = new ArrayList<>();
 
+        System.out.println("  get member annonces start");
+        int i=1;
 
 
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `annonce` WHERE `idMembre`='"+idmembre+"' ORDER BY `id` DESC");
+
+
+
+            while(rs.next()){
+
+                Annonce annonce = getAnnonceById(rs.getInt("id"));
+
+
+                listAnnonce.add(annonce);
+
+                i++;
+            }
+
+            con.close();
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect list annonce member");
+        }
+        System.out.println("  list annonce member well getted");
 
         return listAnnonce;
     }
@@ -3791,7 +3849,44 @@ public class BaseDeDonnee {
     public Annonce getAnnonceById(int id){
         Annonce annonce = new Annonce();
 
+        System.out.println("  get annonce start");
+        int i=1;
 
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `annonce` WHERE `id`= '"+id+"'");
+
+
+
+            while(rs.next()){
+
+
+                annonce.setId(rs.getInt("id"));
+                annonce.setTypeAnnonce(rs.getString("typeAnnonce"));
+                annonce.setContenu(rs.getString("contenu"));
+                annonce.setTitre(rs.getString("titre"));
+                annonce.setPosteLe(rs.getObject("posteLe"));
+                annonce.setMembre(getMemberById(rs.getInt("idMembre")));
+
+
+
+                System.out.println("event n: "+i+" = "+annonce.getTitre());
+                i++;
+            }
+
+            con.close();
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect get annonce by id");
+        }
+        System.out.println("  list well getted");
 
 
         return annonce;
@@ -3799,11 +3894,283 @@ public class BaseDeDonnee {
     public List<Annonce> listAnnonces(){
         List<Annonce> listAnnonce = new ArrayList<>();
 
+        System.out.println("  get annonces start");
+        int i=1;
 
 
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `annonce` ORDER BY `annonce`.`id` DESC");
+
+
+
+            while(rs.next()){
+
+                Annonce annonce = new Annonce();
+
+                annonce.setId(rs.getInt("id"));
+                annonce.setTypeAnnonce(rs.getString("typeAnnonce"));
+                annonce.setContenu(rs.getString("contenu"));
+                annonce.setTitre(rs.getString("titre"));
+                annonce.setPosteLe(rs.getObject("posteLe"));
+                annonce.setMembre(getMemberById(rs.getInt("idMembre")));
+
+
+                listAnnonce.add(annonce);
+
+
+                System.out.println("event n: "+i+" = "+annonce.getTitre());
+                i++;
+            }
+
+            con.close();
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect list annonce");
+        }
+        System.out.println("  list well getted");
 
         return listAnnonce;
     }
+
+    public int deleteAnnonce(int id){
+        int rep=0;
+
+
+
+        try{
+            String query="DELETE FROM `annonce` WHERE `id`=?";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setInt(1, id);
+
+            pst.executeUpdate();
+
+
+            System.out.println("successfully deleted the annonce");
+            rep=1;
+
+            con.close();
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else{
+            return 1;
+        }
+
+
+    }
+
+
+    //////* pieces jointes *////////
+
+
+    public int createPieceJointe(PieceJointe pieceJointe){
+        int rep = 0;
+
+        System.out.println("create pieces jointe start");
+        try{
+            String query="INSERT INTO `piecesjointes`(`nom`, `urlFichier`, `idAnnonce`) VALUES  (?,?,?)";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setString(1, pieceJointe.getNom());
+            pst.setString(2, pieceJointe.getUrl());
+            pst.setInt(3, pieceJointe.getIdAnnonce());
+
+            pst.executeUpdate();
+
+
+            System.out.println("register successfully");
+            rep=1;
+
+            con.close();
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+
+        if(rep==1){
+            return 0;
+        }else{
+            return 1;
+        }
+
+    }
+    public List<PieceJointe> getAnnoncePieceJointe(int idAnnonce){
+        List<PieceJointe> pieceJointeList = new ArrayList<>();
+
+        System.out.println("  get member piece jointe start");
+        int i=1;
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `piecesjointes` WHERE `idAnnonce`='"+idAnnonce+"' ORDER BY `id` DESC");
+
+
+
+            while(rs.next()){
+
+                PieceJointe pieceJointe = getPieceJointeById(rs.getInt("id"));
+
+
+                pieceJointeList.add(pieceJointe);
+
+                i++;
+            }
+
+            con.close();
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect list piece jointe annonce");
+        }
+        System.out.println("  list piece jointe annonce well getted");
+
+        return pieceJointeList;
+    }
+
+    public PieceJointe getPieceJointeById(int id){
+        PieceJointe pieceJointe = new PieceJointe();
+
+        System.out.println("  get piece jointe start");
+        int i=1;
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `piecesjointes` WHERE `id`= '"+id+"'");
+
+
+
+            while(rs.next()){
+
+                pieceJointe.setId(rs.getInt("id"));
+                pieceJointe.setIdAnnonce(rs.getInt("idAnnonce"));
+                pieceJointe.setUrl(rs.getString("urlFichier"));
+                pieceJointe.setNom(rs.getString("nom"));
+
+
+
+                System.out.println("event n: "+i+" = "+pieceJointe.getNom());
+                i++;
+            }
+
+            con.close();
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect get piece jointe by id");
+        }
+        System.out.println("  list well getted");
+
+
+        return pieceJointe;
+    }
+    public List<PieceJointe> listPieceJointe(){
+        List<PieceJointe> pieceJointeList = new ArrayList<>();
+
+        System.out.println("  get piece jointe start");
+        int i=1;
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `piecesjointes` ORDER BY `piecesjointes`.`id` DESC");
+
+
+
+            while(rs.next()){
+
+                PieceJointe pieceJointe = new PieceJointe();
+
+                pieceJointe.setId(rs.getInt("id"));
+                pieceJointe.setIdAnnonce(rs.getInt("idAnnonce"));
+                pieceJointe.setUrl(rs.getString("urlFichier"));
+                pieceJointe.setNom(rs.getString("nom"));
+
+
+                pieceJointeList.add(pieceJointe);
+
+
+                System.out.println("PJ n: "+i+" = "+pieceJointe.getNom());
+                i++;
+            }
+
+            con.close();
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect list pieces jointes");
+        }
+        System.out.println("  list well getted");
+
+        return pieceJointeList;
+    }
+
+    public int deletePieceJointe(int id){
+        int rep=0;
+
+
+
+        try{
+            String query="DELETE FROM `piecesjointes` WHERE `id`=?";
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+            PreparedStatement pst=con.prepareStatement(query);
+
+            pst.setInt(1, id);
+
+            pst.executeUpdate();
+
+
+            System.out.println("successfully deleted the annonce");
+            rep=1;
+
+            con.close();
+        }
+        catch (Exception exc){
+            System.out.println(exc);
+        }
+
+        if(rep==1){
+            return 0;
+        }else{
+            return 1;
+        }
+
+
+    }
+
+
+
 
 
 

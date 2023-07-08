@@ -2,7 +2,7 @@ package com.synes.controler.notification;
 
 import com.synes.util.baseDeDonnee.BaseDeDonnee;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.http.MediaType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +30,8 @@ public class NotificationControler {
 
 */
 
-    @MessageMapping("/solde")
-    //@RequestMapping(value = "/solde", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
+    //@MessageMapping("/solde")
+    @RequestMapping(value = "/solde", method = RequestMethod.GET, consumes= MediaType.APPLICATION_JSON_VALUE)
     public void solde () throws InterruptedException{
         simpMessagingTemplate.convertAndSend("/getSolde",bd.getSolde());
     }
