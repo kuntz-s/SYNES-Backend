@@ -3772,7 +3772,7 @@ public class BaseDeDonnee {
 
 ////////////////////////////////* ANNONCES & pieces jointes *///////////////////////////////////////
 
-    public int createAnnonce(Annonce annonce){
+    public Object createAnnonce(Annonce annonce){
         int rep = 0;
 
         System.out.println("create annonce start");
@@ -3801,9 +3801,9 @@ public class BaseDeDonnee {
 
 
         if(rep==1){
-            return 0;
+            return getAnnonceByContenu(annonce.getContenu(),annonce.getMembre().getId());
         }else{
-            return 1;
+            return null;
         }
 
     }
@@ -3862,6 +3862,51 @@ public class BaseDeDonnee {
             Statement stmt = con.createStatement();
 
             ResultSet rs = stmt.executeQuery("SELECT * FROM `annonce` WHERE `id`= '"+id+"'");
+
+
+
+            while(rs.next()){
+
+
+                annonce.setId(rs.getInt("id"));
+                annonce.setTypeAnnonce(rs.getString("typeAnnonce"));
+                annonce.setContenu(rs.getString("contenu"));
+                annonce.setTitre(rs.getString("titre"));
+                annonce.setPosteLe(rs.getObject("posteLe"));
+                annonce.setMembre(getMemberById(rs.getInt("idMembre")));
+
+
+
+                System.out.println("event n: "+i+" = "+annonce.getTitre());
+                i++;
+            }
+
+            con.close();
+        }
+        catch (Exception exc){
+            System.out.println(exc+"  error connect get annonce by id");
+        }
+        System.out.println("  list well getted");
+
+
+        return annonce;
+    }
+    public Annonce getAnnonceByContenu(String nom,int id){
+        Annonce annonce = new Annonce();
+
+        System.out.println("  get annonce start");
+        int i=1;
+
+
+        try{
+
+            System.out.println(i);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
+
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM `annonce` WHERE `contenu`= '"+nom+"' AND `idMembre`= '"+id+"'");
 
 
 

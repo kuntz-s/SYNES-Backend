@@ -39,17 +39,17 @@ public class AnnonceController {
         annonce.setMembre(bd.getMemberById(id));
         LocalDateTime date = LocalDateTime.now();
         annonce.setPosteLe(date);
-        int result = bd.createAnnonce(annonce);
+        Object result = bd.createAnnonce(annonce);
 
 
-        if(result==1){
+        if(result==null){
             response.setStatus(400);
             return new ApiError(400,"une erreur est survenu","bad request");
         }else{
 
             simpMessagingTemplate.convertAndSend("/topic/sendAnnonce",annonce);
 
-            return result+"  ANNONCE CREER";
+            return result;
         }
     }
 
@@ -89,7 +89,7 @@ public class AnnonceController {
             return new ApiError(400,"une erreur est survenu","bad request");
         }else{
 
-            return result+"  piece jointe CREER";
+            return imgPath;
         }
     }
 
