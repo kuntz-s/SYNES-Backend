@@ -36,6 +36,11 @@ public class NotificationControler {
         simpMessagingTemplate.convertAndSend("/getSolde",bd.getSolde());
     }
 
+    @RequestMapping(value = "/getSolde", method = RequestMethod.GET)
+    public Object getSolde() {
+        return bd.getSolde();
+    }
+
     @RequestMapping(value = "/getNotification", method = RequestMethod.GET)
     public Object getNotif() {
         return bd.getNotifs();

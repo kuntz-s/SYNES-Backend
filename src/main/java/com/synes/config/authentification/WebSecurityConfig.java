@@ -90,6 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/createTransaction").permitAll()
 				.antMatchers("/listeTransaction").permitAll()
 				.antMatchers("/stomp-endpoint/**").permitAll()
+				.antMatchers("/getSolde").permitAll()				
 				.antMatchers("/getNotification").permitAll()
 				.antMatchers("/getPrivateNotification").permitAll()
 				.antMatchers("/soldeEvent/{id}").permitAll()
