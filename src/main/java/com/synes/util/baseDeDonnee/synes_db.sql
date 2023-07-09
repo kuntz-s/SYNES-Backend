@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  lun. 03 juil. 2023 à 04:36
+-- Généré le :  Dim 09 juil. 2023 à 02:03
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  5.6.38
 
@@ -127,7 +127,7 @@ CREATE TABLE `membre` (
 
 INSERT INTO `membre` (`matricule`, `nom`, `prenom`, `email`, `photo`, `motDePasse`, `idRole`, `id`, `idUniversite`, `dateCreation`, `dateInscription`, `suspendu`) VALUES
 ('all', 'all', 'all', 'all', 'all', 'all', 1, 0, 10, '2023-05-22 14:19:35', '2023-05-22 14:19:35', 0),
-('12x034euy1', 'tchuente', 'micaelle', 'nzouetengmicaelle@gmail.com', NULL, '$2a$10$/xuv7CJ4/7rCVJUYXU0YGe7br0gAsKiqNSsy20/DULDAgStpEXTHa', 1, 1, 10, '2023-05-22 14:19:35', '2010-10-10 10:10:10', 0);
+('12x034euy1', 'tchuente', 'micaelle', 'nzouetengmicaelle@gmail.com', 'https://firebasestorage.googleapis.com/v0/b/synes-8e5b2.appspot.com/o/cdaf232a-c085-45ee-b936-2635eacb29cajpeg?alt=media&token=3aa66789-4dcc-42c8-876f-48619a96d49a', '$2a$10$/xuv7CJ4/7rCVJUYXU0YGe7br0gAsKiqNSsy20/DULDAgStpEXTHa', 1, 1, 10, '2023-05-22 14:19:35', '2010-10-10 10:10:10', 0);
 
 -- --------------------------------------------------------
 
@@ -219,8 +219,8 @@ INSERT INTO `permissions` (`nom`, `description`, `id`) VALUES
 --
 
 CREATE TABLE `piecesjointes` (
-  `nom` varchar(50) NOT NULL,
-  `urlFichier` varchar(50) NOT NULL,
+  `nom` varchar(100) NOT NULL,
+  `urlFichier` varchar(500) NOT NULL,
   `id` int(20) NOT NULL,
   `idAnnonce` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -432,7 +432,7 @@ ALTER TABLE `universite`
 -- AUTO_INCREMENT pour la table `annonce`
 --
 ALTER TABLE `annonce`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `avertissement`
@@ -456,25 +456,25 @@ ALTER TABLE `avoirpermission`
 -- AUTO_INCREMENT pour la table `evenement`
 --
 ALTER TABLE `evenement`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT pour la table `membre`
 --
 ALTER TABLE `membre`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `membreconnected`
 --
 ALTER TABLE `membreconnected`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT pour la table `organe`
@@ -492,13 +492,13 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT pour la table `piecesjointes`
 --
 ALTER TABLE `piecesjointes`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `recevoirnotification`
 --
 ALTER TABLE `recevoirnotification`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT pour la table `role`
@@ -510,13 +510,13 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT pour la table `soldebancaire`
 --
 ALTER TABLE `soldebancaire`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT pour la table `universite`

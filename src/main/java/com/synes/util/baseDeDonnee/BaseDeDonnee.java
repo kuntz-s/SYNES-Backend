@@ -3987,7 +3987,7 @@ public class BaseDeDonnee {
     public int deleteAnnonce(int id){
         int rep=0;
 
-
+        deletePieceJointe(id);
 
         try{
             String query="DELETE FROM `annonce` WHERE `id`=?";
@@ -4187,7 +4187,7 @@ public class BaseDeDonnee {
 
 
         try{
-            String query="DELETE FROM `piecesjointes` WHERE `id`=?";
+            String query="DELETE FROM `piecesjointes` WHERE `idAnnonce`=?";
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/synes_db", "root", "");
             PreparedStatement pst=con.prepareStatement(query);
 

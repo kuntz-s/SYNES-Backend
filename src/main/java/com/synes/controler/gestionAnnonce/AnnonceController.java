@@ -60,6 +60,7 @@ public class AnnonceController {
         PieceJointe pieceJointe = new PieceJointe();
 
         String imgName = "",imgPath="";
+        int result=1;
 
         for (MultipartFile file : files) {
 
@@ -71,19 +72,19 @@ public class AnnonceController {
 
                 imgName = fileName;
                 // do whatever you want with that
+                imgPath = "https://firebasestorage.googleapis.com/v0/b/synes-8e5b2.appspot.com/o/"+imgName+"?alt=media&token=3aa66789-4dcc-42c8-876f-48619a96d49a";
+
+                pieceJointe.setUrl(imgPath);
+                pieceJointe.setNom(imgName);
+                pieceJointe.setIdAnnonce(idAnnonce);
+                result = bd.createPieceJointe(pieceJointe);
+
+
 
             } catch (Exception e) {
                 //  throw internal error;
             }
         }
-        imgPath = "https://firebasestorage.googleapis.com/v0/b/synes-8e5b2.appspot.com/o/"+imgName+"?alt=media&token=3aa66789-4dcc-42c8-876f-48619a96d49a";
-
-        pieceJointe.setUrl(imgPath);
-        pieceJointe.setNom(imgName);
-        pieceJointe.setIdAnnonce(idAnnonce);
-        int result = bd.createPieceJointe(pieceJointe);
-
-
         if(result==1){
             response.setStatus(400);
             return new ApiError(400,"une erreur est survenu","bad request");
